@@ -21,21 +21,20 @@ CarePath.lk is a modern and efficient medical channeling platform designed to si
 ## Technologies Used
 - **Frontend**: Angular 18
 - **Backend**: Node.js & Express
-- **Database**: [Your chosen database]
+- **Database**: Mysql
 - **Authentication**: Secure login system with user role management
-- **Hosting**: [Your hosting provider]
+- **Hosting**: 
 
 ## Future Enhancements
 - **Telemedicine Support** – Virtual consultations for remote patients.
 - **Electronic Medical Records (EMR)** – Easy access to medical history.
-- **Multi-Language Support** – Ensuring accessibility for a diverse user base.
 
 ## Getting Started
 ### Prerequisites
 - Install Node.js and npm.
 - Clone the repository:
   ```sh
-  git clone https://github.com/your-repo/carepath.lk.git
+  git clone https://github.com/Kavidu23/CAREPATH
   ```
 - Navigate to the project folder:
   ```sh
