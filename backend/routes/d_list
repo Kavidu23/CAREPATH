@@ -1,0 +1,84 @@
+const express = require('express');
+const connection = require('../connection'); // Import database connection
+const router = express.Router();
+
+// Get all doctors with optional filters & pagination
+router.get('/', (req, res) => {
+    let { specialization, gender, availability, consultationType, clinic, location, search, page, limit } = req.query;
+    
+    page = page ? parseInt(page) : 1;
+    limit = limit ? parseInt(limit) : 10;
+    let offset = (page - 1) * limit;
+
+    let filters = [];
+    let values = [];
+
+    if (specialization) {
+        filters.push(`Specialization = ?`);
+        values.push(specialization);
+    }
+
+    if (gender) {
+        filters.push(`Gender = ?`);
+        values.push(gender);
+    }
+
+    if (availability === "today") {
+        filters.push(`Did IN (SELECT Did FROM Doctor_Availability WHERE Date = CURDATE())`);
+    } else if (availability === "tomorrow") {
+        filters.push(`Did IN (SELECT Did FROM Doctor_Availability WHERE Date = DATE_ADD(CURDATE(), INTERVAL 1 DAY))`);
+    }
+
+    if (consultationType) {
+        filters.push(`Did IN (SELECT Did FROM Consultation_Type WHERE Type = ?)`);
+        values.push(consultationType);
+    }
+
+    if (clinic) {
+        filters.push(`Did IN (SELECT Did FROM Clinic_Doctor WHERE ClinicName = ?)`);
+        values.push(clinic);
+    }
+
+    if (location) {
+        filters.push(`Location = ?`);
+        values.push(location);
+    }
+
+    if (search) {
+        filters.push(`(Fname LIKE ? OR Lname LIKE ? OR Specialization LIKE ?)`);
+        values.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+
+    let query = `SELECT Did, Fname, Lname, Specialization, Gender, Experience, Location, 
+                        ConsultationFee, Rating 
+                 FROM Doctor`;
+
+    if (filters.length > 0) {
+        query += ` WHERE ` + filters.join(' AND ');
+    }
+
+    query += ` LIMIT ? OFFSET ?`;
+    values.push(limit, offset);
+
+    connection.query(query, values, (err, results) => {
+        if (err) return res.status(500).json({ message: "Database error", error: err });
+        res.json(results);
+    });
+});
+
+// Get a specific doctor by ID
+router.get('/:Did',  (req, res) => {
+    const { Did } = req.params;
+
+    const query = `SELECT Did, Fname, Lname, Specialization, Gender, Experience, Location, 
+                          ConsultationFee, Rating, Description 
+                   FROM Doctor WHERE Did = ?`;
+
+    connection.query(query, [Did], (err, results) => {
+        if (err) return res.status(500).json({ message: "Database error", error: err });
+        if (results.length === 0) return res.status(404).json({ message: "Doctor not found" });
+        res.json(results[0]);
+    });
+});
+
+module.exports = router;

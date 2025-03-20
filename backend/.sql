@@ -11,6 +11,7 @@ CREATE TABLE Patient (
     Password VARCHAR(255),
     Image VARCHAR(255),
     Location TEXT,
+    Status boolean,
     Gender ENUM('Male', 'Female', 'Other')
 );
 
@@ -35,7 +36,9 @@ CREATE TABLE Doctor (
     Availability TEXT,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Image VARCHAR(255),
-    YearExperience INT
+    YearExperience INT,
+    Ststus boolean,
+    Location VARCHAR(200)
 );
 
 -- Doctor Degrees
@@ -193,4 +196,11 @@ CREATE TABLE Accounts (
     BNumber VARCHAR(50),
     Location TEXT,
     Total DECIMAL(15,2)
+);
+
+
+CREATE TABLE clinic_doctor (
+    CCid int PRIMARY key AUTO_INCREMENT,
+    Cid INT REFERENCES clinic(Cid) ON DELETE CASCADE,
+    Did INT REFERENCES doctor(Did) ON DELETE CASCADE,
 );
