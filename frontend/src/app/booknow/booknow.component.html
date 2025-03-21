@@ -1,0 +1,93 @@
+<app-header></app-header>
+
+<!-- book.component.html -->
+<div class="book-container">
+    <!-- Header -->
+    <div class="header-section text-center">
+        <h2>Book Appointment</h2>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="booking-form">
+        <div class="form-card">
+            <form>
+                <!-- Doctor Selection -->
+                <div class="mb-3">
+                    <label for="doctorSelect" class="form-label">Select Doctor</label>
+                    <select class="form-select" id="doctorSelect" required>
+                        <option value="" disabled selected>Select a doctor</option>
+                        <option value="dr-darren-elder">Dr. Darren Elder</option>
+                        <option value="dr-sarah-johnson">Dr. Sarah Johnson</option>
+                        <option value="dr-amil-perera">Dr. Amil Perera</option>
+                    </select>
+                </div>
+
+                <!-- Appointment Type -->
+                <div class="mb-3">
+                    <label for="appointmentType" class="form-label">Appointment Type</label>
+                    <select class="form-select" id="appointmentType" required>
+                        <option value="" disabled selected>Select appointment type</option>
+                        <option value="in-person">In-Person</option>
+                        <option value="virtual">Virtual (Video Call)</option>
+                    </select>
+                </div>
+
+                <!-- Date Selection -->
+                <div class="mb-3">
+                    <label for="appointmentDate" class="form-label">Select Date</label>
+                    <input type="date" class="form-control" id="appointmentDate" required min="2025-03-21" />
+                </div>
+
+                <!-- Time Slot Selection -->
+                <div class="mb-3">
+                    <label for="timeSlot" class="form-label">Select Time Slot</label>
+                    <select class="form-select" id="timeSlot" required>
+                        <option value="" disabled selected>Select a time slot</option>
+                        <option value="9:00am-10:00am">9:00 AM - 10:00 AM</option>
+                        <option value="10:00am-11:00am">10:00 AM - 11:00 AM</option>
+                        <option value="2:00pm-3:00pm">2:00 PM - 3:00 PM</option>
+                        <option value="5:00pm-6:00pm">5:00 PM - 6:00 PM</option>
+                    </select>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="mb-3 payment-section">
+                    <label class="form-label">Payment Details</label>
+                    <div class="card p-3">
+                        <div class="mb-3">
+                            <label for="cardNumber" class="form-label">Card Number</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456"
+                                required />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="expiryDate" class="form-label">Expiry Date</label>
+                                <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cvv" placeholder="123" required />
+                            </div>
+                        </div>
+                        <p class="text-muted small">Payment secured with SSL encryption</p>
+                    </div>
+                </div>
+
+                <!-- Total Amount -->
+                <div class="mb-3">
+                    <h6>Total Amount: LKR 2,500</h6>
+                </div>
+
+                <!-- Book Now Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Book Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<app-footer></app-footer>

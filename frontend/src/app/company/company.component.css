@@ -1,0 +1,184 @@
+/* company.component.css */
+.company-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Header Section */
+  .header-section {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .header-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Company Description */
+  .company-description {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .company-description p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+  }
+  
+  .company-description strong {
+    color: #00c4cc;
+  }
+  
+  /* Mission Section */
+  .mission-section {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mission-section h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .mission-section p {
+    font-size: 14px;
+    color: #6c757d;
+    line-height: 1.5;
+  }
+  
+  /* Vision Section */
+  .vision-section {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vision-section h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .vision-section p {
+    font-size: 14px;
+    color: #6c757d;
+    line-height: 1.5;
+  }
+  
+  /* Offer Section */
+  .offer-section {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .offer-section h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .offer-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  .offer-section li {
+    font-size: 14px;
+    color: #6c757d;
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+  
+  /* Why Choose Section */
+  .why-choose-section {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .why-choose-section h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .why-choose-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  .why-choose-section li {
+    font-size: 14px;
+    color: #6c757d;
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+  
+  /* Contact Section */
+  .contact-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contact-section h4 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .contact-section p {
+    font-size: 14px;
+    color: #6c757d;
+    line-height: 1.5;
+  }
+  
+  .website-link {
+    color: #00c4cc;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .website-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .company-description, .mission-section, .vision-section, .offer-section, .why-choose-section, .contact-section {
+      margin-bottom: 15px;
+    }
+  }

@@ -10,6 +10,11 @@ import { PprofileComponent } from './pprofile/pprofile.component';
 import { ChangepComponent } from './changep/changep.component';
 import { HospitalComponent } from './hospital/hospital.component';
 import { SupplierComponent } from './supplier/supplier.component';
+import { HomecareComponent } from './homecare/homecare.component';
+import { BlogComponent } from './blog/blog.component';
+import { CompanyComponent } from './company/company.component';
+import { BooksComponent } from './books/books.component';
+import { BooknowComponent } from './booknow/booknow.component';
 
 export const routes: Routes = [
   {path: 'home', component: HomeComponent },  // Route for Home
@@ -24,5 +29,10 @@ export const routes: Routes = [
   {path: 'change-password', component: ChangepComponent},
   {path: 'hospital', component: HospitalComponent},
   {path: 'supplier', component: SupplierComponent},
+  {path: 'homecare', component: HomecareComponent},
+  {path: 'blog', component: BlogComponent},
+  {path: 'company', component: CompanyComponent},
+  {path: 'book-confirm', component: BooksComponent},
+  {path: 'book-now', component: BooknowComponent},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];

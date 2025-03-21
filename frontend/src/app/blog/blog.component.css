@@ -1,5 +1,5 @@
-/* home-care.component.css */
-.home-care-container {
+/* blog.component.css */
+.blog-container {
     padding: 20px;
     background-color: #f8f9fa;
   }
@@ -19,13 +19,24 @@
     margin: 0;
   }
   
-  /* Providers List */
-  .providers-list {
+  /* Blog Content */
+  .blog-content {
     max-width: 800px;
     margin: 0 auto;
   }
   
-  .provider-card {
+  .welcome-text {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .blog-topics {
+    margin-top: 20px;
+  }
+  
+  .topic-card {
     background-color: white;
     padding: 15px;
     border-radius: 10px;
@@ -33,52 +44,45 @@
     margin-bottom: 15px;
   }
   
-  .provider-card h5 {
+  .topic-card h5 {
     font-size: 18px;
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
   }
   
-  .provider-card p {
+  .description {
     font-size: 14px;
     color: #6c757d;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
   
-  .website-link {
+  .read-more {
     color: #00c4cc;
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
   }
   
-  .website-link:hover {
+  .read-more:hover {
     text-decoration: underline;
   }
   
-  .description {
-    font-size: 14px;
-    color: #6c757d;
-    margin-bottom: 0;
-  }
-  
-  /* Note Section */
-  .note-section {
+  /* Stay Updated Section */
+  .stay-updated-section {
     max-width: 800px;
     margin: 20px auto;
-    text-align: center;
   }
   
-  .note-text {
+  .updated-text {
     font-size: 14px;
-    color: #dc3545;
+    color: #333;
     margin: 0;
   }
   
   /* Responsive Design */
   @media (max-width: 768px) {
-    .provider-card {
+    .topic-card {
       margin-bottom: 15px;
     }
   }

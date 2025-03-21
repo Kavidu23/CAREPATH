@@ -1,0 +1,98 @@
+/* book.component.css */
+.book-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Header Section */
+  .header-section {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .header-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Booking Form */
+  .booking-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .form-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .form-control:focus, .form-select:focus {
+    border-color: #00c4cc;
+    box-shadow: 0 0 5px rgba(0, 196, 204, 0.3);
+  }
+  
+  /* Payment Section */
+  .payment-section .card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .payment-section .text-muted {
+    font-size: 12px;
+  }
+  
+  /* Total Amount */
+  h6 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Book Now Button */
+  .btn-primary {
+    background: #00c4cc;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+  
+  .btn-primary:hover {
+    background: #00b0b8;
+  }
+
+  .payment-section .card {
+    background: linear-gradient(135deg, #f0f2f5 0%, #dcdfe5 100%);
+    border-radius: 10px;
+    border: 1px solid #e2e4e8;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+  
+  /* Responsive Design */
+  @media (max-width: 576px) {
+    .form-card {
+      padding: 15px;
+    }
+  }
