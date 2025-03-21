@@ -1,0 +1,178 @@
+<app-header></app-header>
+
+<!-- doctor-profile.component.html -->
+<div class="doctor-profile-container">
+    <!-- Header -->
+    <div class="header-section text-center">
+        <img src="assets/doctor-pic.jpg" alt="Doctor Profile" class="profile-pic" />
+        <h2 class="doctor-name">Dr Marine Deliza</h2>
+        <p class="doctor-specialty">Oral & maxillofacial Surgery</p>
+    </div>
+
+    <!-- Profile Section -->
+    <div class="profile-section">
+        <h4>PROFILE</h4>
+        <div class="profile-card">
+            <!-- Profile Image Upload -->
+            <div class="mb-3">
+                <label class="form-label">Profile Image</label>
+                <div class="upload-box">
+                    <input type="file" id="profileImage" class="form-control" style="display: none;" />
+                    <label for="profileImage" class="upload-label">
+                        <i class="bx bx-upload"></i> Upload New
+                    </label>
+                    <span class="upload-info">Max. file size 4MB. Accepted format: .jpg, .png</span>
+                    <a href="#" class="remove-link">Remove</a>
+                </div>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="Enter first name" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Enter last name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="phone" class="form-label">Phone number</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email address" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-control" id="gender">
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="specialty" class="form-label">Speciality</label>
+                    <input type="text" class="form-control" id="specialty" placeholder="Enter speciality" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="degree" class="form-label">Degree</label>
+                    <input type="text" class="form-control" id="degree" placeholder="Enter degree" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="experience" class="form-label">Years of experience in relevant field</label>
+                    <input type="text" class="form-control" id="experience" placeholder="Enter years of experience" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="location" class="form-label">Current - Location</label>
+                    <input type="text" class="form-control" id="location" placeholder="Enter current location" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="consultationFee" class="form-label">Consultation Fee</label>
+                    <input type="text" class="form-control" id="consultationFee" placeholder="Enter consultation fee" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="consultationType" class="form-label">Consultation Type</label>
+                    <select class="form-control" id="consultationType">
+                        <option value="">Select consultation type</option>
+                        <option value="audio">Audio Call</option>
+                        <option value="video">Video Call</option>
+                        <option value="clinic">Clinic Visit</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="availableDateTime" class="form-label">Available Date & Time</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="availableDateTime"
+                            placeholder="Select date & time" />
+                        <span class="input-group-text"><i class="bx bx-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="hospital" class="form-label">Current Working Hospital</label>
+                <input type="text" class="form-control" id="hospital" placeholder="Enter current working hospital" />
+            </div>
+
+            <!-- Save Button -->
+            <button class="btn btn-primary w-100">Save</button>
+        </div>
+    </div>
+
+    <!-- Password Section -->
+    <div class="password-section">
+        <h4>Password</h4>
+        <div class="password-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="mb-0"><strong>Change Password</strong></p>
+                </div>
+                <a href="#" class="change-link">Change</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Available Clinics Section -->
+    <div class="clinics-section">
+        <h4>AVAILABLE CLINICS</h4>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="clinic-card">
+                    <img src="assets/clinic-pic.jpg" alt="Clinic" class="clinic-img" />
+                    <p>CB Clinic - Hongama</p>
+                    <button class="btn btn-outline-danger w-100">Remove</button>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="clinic-card">
+                    <img src="assets/clinic-pic.jpg" alt="Clinic" class="clinic-img" />
+                    <p>CB Clinic - Hongama</p>
+                    <button class="btn btn-outline-danger w-100">Remove</button>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="clinic-card">
+                    <img src="assets/clinic-pic.jpg" alt="Clinic" class="clinic-img" />
+                    <p>CB Clinic - Hongama</p>
+                    <button class="btn btn-outline-danger w-100">Remove</button>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="clinic-card">
+                    <img src="assets/clinic-pic.jpg" alt="Clinic" class="clinic-img" />
+                    <p>CB Clinic - Hongama</p>
+                    <button class="btn btn-outline-danger w-100">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Find New Clinics Section -->
+    <div class="find-clinics-section">
+        <h4>FIND NEW CLINICS</h4>
+        <div class="find-clinics-card">
+            <p>How to apply for a new clinic?</p>
+        </div>
+    </div>
+
+    <!-- Delete Account -->
+    <div class="delete-account-section">
+        <a href="#" class="delete-link">Delete Account?</a>
+    </div>
+</div>
+
+
+
+<app-footer></app-footer>

@@ -1,0 +1,222 @@
+/* patient-dashboard.component.css */
+.dashboard-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Header Section */
+  .header-section {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  .patient-name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .patient-details {
+    font-size: 16px;
+  }
+  
+  /* Appointments Section */
+  .appointments-section {
+    margin-top: 20px;
+  }
+  
+  .appointments-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .appointment-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .appointment-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .appointment-info h5 {
+    margin: 0;
+  }
+  
+  .appointment-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  .appointment-info p i {
+    margin-right: 5px;
+  }
+  
+  .doctor-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* Book a New Appointment Section */
+  .book-appointment-section {
+    margin-top: 20px;
+  }
+  
+  .book-appointment-card {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .book-appointment-card h5 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .book-appointment-card p {
+    font-size: 14px;
+  }
+  
+  /* Past Appointments Section */
+  .past-appointments-section {
+    margin-top: 20px;
+  }
+  
+  .past-appointments-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .past-appointment-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .past-appointment-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .past-appointment-info h5 {
+    margin: 0;
+  }
+  
+  .past-appointment-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  .past-appointment-info p i {
+    margin-right: 5px;
+  }
+  
+  .past-appointment-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .duration-btn {
+    background-color: #ffcc00;
+    color: white;
+    border: none;
+  }
+  
+  /* Reports Section */
+  .reports-section {
+    margin-top: 20px;
+  }
+  
+  .reports-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .nav-tabs .nav-link {
+    color: #6c757d;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 20px;
+  }
+  
+  .nav-tabs .nav-link.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+  }
+  
+  .tab-content {
+    padding-top: 20px;
+  }
+  
+  .table {
+    background-color: white;
+  }
+  
+  .doctor-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .status.awaiting {
+    background-color: #ffcc00;
+    color: white;
+  }
+  
+  .status.completed {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .status.cancelled {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  /* Box Icons */
+  .bx {
+    font-size: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }

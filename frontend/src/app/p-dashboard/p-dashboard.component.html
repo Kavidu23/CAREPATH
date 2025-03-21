@@ -1,0 +1,265 @@
+<app-header></app-header>
+
+<!-- patient-dashboard.component.html -->
+<div class="dashboard-container">
+    <!-- Header with Profile -->
+    <div class="header-section text-center">
+        <img src="assets/patient-profile-pic.jpg" alt="Patient Profile" class="profile-pic" />
+        <h2 class="patient-name">Caroline Niomi</h2>
+        <p class="patient-details">Female | 23 years 02 months | ID - 1234</p>
+    </div>
+
+    <!-- Appointments Section -->
+    <div class="appointments-section">
+        <h4>APPOINTMENTS</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="appointment-card">
+                    <div class="appointment-info d-flex align-items-center">
+                        <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                        <div>
+                            <h5>Dr. Example</h5>
+                            <p>Dentist</p>
+                            <p><i class="bx bx-calendar"></i> 21 March 2024 - 10:30 PM at G Clinic</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger">
+                        <i class="bx bx-x"></i> Cancel
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="appointment-card">
+                    <div class="appointment-info d-flex align-items-center">
+                        <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                        <div>
+                            <h5>Dr. Example</h5>
+                            <p>Dentist</p>
+                            <p><i class="bx bx-calendar"></i> 21 March 2024 - 10:30 PM at G Clinic</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger">
+                        <i class="bx bx-x"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book a New Appointment Section -->
+    <div class="book-appointment-section">
+        <div class="book-appointment-card">
+            <h5>Book a new Appointment</h5>
+            <p>Download the Docure App today!</p>
+            <button class="btn btn-primary">
+                <i class="bx bx-plus"></i> Book Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Past Appointments Section -->
+    <div class="past-appointments-section">
+        <h4>PAST APPOINTMENTS</h4>
+        <div class="past-appointment-card">
+            <div class="past-appointment-info d-flex align-items-center">
+                <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                <div>
+                    <h5>Dr. Edalin Hendry</h5>
+                    <p>Dental Specialist</p>
+                    <p><i class="bx bx-calendar"></i> Thursday, Mar 2024</p>
+                    <p><i class="bx bx-time"></i> 04:00 PM - 04:30 PM (30 Min)</p>
+                    <p><i class="bx bx-map"></i> New York, United States</p>
+                </div>
+            </div>
+            <div class="past-appointment-actions">
+                <button class="btn btn-primary">
+                    <i class="bx bx-calendar"></i> Reschedule
+                </button>
+                <button class="btn btn-warning duration-btn">
+                    <i class="bx bx-time"></i> 30 MIN
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Section with Tabs -->
+    <div class="reports-section">
+        <h4>REPORTS</h4>
+        <ul class="nav nav-tabs" id="reportsTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="appointments-tab" data-bs-toggle="tab" href="#appointments"
+                    role="tab">Appointments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="medical-records-tab" data-bs-toggle="tab" href="#medical-records"
+                    role="tab">Medical Records</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" href="#prescriptions"
+                    role="tab">Prescriptions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab">Invoices</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="reportsTabContent">
+            <!-- Appointments Tab -->
+            <div class="tab-pane fade show active" id="appointments" role="tabpanel">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DOCTOR</th>
+                                <th>DATE</th>
+                                <th>TYPE</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#AF-0128</td>
+                                <td>
+                                    <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                                    Dr Edalin Hendry
+                                </td>
+                                <td>27 Mar 2024, 10:30 AM</td>
+                                <td>Video Call</td>
+                                <td><span class="status completed">COMPLETED</span></td>
+                            </tr>
+                            <tr>
+                                <td>#AF-0129</td>
+                                <td>
+                                    <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                                    Dr Patricia Cleary
+                                </td>
+                                <td>27 Mar 2024, 10:45 AM</td>
+                                <td>Clinic Visit</td>
+                                <td><span class="status completed">COMPLETED</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Medical Records Tab -->
+            <div class="tab-pane fade" id="medical-records" role="tabpanel">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DOCTOR</th>
+                                <th>DATE</th>
+                                <th>DIAGNOSIS</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#MR-001</td>
+                                <td>
+                                    <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                                    Dr Edalin Hendry
+                                </td>
+                                <td>27 Mar 2024</td>
+                                <td>Hypertension</td>
+                                <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
+                            </tr>
+                            <tr>
+                                <td>#MR-002</td>
+                                <td>
+                                    <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                                    Dr Patricia Cleary
+                                </td>
+                                <td>27 Mar 2024</td>
+                                <td>Diabetes</td>
+                                <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Prescriptions Tab -->
+            <div class="tab-pane fade" id="prescriptions" role="tabpanel">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DOCTOR</th>
+                                <th>DATE</th>
+                                <th>MEDICATION</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#PR-001</td>
+                                <td>
+                                    <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                                    Dr Edalin Hendry
+                                </td>
+                                <td>27 Mar 2024</td>
+                                <td>Lisinopril 10mg</td>
+                                <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
+                            </tr>
+                            <tr>
+                                <td>#PR-002</td>
+                                <td>
+                                    <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                                    Dr Patricia Cleary
+                                </td>
+                                <td>27 Mar 2024</td>
+                                <td>Metformin 500mg</td>
+                                <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Invoices Tab -->
+            <div class="tab-pane fade" id="invoices" role="tabpanel">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DOCTOR</th>
+                                <th>DATE</th>
+                                <th>AMOUNT</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#INV-001</td>
+                                <td>
+                                    <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                                    Dr Edalin Hendry
+                                </td>
+                                <td>27 Mar 2024</td>
+                                <td>$150</td>
+                                <td><span class="status completed">PAID</span></td>
+                            </tr>
+                            <tr>
+                                <td>#INV-002</td>
+                                <td>
+                                    <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-pic" />
+                                    Dr Patricia Cleary
+                                </td>
+                                <td>27 Mar 2024</td>
+                                <td>$200</td>
+                                <td><span class="status awaiting">PENDING</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

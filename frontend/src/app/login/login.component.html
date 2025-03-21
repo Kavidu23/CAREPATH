@@ -1,0 +1,68 @@
+<app-header></app-header>
+
+<!-- patient-login.component.html -->
+<div class="login-container">
+    <!-- Logo -->
+    <div class="logo">
+        <h1>CAREPATHY</h1>
+    </div>
+
+    <div class="row align-items-center">
+        <!-- Left Side: Illustration -->
+        <div class="col-md-6 illustration-section">
+            <img src="../../assets/login.jpg" alt="Illustration" class="illustration-img" />
+        </div>
+
+        <!-- Right Side: Login Form -->
+        <div class="col-md-6 form-section">
+            <div class="login-card">
+                <h2>Patient Login</h2>
+                <div class="d-flex justify-content-end">
+                    <a href="#" class="doctor-link">Are you a Doctor?</a>
+                </div>
+                <form>
+                    <!-- Email Field -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email" />
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password"
+                                placeholder="Enter your password" />
+                            <span class="input-group-text">
+                                <i class="bx bx-show"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Sign In Button -->
+                    <button type="submit" class="btn btn-primary w-100">
+                        Sign In
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <!-- Social Login Buttons -->
+                <button class="btn btn-outline-secondary w-100 mb-2">
+                    <i class="bx bxl-google"></i> Sign in With Google
+                </button>
+                <button class="btn btn-outline-secondary w-100">
+                    <i class="bx bxl-facebook"></i> Sign in With Facebook
+                </button>
+
+                <!-- Sign Up Link -->
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a href="#" class="sign-up-link">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

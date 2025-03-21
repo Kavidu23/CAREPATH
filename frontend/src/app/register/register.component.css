@@ -1,0 +1,210 @@
+/* Main Container */
+.register-container {
+    padding: 10px;
+    background-color: #fff;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00c4cc;
+    margin: 0;
+}
+
+/* Illustration Section */
+.illustration-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.illustration-img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Form Section */
+.form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+}
+
+.register-card h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Doctor Link */
+.doctor-link {
+    color: #00c4cc;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.doctor-link:hover {
+    text-decoration: underline;
+}
+
+/* Form Styling */
+.form-label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+}
+
+.form-control::placeholder {
+    color: #aaa;
+}
+
+/* Input Group */
+.input-group-text {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    padding: 12px;
+}
+
+.input-group .form-control {
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+}
+
+.flag-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+/* Password Toggle */
+.password-toggle {
+    cursor: pointer;
+}
+
+/* Sign Up Button */
+.btn-primary {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-transform: uppercase;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(90deg, #3a9efb 0%, #00e0eb 100%);
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.divider span {
+    padding: 0 10px;
+    color: #aaa;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* Social Login Buttons */
+.btn-outline-secondary {
+    border: 1px solid #e0e0e0;
+    color: #333;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-outline-secondary i {
+    margin-right: 10px;
+}
+
+/* Sign In Link */
+.sign-in-link {
+    color: #00c4cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.sign-in-link:hover {
+    text-decoration: underline;
+}
+
+/* Box Icons */
+.bx {
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .illustration-section {
+        display: none;
+    }
+
+    .form-section {
+        padding: 20px;
+    }
+
+    .register-card {
+        max-width: 100%;
+    }
+
+    .logo {
+        left: 20px;
+    }
+}

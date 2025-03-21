@@ -1,8 +1,22 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component'; // Import the Home component
+import { DDashboardComponent } from './d-dashboard/d-dashboard.component';
+import { PDashboardComponent } from './p-dashboard/p-dashboard.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { DlistComponent } from './dlist/dlist.component';
+import { DprofileComponent } from './dprofile/dprofile.component';
+import { PprofileComponent } from './pprofile/pprofile.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },  // Route for Home
-  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect empty path to Home
+  {path: 'home', component: HomeComponent },  // Route for Home
+  {path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect empty path to Home
+  {path: 'doctor-dashboard', component: DDashboardComponent},
+  {path: 'patient-dashboard', component: PDashboardComponent},
+  {path: 'register', component: RegisterComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'doctor-list', component: DlistComponent},
+  {path: 'doctor-profile', component: DprofileComponent},
+  {path: 'patient-profile', component: PprofileComponent},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];

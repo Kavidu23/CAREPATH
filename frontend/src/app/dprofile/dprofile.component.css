@@ -1,0 +1,263 @@
+/* doctor-profile.component.css */
+.doctor-profile-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Header Section */
+  .header-section {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  .doctor-name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .doctor-specialty {
+    font-size: 16px;
+  }
+  
+  /* Profile Section */
+  .profile-section {
+    margin-top: 20px;
+  }
+  
+  .profile-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .profile-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #e0e0e0;
+    background-color: #f9f9f9;
+  }
+  
+  .form-control::placeholder {
+    color: #aaa;
+  }
+  
+  .input-group-text {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    padding: 12px;
+  }
+  
+  .input-group .form-control {
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+  }
+  
+  .upload-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .upload-label {
+    background: #00c4cc;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .upload-info {
+    font-size: 12px;
+    color: #6c757d;
+  }
+  
+  .remove-link {
+    color: #dc3545;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .remove-link:hover {
+    text-decoration: underline;
+  }
+  
+  .btn-primary {
+    background: #00c4cc;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-transform: uppercase;
+  }
+  
+  .btn-primary:hover {
+    background: #00b0b8;
+  }
+  
+  /* Password Section */
+  .password-section {
+    margin-top: 20px;
+  }
+  
+  .password-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .password-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hacked-link {
+    color: #dc3545;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .hacked-link:hover {
+    text-decoration: underline;
+  }
+  
+  .change-link {
+    color: #00c4cc;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .change-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Available Clinics Section */
+  .clinics-section {
+    margin-top: 20px;
+  }
+  
+  .clinics-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .clinic-card {
+    background-color: #e0e0e0;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .clinic-img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .clinic-card p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .btn-outline-danger {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+  
+  .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  /* Find New Clinics Section */
+  .find-clinics-section {
+    margin-top: 20px;
+  }
+  
+  .find-clinics-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .find-clinics-card {
+    border: 2px solid #00c4cc;
+    padding: 20px;
+    border-radius: 10px;
+    min-height: 100px;
+  }
+  
+  .find-clinics-card p {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0;
+  }
+  
+  /* Delete Account Section */
+  .delete-account-section {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .delete-link {
+    color: #dc3545;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .delete-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Box Icons */
+  .bx {
+    font-size: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .profile-card .col-md-6 {
+      margin-bottom: 15px;
+    }
+  }

@@ -1,0 +1,230 @@
+<app-header></app-header>
+
+<!-- doctor-list.component.html -->
+<div class="doctor-list-container">
+    <!-- Header -->
+    <div class="header-section text-center">
+        <h2>Doctor List</h2>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bx bx-filter"></i></span>
+                    <input type="text" class="form-control" placeholder="Type" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bx bx-calendar"></i></span>
+                    <input type="text" class="form-control" placeholder="Date" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bx bx-map"></i></span>
+                    <input type="text" class="form-control" placeholder="Location" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100">
+                    <i class="bx bx-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row">
+        <!-- Sidebar: Filters -->
+        <div class="col-md-3 filter-section">
+            <!-- Speciality Filter -->
+            <div class="filter-card">
+                <h5>SPECIALITY</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="urology" checked />
+                    <label class="form-check-label" for="urology">Urology <span class="count">21</span></label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="psychiatry" />
+                    <label class="form-check-label" for="psychiatry">Psychiatry <span class="count">21</span></label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="pediatrics" />
+                    <label class="form-check-label" for="pediatrics">Pediatrics <span class="count">21</span></label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="urology2" />
+                    <label class="form-check-label" for="urology2">Urology <span class="count">21</span></label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="neurology" />
+                    <label class="form-check-label" for="neurology">Neurology <span class="count">21</span></label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="pulmonology" />
+                    <label class="form-check-label" for="pulmonology">Pulmonology <span class="count">21</span></label>
+                </div>
+                <a href="#" class="view-more">VIEW MORE</a>
+            </div>
+
+            <!-- Gender Filter -->
+            <div class="filter-card">
+                <h5>GENDER</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="male" checked />
+                    <label class="form-check-label" for="male">Male <span class="count">21</span></label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="female" />
+                    <label class="form-check-label" for="female">Female <span class="count">21</span></label>
+                </div>
+            </div>
+
+            <!-- Availability Filter -->
+            <div class="filter-card">
+                <h5>AVAILABILITY</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="today" checked />
+                    <label class="form-check-label" for="today">Available Today</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="tomorrow" />
+                    <label class="form-check-label" for="tomorrow">Available Tomorrow</label>
+                </div>
+                <a href="#" class="view-more">VIEW MORE</a>
+            </div>
+
+            <!-- Consultation Type Filter -->
+            <div class="filter-card">
+                <h5>CONSULTATION TYPE</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="audio" checked />
+                    <label class="form-check-label" for="audio">Audio Call</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="video" />
+                    <label class="form-check-label" for="video">Video Call</label>
+                </div>
+            </div>
+
+            <!-- Clinics Filter -->
+            <div class="filter-card">
+                <h5>CLINICS</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="bright" />
+                    <label class="form-check-label" for="bright">Bright Smiles Dental Clinic</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="express" />
+                    <label class="form-check-label" for="express">Express Care Health Clinic</label>
+                </div>
+                <a href="#" class="view-more">VIEW MORE</a>
+            </div>
+        </div>
+
+        <!-- Doctor List -->
+        <div class="col-md-9 doctor-list-section">
+            <div class="doctor-card">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-img" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="rating">
+                            <span class="star">★</span> 5.0
+                        </div>
+                        <h5>Dr. Tiffani Nataliya</h5>
+                        <p>MBBS - Neurologist</p>
+                        <p>Hospital of Sri Lanka</p>
+                        <p>20 Years Medical Experience</p>
+                        <p>Colombo</p>
+                        <p><strong>CONSULTATION FEES</strong></p>
+                        <p class="fees">Rs. 3000</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <p>Next available at</p>
+                        <p class="availability">10:00AM - 15 Oct, Tue</p>
+                        <button class="btn btn-primary">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+            <div class="doctor-card">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-img" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="rating">
+                            <span class="star">★</span> 5.0
+                        </div>
+                        <h5>Dr. Tiffani Nataliya</h5>
+                        <p>MBBS - Neurologist</p>
+                        <p>National Hospital of Sri Lanka</p>
+                        <p>20 Years Medical Experience</p>
+                        <p>Colombo</p>
+                        <p><strong>CONSULTATION FEES</strong></p>
+                        <p class="fees">Rs. 3000</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <p>Next available at</p>
+                        <p class="availability">10:00AM - 15 Oct, Tue</p>
+                        <button class="btn btn-primary">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+            <div class="doctor-card">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-img" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="rating">
+                            <span class="star">★</span> 5.0
+                        </div>
+                        <h5>Dr. Tiffani Nataliya</h5>
+                        <p>MBBS - Neurologist</p>
+                        <p>National Hospital of Sri Lanka</p>
+                        <p>20 Years Medical Experience</p>
+                        <p>Colombo</p>
+                        <p><strong>CONSULTATION FEES</strong></p>
+                        <p class="fees">Rs. 3000</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <p>Next available at</p>
+                        <p class="availability">10:00AM - 15 Oct, Tue</p>
+                        <button class="btn btn-primary">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+            <div class="doctor-card">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <img src="assets/doctor-pic.jpg" alt="Doctor" class="doctor-img" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="rating">
+                            <span class="star">★</span> 5.0
+                        </div>
+                        <h5>Dr. Tiffani Nataliya</h5>
+                        <p>MBBS - Neurologist</p>
+                        <p>National Hospital of Sri Lanka</p>
+                        <p>20 Years Medical Experience</p>
+                        <p>Colombo</p>
+                        <p><strong>CONSULTATION FEES</strong></p>
+                        <p class="fees">Rs. 3000</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <p>Next available at</p>
+                        <p class="availability">10:00AM - 15 Oct, Tue</p>
+                        <button class="btn btn-primary">Book Appointment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

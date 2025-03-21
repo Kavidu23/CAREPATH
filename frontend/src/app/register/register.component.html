@@ -1,0 +1,79 @@
+<app-header></app-header>
+
+<!-- Patient Registration Container -->
+<div class="register-container">
+    <!-- Logo -->
+    <div class="logo">
+        <h1>CAREPATHY</h1>
+    </div>
+
+    <div class="row align-items-center">
+        <!-- Left Side: Illustration -->
+        <div class="col-md-6 illustration-section">
+            <img src="../../assets/login.jpg" alt="Illustration" class="illustration-img" />
+        </div>
+
+        <!-- Right Side: Registration Form -->
+        <div class="col-md-6 form-section">
+            <div class="register-card">
+                <h2>Patient Register</h2>
+                <div class="d-flex justify-content-end">
+                    <a href="#" class="doctor-link">Are you a Doctor?</a>
+                </div>
+                <form>
+                    <!-- Name Field -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter your name" />
+                    </div>
+
+                    <!-- Phone Field with Country Code -->
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class='bx bxs-phone' style='color:#030303' ></i>
+                                +94
+                            </span>
+                            <input type="text" class="form-control" id="phone" placeholder="555-0123" />
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Create Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" placeholder="Create a password" />
+                            <span class="input-group-text password-toggle">
+                                <i class="bx bx-show"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Sign Up Button -->
+                    <button type="submit" class="btn btn-primary w-100">
+                        Sign Up
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <!-- Social Login Buttons -->
+                <button class="btn btn-outline-secondary w-100 mb-2">
+                    <i class="bx bxl-google"></i> Sign in With Google
+                </button>
+                <button class="btn btn-outline-secondary w-100">
+                    <i class="bx bxl-facebook"></i> Sign in With Facebook
+                </button>
+
+                <!-- Sign In Link -->
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="#" class="sign-in-link">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
