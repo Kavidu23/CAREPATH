@@ -1,0 +1,98 @@
+/* change-password.component.css */
+.change-password-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.change-password-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.change-password-card h4 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.required {
+  color: #dc3545;
+}
+
+.form-control {
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+}
+
+.form-control::placeholder {
+  color: #aaa;
+}
+
+.input-group-text {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-left: none;
+  border-radius: 0 10px 10px 0;
+  padding: 12px;
+}
+
+.input-group .form-control {
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+}
+
+.btn-outline-secondary {
+  border: 1px solid #e0e0e0;
+  color: #6c757d;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f0f0f0;
+}
+
+.btn-primary {
+  background: #00c4cc;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+.btn-primary:hover {
+  background: #00b0b8;
+}
+
+/* Box Icons */
+.bx {
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .change-password-card {
+    padding: 20px;
+  }
+}

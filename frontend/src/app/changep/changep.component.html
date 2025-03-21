@@ -1,1 +1,52 @@
-<p>changep works!</p>
+<app-header></app-header>
+
+<!-- change-password.component.html -->
+<div class="change-password-container">
+    <div class="change-password-card">
+        <h4>Change Password</h4>
+        <form>
+            <!-- Current Password -->
+            <div class="mb-3">
+                <label for="currentPassword" class="form-label">Current Password <span class="required">*</span></label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="currentPassword"
+                        placeholder="Enter current password" />
+                    <span class="input-group-text">
+                        <i class="bx bx-show"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- New Password -->
+            <div class="mb-3">
+                <label for="newPassword" class="form-label">New Password <span class="required">*</span></label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" />
+                    <span class="input-group-text">
+                        <i class="bx bx-show"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password <span class="required">*</span></label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="confirmPassword"
+                        placeholder="Confirm new password" />
+                    <span class="input-group-text">
+                        <i class="bx bx-show"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<app-footer></app-footer>

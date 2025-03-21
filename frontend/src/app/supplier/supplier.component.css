@@ -1,0 +1,71 @@
+/* medicine-suppliers.component.css */
+.medicine-suppliers-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Header Section */
+  .header-section {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .header-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Suppliers List */
+  .suppliers-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .supplier-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+  }
+  
+  .supplier-card h5 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .supplier-card p {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
+  
+  .website-link {
+    color: #00c4cc;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .website-link:hover {
+    text-decoration: underline;
+  }
+  
+  .description {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .supplier-card {
+      margin-bottom: 15px;
+    }
+  }

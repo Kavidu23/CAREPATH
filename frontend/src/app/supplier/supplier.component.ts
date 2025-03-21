@@ -3,12 +3,12 @@ import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
 
 @Component({
-  selector: 'app-changep',
+  selector: 'app-supplier',
   standalone: true,
   imports: [HeaderComponent, FooterComponent],
-  templateUrl: './changep.component.html',
-  styleUrl: './changep.component.css'
+  templateUrl: './supplier.component.html',
+  styleUrl: './supplier.component.css'
 })
-export class ChangepComponent {
+export class SupplierComponent {
 
 }

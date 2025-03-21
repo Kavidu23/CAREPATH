@@ -7,6 +7,9 @@ import { LoginComponent } from './login/login.component';
 import { DlistComponent } from './dlist/dlist.component';
 import { DprofileComponent } from './dprofile/dprofile.component';
 import { PprofileComponent } from './pprofile/pprofile.component';
+import { ChangepComponent } from './changep/changep.component';
+import { HospitalComponent } from './hospital/hospital.component';
+import { SupplierComponent } from './supplier/supplier.component';
 
 export const routes: Routes = [
   {path: 'home', component: HomeComponent },  // Route for Home
@@ -18,5 +21,8 @@ export const routes: Routes = [
   {path: 'doctor-list', component: DlistComponent},
   {path: 'doctor-profile', component: DprofileComponent},
   {path: 'patient-profile', component: PprofileComponent},
+  {path: 'change-password', component: ChangepComponent},
+  {path: 'hospital', component: HospitalComponent},
+  {path: 'supplier', component: SupplierComponent},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];
