@@ -21,16 +21,7 @@ const sessionStore = new MySQLStore({
     database: 'medicalsystem'
 });
 
-// Use session middleware in index.js
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'default_secret',
-    resave: false,
-    saveUninitialized: false,
-    store: sessionStore,
-    cookie: { httpOnly: true, secure: false, maxAge: 1000 * 60 * 60 * 24 }
-}));
-
-app.use(cors());
+// Middleware to handle JSON and URL encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -42,10 +33,6 @@ app.use('/d_profile', dprofileRouter);
 app.use('/d_list', dlistRouter);
 app.use('/clinics', clinicRouter);
 app.use('/p_profile', priflistRouter);
-app.use('/clinics', clinicRouter);
 app.use('/home-care', homecareRouter);
-
-
-
 
 module.exports = app;

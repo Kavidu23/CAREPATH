@@ -1,0 +1,17 @@
+/* Button customizations */
+.custom-btn {
+    background-color: #083364; /* Button color */
+    border-radius: 20px; /* Border radius */
+    color: #fff; /* White text color */
+  }
+  
+  .custom-btn:hover {
+    background-color: #061f3d; /* Slightly darker shade for hover effect */
+  }
+  
+  
+  i{
+    color:blue;
+  }
+  
+  

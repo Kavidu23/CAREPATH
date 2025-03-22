@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 
+
 // Signup Route
 router.post('/signup', (req, res) => {
     const { Fname, Lname, Pnumber, Email, Password, Image, Location, Gender, Birthdate } = req.body;
@@ -58,9 +59,6 @@ router.post('/signup', (req, res) => {
         });
     });
 });
-
-
-module.exports = router;
 
 
 // Logout Route
@@ -350,7 +348,13 @@ router.get('/reports',authenticateUser,(req, res) => {
     });
 });
 
-
+router.get('/session-user', (req, res) => {
+    if (req.session.user) {
+        res.json(req.session.user); // Return session user data
+    } else {
+        res.status(401).json({ message: 'User not logged in' });
+    }
+});
 
 
 

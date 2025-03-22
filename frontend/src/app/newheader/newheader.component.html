@@ -9,10 +9,22 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" routerLink="/home">Home</a></li>
                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="doctorsDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Doctors</a>
+                    <ul class="dropdown-menu" aria-labelledby="doctorsDropdown">
+                        <li><a class="dropdown-item" routerLink="/doctor-dashboard">Doctor Dashboard</a></li>
+                        <li><a class="dropdown-item" routerLink="/book-now">Appointments</a></li>
+                        <li><a class="dropdown-item" routerLink="/doctor-profile">View Profile</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="patientDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">Patient</a>
                     <ul class="dropdown-menu" aria-labelledby="patientDropdown">
+                        <li><a class="dropdown-item" routerLink="/patient-dashboard">Patient Dashboard</a></li>
+                        <li><a class="dropdown-item" routerLink="/feedback">Give Feedback</a></li>
                         <li><a class="dropdown-item" routerLink="/doctor-list">Find Doctors</a></li>
+                        <li><a class="dropdown-item" routerLink="/patient-profile">View Profile</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -34,8 +46,9 @@
                 </li>
             </ul>
             <div class="header-buttons ms-3 d-flex align-items-center">
-                <button class="btn btn-primary me-2 custom-btn" routerLink="/login">Log in</button>
-                <button class="btn btn-secondary custom-btn" routerLink="/register">Register</button>
+                <button class="btn btn-primary me-2 custom-btn" (click)="logout()">Log out</button>
+                <!-- Display user name if logged in -->
+                <b class="ms-2">Welcome</b>
             </div>
         </div>
     </div>

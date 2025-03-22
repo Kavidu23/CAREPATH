@@ -17,6 +17,7 @@ import { BooksComponent } from './books/books.component';
 import { BooknowComponent } from './booknow/booknow.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 
+
 export const routes: Routes = [
   {path: 'home', component: HomeComponent },  // Route for Home
   {path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect empty path to Home

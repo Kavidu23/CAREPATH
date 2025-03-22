@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -44,5 +44,10 @@ export class DataService {
   login(email: string, password: string): Observable<any> {
     const loginData = { Email: email, Password: password };
     return this.http.post<any>(`${this.baseUrl}patient/login`, loginData); // API endpoint for login
+  }
+
+  // Example: Method to check session
+  getSessionUser(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}patient/session-user`, { withCredentials: true });
   }
 }
