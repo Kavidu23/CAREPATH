@@ -7,13 +7,13 @@ import { HeaderComponent } from '../header/header.component'; // Import HeaderCo
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-dlogin',
   standalone: true,
-  imports: [FormsModule, CommonModule, HeaderComponent,RouterModule], // Add CommonModule for ngIf support
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  imports: [FormsModule, CommonModule, HeaderComponent, RouterModule], // Add CommonModule for ngIf support
+  templateUrl: './dlogin.component.html',
+  styleUrls: ['./dlogin.component.css']
 })
-export class LoginComponent {
+export class DloginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -32,25 +32,22 @@ export class LoginComponent {
       return;
     }
 
-    // Prepare user data
-    const userData = { Email: this.email, Password: this.password };
-
-    // Call login service
-    this.dataService.login(userData.Email, userData.Password).subscribe(
+    // Call doctor login service
+    this.dataService.doctorlogin(this.email, this.password).subscribe(
       (response) => {
-        console.log('Login successful', response);
+        console.log('Doctor Login successful', response);
         this.successMessage = 'Login successful! Redirecting...';
 
-        // Store the user data in sessionStorage
-        sessionStorage.setItem('user', JSON.stringify(response)); // Store user data in sessionStorage
+        // Store the doctor data in sessionStorage
+        sessionStorage.setItem('doctor', JSON.stringify(response)); // Store doctor data in sessionStorage
 
-        // Redirect to dashboard after a short delay
+        // Redirect to the doctor dashboard after a short delay
         setTimeout(() => {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         }, 2000);
       },
       (error) => {
-        console.error('Login failed', error);
+        console.error('Doctor Login failed', error);
 
         // Handle API error response
         if (error.status === 401) {

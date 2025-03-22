@@ -11,25 +11,24 @@ require('dotenv').config();
 router.post('/signup', async (req, res) => {
     const {
         Fname, Lname, Pnumber, Email, Password, Gender, ConsultationType,
-        ConsultationFee, Availability, Image, YearExperience,Location, Degree, Specialization
+        ConsultationFee, Availability, Image, YearExperience, Location, Degree, Specialization
     } = req.body;
 
     if (!Fname || !Lname || !Pnumber || !Email || !Password || !Gender || !ConsultationType || 
-        !ConsultationFee || !Availability || !Image || !YearExperience ||!Location|| !Degree || !Specialization) {
+        !ConsultationFee || !Availability || !Image || !YearExperience || !Location || !Degree || !Specialization) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
     try {
         const hashedPassword = await bcrypt.hash(Password, 10);
 
-        // Call the stored procedure to insert doctor data
-        const procedureQuery = "CALL InsertDoctorWithDetails(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-
+        // Insert doctor details into the Doctor table
+        const doctorQuery = "INSERT INTO Doctor (Fname, Lname, Pnumber, Email, Password, Gender, ConsultationType, ConsultationFee, Availability, Image, YearExperience, Location, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
         connection.query(
-            procedureQuery, 
-            [Fname, Lname, Pnumber, Email, hashedPassword, Gender, ConsultationType, ConsultationFee, Availability, Image, YearExperience,Location,Degree, Specialization],
+            doctorQuery, 
+            [Fname, Lname, Pnumber, Email, hashedPassword, Gender, ConsultationType, ConsultationFee, Availability, Image, YearExperience, Location, 0],  // Setting Status to 0
             (err, result) => {
-                // Check for duplicate entry error first
                 if (err && err.code === 'ER_DUP_ENTRY') {
                     return res.status(409).json({ message: "Email or Phone number already exists" });
                 }
@@ -39,7 +38,33 @@ router.post('/signup', async (req, res) => {
                     return res.status(500).json({ message: "Database error", error: err });
                 }
 
-                res.status(201).json({ message: "Doctor registered successfully" });
+                const doctorId = result.insertId;  // Get the inserted doctor ID
+
+                // Insert degree into Doctor_Degree table
+                const degrees = Degree.split(',').map(degree => degree.trim());
+                const degreeQuery = "INSERT INTO Doctor_Degree (Did, Degree) VALUES ?";
+                const degreeValues = degrees.map(degree => [doctorId, degree]);
+
+                connection.query(degreeQuery, [degreeValues], (err) => {
+                    if (err) {
+                        console.error("Error inserting degrees:", err);
+                        return res.status(500).json({ message: "Error inserting degrees", error: err });
+                    }
+
+                    // Insert specialization into Doctor_Specialization table
+                    const specializations = Specialization.split(',').map(spec => spec.trim());
+                    const specializationQuery = "INSERT INTO Doctor_Specialization (Did, Specialization) VALUES ?";
+                    const specializationValues = specializations.map(spec => [doctorId, spec]);
+
+                    connection.query(specializationQuery, [specializationValues], (err) => {
+                        if (err) {
+                            console.error("Error inserting specializations:", err);
+                            return res.status(500).json({ message: "Error inserting specializations", error: err });
+                        }
+
+                        res.status(201).json({ message: "Doctor registered successfully" });
+                    });
+                });
             }
         );
     } catch (err) {

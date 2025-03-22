@@ -16,6 +16,8 @@ import { CompanyComponent } from './company/company.component';
 import { BooksComponent } from './books/books.component';
 import { BooknowComponent } from './booknow/booknow.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { DregistrationComponent } from './dregistration/dregistration.component';
+import { DloginComponent } from './dlogin/dlogin.component';
 
 
 export const routes: Routes = [
@@ -37,5 +39,7 @@ export const routes: Routes = [
   {path: 'book-confirm', component: BooksComponent},
   {path: 'book-now', component: BooknowComponent},
   {path: 'feedback', component: FeedbackComponent},
+  {path: 'doctor-registration',component:DregistrationComponent},
+  {path:'doctor-login',component:DloginComponent},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];

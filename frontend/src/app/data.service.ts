@@ -46,8 +46,56 @@ export class DataService {
     return this.http.post<any>(`${this.baseUrl}patient/login`, loginData); // API endpoint for login
   }
 
-  // Example: Method to check session
-  getSessionUser(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}patient/session-user`, { withCredentials: true });
+
+  // Fetch doctor profile
+  getDoctorProfile(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}doctor/profile`); // API endpoint for doctor profile
   }
+
+  // Fetch upcoming appointments
+  getUpcomingAppointments(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/appointments`); // API endpoint for upcoming appointments
+  }
+
+  // Fetch clinics availability
+  getClinicsAvailability(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/clinics`); // API endpoint for clinics availability
+  }
+
+  // Fetch bank details
+  getBankDetails(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/bank-details`); // API endpoint for bank details
+  }
+
+  // Fetch appointment data
+  getAppointments(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/appointments`); // API endpoint for appointments
+  }
+
+  // Fetch medical records data
+  getMedicalRecords(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/medical-records`); // API endpoint for medical records
+  }
+
+  // Fetch prescriptions data
+  getPrescriptions(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/prescriptions`); // API endpoint for prescriptions
+  }
+
+  // Fetch invoices data
+  getInvoices(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/invoices`); // API endpoint for invoices
+  }
+
+  // Add the signUpDoctor method to handle doctor registration
+  signUpDoctor(formData: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}doctor/signup`, formData);
+  }
+
+  //Doctor patinet
+  doctorlogin(email: string, password: string): Observable<any> {
+    const loginData = { Email: email, Password: password };
+    return this.http.post<any>(`${this.baseUrl}doctor/login`, loginData); // API endpoint for login
+  }
+
 }

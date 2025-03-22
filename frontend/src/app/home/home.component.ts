@@ -1,5 +1,5 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { DataService } from '../data.service';
@@ -32,37 +32,29 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: any
   ) {}
 
-  ngOnInit() {
-    // Load public data regardless of login status
+  ngOnInit(): void {
+    this.initializeData();
+    this.loadUserSession();
+  }
+
+  private initializeData(): void {
     this.loadSpecialtyData();
     this.loadNewlyRegisteredDoctors();
     this.loadTestimonials();
-
-    // Check session only if running in browser
-    if (isPlatformBrowser(this.platformId)) {
-      this.loadSessionUser();
-    }
   }
 
-  loadSessionUser() {
-    const sessionData = sessionStorage.getItem('user'); // Retrieve session data from sessionStorage
-    if (sessionData) {
-      this.user = JSON.parse(sessionData);
-      console.log('Session user found:', this.user);
-    } else {
-      console.log('No session found, user is not logged in.');
-      this.user = null;
+  private loadUserSession(): void {
+    try {
+      if (isPlatformBrowser(this.platformId)) {
+        const storedUser = sessionStorage.getItem('user');
+        this.user = storedUser ? JSON.parse(storedUser) : null;
+      }
+    } catch (error) {
+      console.error('Error accessing sessionStorage:', error);
     }
-  }
-
-  logout(): void {
-    sessionStorage.removeItem('user'); // Remove session data
-    this.user = null; // Clear user data
-    this.router.navigate(['/login']); // Redirect to login page
   }
 
   loadSpecialtyData() {
@@ -127,6 +119,7 @@ export class HomeComponent implements OnInit {
         type: this.searchType,
         location: this.searchLocation
       };
+
       this.dataService.searchDoctors(params).subscribe(
         (data) => {
           this.searchResults = data;
@@ -145,6 +138,7 @@ export class HomeComponent implements OnInit {
     if (this.searchDebounceTimeout) {
       clearTimeout(this.searchDebounceTimeout);
     }
+
     this.searchDebounceTimeout = setTimeout(() => {
       this.onSearch();
     }, 300);

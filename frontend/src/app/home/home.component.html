@@ -1,14 +1,14 @@
 <div *ngIf="user; else notLoggedIn">
-    <!-- Show new header for logged-in users -->
+    <!-- Show header for logged-in users -->
     <app-nheader></app-nheader>
   </div>
   
   <ng-template #notLoggedIn>
-    <!-- Show default header for non-logged-in users -->
+    <!-- Show alternative header for non-logged-in users -->
     <app-header></app-header>
   </ng-template>
   
-  <!-- The rest of the page content will be shown regardless of login status -->
+  <!-- The rest of the page content will be shown regardless of whether the user is logged in or not -->
   <div class="main-content">
     <!-- Home page content goes here -->
   </div>  

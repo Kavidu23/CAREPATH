@@ -1,314 +1,253 @@
 <app-header></app-header>
 
-<!-- dashboard.component.html -->
 <div class="dashboard-container">
-    <!-- Header with Profile -->
-    <div class="header-section text-center">
-        <img src="assets/profile-pic.jpg" alt="Doctor Profile" class="profile-pic" />
-        <h2 class="doctor-name">Dr Marine Deliza</h2>
-        <p class="doctor-specialty">Surgery</p>
+  <!-- Header with Profile -->
+  <div class="header-section text-center">
+    <img [src]="doctorProfile.profilePic || 'assets/profile-pic.jpg'" alt="Doctor Profile" class="profile-pic" />
+    <h2 class="doctor-name">{{ doctorProfile.name || 'No Data Available' }}</h2>
+    <p class="doctor-specialty">{{ doctorProfile.specialty || 'No Data Available' }}</p>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="stats-section row text-center">
+    <div class="col-md-6 stat-box">
+      <p class="stat-label">LIFETIME PATIENTS VISITS</p>
+      <h3 class="stat-value">{{ doctorProfile.lifetimeVisits || 'No Data Available' }}</h3>
     </div>
-
-    <!-- Stats Section -->
-    <div class="stats-section row text-center">
-        <div class="col-md-6 stat-box">
-            <p class="stat-label">LIFETIME PATIENTS VISITS</p>
-            <h3 class="stat-value">500</h3>
-        </div>
-        <div class="col-md-6 stat-box">
-            <p class="stat-label">APPOINTMENTS TODAY</p>
-            <h3 class="stat-value">20</h3>
-        </div>
+    <div class="col-md-6 stat-box">
+      <p class="stat-label">APPOINTMENTS TODAY</p>
+      <h3 class="stat-value">{{ doctorProfile.todayAppointments || 'No Data Available' }}</h3>
     </div>
+  </div>
 
-    <!-- Upcoming Video Call Appointments Section -->
-    <div class="upcoming-section">
-        <h4>UPCOMING VIDEO CALL APPOINTMENTS</h4>
-        <div class="upcoming-card">
-            <div class="upcoming-info d-flex align-items-center">
-                <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                <div>
-                    <h5>Dr Robert Norman</h5>
-                    <p><i class="bx bx-calendar"></i> 27 Mar 2024, 10:30 AM</p>
-                </div>
-            </div>
-            <button class="btn btn-primary">
-                <i class="bx bx-video"></i> Join Call
-            </button>
+  <!-- Upcoming Video Call Appointments Section -->
+  <div class="upcoming-section" *ngIf="upcomingAppointments && upcomingAppointments.length > 0; else noUpcomingAppointments">
+    <h4>UPCOMING VIDEO CALL APPOINTMENTS</h4>
+    <div *ngFor="let appointment of upcomingAppointments" class="upcoming-card">
+      <div class="upcoming-info d-flex align-items-center">
+        <img [src]="appointment.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
+        <div>
+          <h5>{{ appointment.patientName || 'No Data Available' }}</h5>
+          <p><i class="bx bx-calendar"></i> {{ appointment.date || 'No Data Available' }}</p>
         </div>
-        <div class="upcoming-card">
-            <div class="upcoming-info d-flex align-items-center">
-                <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                <div>
-                    <h5>Dr Kevin Evans</h5>
-                    <p><i class="bx bx-calendar"></i> 18 Apr 2024, 02:30 PM</p>
-                </div>
-            </div>
-            <button class="btn btn-primary">
-                <i class="bx bx-video"></i> Join Call
-            </button>
-        </div>
+      </div>
+      <button class="btn btn-primary">
+        <i class="bx bx-video"></i> Join Call
+      </button>
     </div>
+  </div>
+  <ng-template #noUpcomingAppointments>
+    <p>No Upcoming Appointments</p>
+  </ng-template>
 
-    <!-- Clinics & Availability Section -->
-    <div class="clinics-section">
-        <h4>CLINICS & AVAILABILITY</h4>
-        <div class="clinic-card">
-            <div class="clinic-info d-flex align-items-center">
-                <img src="assets/clinic-icon.png" alt="Clinic Icon" class="clinic-icon" />
-                <div>
-                    <h5>Softis Clinic</h5>
-                    <p class="clinic-fee">$900</p>
-                </div>
-            </div>
-            <div class="availability">
-                <p><strong>Tue:</strong> 07:00 AM - 09:00 PM <span class="change-link">CHANGE</span></p>
-                <p><strong>Wed:</strong> 07:00 AM - 09:00 PM <span class="change-link">CHANGE</span></p>
-            </div>
+  <!-- Clinics & Availability Section -->
+  <div class="clinics-section" *ngIf="clinicsAvailability && clinicsAvailability.length > 0; else noClinics">
+    <h4>CLINICS & AVAILABILITY</h4>
+    <div *ngFor="let clinic of clinicsAvailability" class="clinic-card">
+      <div class="clinic-info d-flex align-items-center">
+        <img [src]="clinic.icon || 'assets/clinic-icon.png'" alt="Clinic Icon" class="clinic-icon" />
+        <div>
+          <h5>{{ clinic.name || 'No Data Available' }}</h5>
+          <p class="clinic-fee">{{ clinic.fee || 'No Data Available' }}</p>
         </div>
-        <div class="clinic-card">
-            <div class="clinic-info d-flex align-items-center">
-                <img src="assets/clinic-icon.png" alt="Clinic Icon" class="clinic-icon" />
-                <div>
-                    <h5>The Family Clinic</h5>
-                    <p class="clinic-fee">$600</p>
-                </div>
-            </div>
-            <div class="availability">
-                <p><strong>Sat:</strong> 07:00 AM - 09:00 PM <span class="change-link">CHANGE</span></p>
-                <p><strong>Sun:</strong> 07:00 AM - 09:00 PM <span class="change-link">CHANGE</span></p>
-            </div>
-        </div>
+      </div>
+      <div class="availability">
+        <p *ngFor="let slot of clinic.availability">
+          <strong>{{ slot.day || 'No Data Available' }}:</strong> {{ slot.time || 'No Data Available' }} <span class="change-link">CHANGE</span>
+        </p>
+      </div>
     </div>
+  </div>
+  <ng-template #noClinics>
+    <p>No Clinics Available</p>
+  </ng-template>
 
-    <!-- Bank Details Section -->
-    <div class="bank-details-section">
-        <h4>BANK DETAILS</h4>
-        <div class="bank-card row">
-            <div class="col-md-4 stat-box">
-                <p class="stat-label">TOTAL</p>
-                <h3 class="stat-value">$9800</h3>
-            </div>
-            <div class="col-md-4 stat-box">
-                <p class="stat-label">EARNED</p>
-                <h3 class="stat-value">$908</h3>
-            </div>
-            <div class="col-md-4 stat-box">
-                <p class="stat-label">PENDING</p>
-                <h3 class="stat-value">$50</h3>
-            </div>
-            <div class="bank-info mt-3">
-                <p><strong>Bank Name:</strong> Citi Bank Inc. 3590 5550 5800 XXXX</p>
-                <p><strong>Branch Name:</strong> London</p>
-                <p><strong>Account Name:</strong> Damien</p>
-                <div class="bank-actions d-flex justify-content-between">
-                    <a href="#" class="action-link">EDIT DETAILS</a>
-                </div>
-            </div>
+  <!-- Bank Details Section -->
+  <div class="bank-details-section" *ngIf="bankDetails; else noBankDetails">
+    <h4>BANK DETAILS</h4>
+    <div class="bank-card row">
+      <div class="col-md-4 stat-box">
+        <p class="stat-label">TOTAL</p>
+        <h3 class="stat-value">{{ bankDetails.total || 'No Data Available' }}</h3>
+      </div>
+      <div class="col-md-4 stat-box">
+        <p class="stat-label">EARNED</p>
+        <h3 class="stat-value">{{ bankDetails.earned || 'No Data Available' }}</h3>
+      </div>
+      <div class="col-md-4 stat-box">
+        <p class="stat-label">PENDING</p>
+        <h3 class="stat-value">{{ bankDetails.pending || 'No Data Available' }}</h3>
+      </div>
+      <div class="bank-info mt-3">
+        <p><strong>Bank Name:</strong> {{ bankDetails.bankName || 'No Data Available' }}</p>
+        <p><strong>Branch Name:</strong> {{ bankDetails.branchName || 'No Data Available' }}</p>
+        <p><strong>Account Name:</strong> {{ bankDetails.accountName || 'No Data Available' }}</p>
+        <div class="bank-actions d-flex justify-content-between">
+          <a href="#" class="action-link">EDIT DETAILS</a>
         </div>
-        <button class="btn btn-primary mt-3">
-            <i class="bx bx-money"></i> REQUEST PAYMENT
-        </button>
+      </div>
     </div>
+    <button class="btn btn-primary mt-3">
+      <i class="bx bx-money"></i> REQUEST PAYMENT
+    </button>
+  </div>
+  <ng-template #noBankDetails>
+    <p>No Bank Details Available</p>
+  </ng-template>
 
-    <!-- Reports Section with Tabs -->
-    <div class="reports-section">
-        <h4>REPORTS</h4>
-        <ul class="nav nav-tabs" id="reportsTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="appointments-tab" data-bs-toggle="tab" href="#appointments"
-                    role="tab">Appointments</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="medical-records-tab" data-bs-toggle="tab" href="#medical-records"
-                    role="tab">Medical Records</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" href="#prescriptions"
-                    role="tab">Prescriptions</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab">Invoices</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="reportsTabContent">
-            <!-- Appointments Tab -->
-            <div class="tab-pane fade show active" id="appointments" role="tabpanel">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>PATIENT</th>
-                                <th>DATE</th>
-                                <th>TYPE</th>
-                                <th>STATUS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#AF-0128</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Robert Norman
-                                </td>
-                                <td>27 Mar 2024, 10:30 AM</td>
-                                <td>Video Call</td>
-                                <td><span class="status awaiting">AWAITING</span></td>
-                            </tr>
-                            <tr>
-                                <td>#AF-0129</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Patricia Cleary
-                                </td>
-                                <td>27 Mar 2024, 10:45 AM</td>
-                                <td>Clinic Visit</td>
-                                <td><span class="status completed">COMPLETED</span></td>
-                            </tr>
-                            <tr>
-                                <td>#AF-0130</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Kevin Evans
-                                </td>
-                                <td>18 Apr 2024, 02:30 PM</td>
-                                <td>Audio Call</td>
-                                <td><span class="status completed">COMPLETED</span></td>
-                            </tr>
-                            <tr>
-                                <td>#AF-0131</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Lisa Keating
-                                </td>
-                                <td>19 Apr 2024, 04:15 PM</td>
-                                <td>Clinic Visit</td>
-                                <td><span class="status cancelled">CANCELLED</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Medical Records Tab -->
-            <div class="tab-pane fade" id="medical-records" role="tabpanel">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>PATIENT</th>
-                                <th>DATE</th>
-                                <th>DIAGNOSIS</th>
-                                <th>ACTION</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#MR-001</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Robert Norman
-                                </td>
-                                <td>27 Mar 2024</td>
-                                <td>Hypertension</td>
-                                <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
-                            </tr>
-                            <tr>
-                                <td>#MR-002</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Patricia Cleary
-                                </td>
-                                <td>27 Mar 2024</td>
-                                <td>Diabetes</td>
-                                <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Prescriptions Tab -->
-            <div class="tab-pane fade" id="prescriptions" role="tabpanel">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>PATIENT</th>
-                                <th>DATE</th>
-                                <th>MEDICATION</th>
-                                <th>ACTION</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#PR-001</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Robert Norman
-                                </td>
-                                <td>27 Mar 2024</td>
-                                <td>Lisinopril 10mg</td>
-                                <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
-                            </tr>
-                            <tr>
-                                <td>#PR-002</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Patricia Cleary
-                                </td>
-                                <td>27 Mar 2024</td>
-                                <td>Metformin 500mg</td>
-                                <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Invoices Tab -->
-            <div class="tab-pane fade" id="invoices" role="tabpanel">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>PATIENT</th>
-                                <th>DATE</th>
-                                <th>AMOUNT</th>
-                                <th>STATUS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#INV-001</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Robert Norman
-                                </td>
-                                <td>27 Mar 2024</td>
-                                <td>$150</td>
-                                <td><span class="status completed">PAID</span></td>
-                            </tr>
-                            <tr>
-                                <td>#INV-002</td>
-                                <td>
-                                    <img src="assets/patient-pic.jpg" alt="Patient" class="patient-pic" />
-                                    Dr Patricia Cleary
-                                </td>
-                                <td>27 Mar 2024</td>
-                                <td>$200</td>
-                                <td><span class="status awaiting">PENDING</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <!-- Reports Section with Tabs -->
+  <div class="reports-section">
+    <h4>REPORTS</h4>
+    <ul class="nav nav-tabs" id="reportsTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="appointments-tab" data-bs-toggle="tab" href="#appointments" role="tab">Appointments</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="medical-records-tab" data-bs-toggle="tab" href="#medical-records" role="tab">Medical Records</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" href="#prescriptions" role="tab">Prescriptions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab">Invoices</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="reportsTabContent">
+      <!-- Appointments Tab -->
+      <div class="tab-pane fade show active" id="appointments" role="tabpanel">
+        <div *ngIf="appointments && appointments.length > 0; else noAppointments">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>PATIENT</th>
+                  <th>DATE</th>
+                  <th>TYPE</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let appt of appointments">
+                  <td>{{ appt.id || '#AF-0128' }}</td>
+                  <td>
+                    <img [src]="appt.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
+                    {{ appt.patientName || 'No Data Available' }}
+                  </td>
+                  <td>{{ appt.date || 'No Data Available' }}</td>
+                  <td>{{ appt.type || 'No Data Available' }}</td>
+                  <td><span class="status" [ngClass]="appt.status?.toLowerCase() || 'awaiting'">{{ appt.status || 'AWAITING' }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+        <ng-template #noAppointments>
+          <p>No Appointments Available</p>
+        </ng-template>
+      </div>
+
+      <!-- Medical Records Tab -->
+      <div class="tab-pane fade" id="medical-records" role="tabpanel">
+        <div *ngIf="medicalRecords && medicalRecords.length > 0; else noMedicalRecords">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>PATIENT</th>
+                  <th>DATE</th>
+                  <th>DIAGNOSIS</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let record of medicalRecords">
+                  <td>{{ record.id || '#MR-001' }}</td>
+                  <td>
+                    <img [src]="record.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
+                    {{ record.patientName || 'No Data Available' }}
+                  </td>
+                  <td>{{ record.date || 'No Data Available' }}</td>
+                  <td>{{ record.diagnosis || 'No Data Available' }}</td>
+                  <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noMedicalRecords>
+          <p>No Medical Records Available</p>
+        </ng-template>
+      </div>
+
+      <!-- Prescriptions Tab -->
+      <div class="tab-pane fade" id="prescriptions" role="tabpanel">
+        <div *ngIf="prescriptions && prescriptions.length > 0; else noPrescriptions">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>PATIENT</th>
+                  <th>DATE</th>
+                  <th>MEDICATION</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let prescription of prescriptions">
+                  <td>{{ prescription.id || '#PR-001' }}</td>
+                  <td>
+                    <img [src]="prescription.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
+                    {{ prescription.patientName || 'No Data Available' }}
+                  </td>
+                  <td>{{ prescription.date || 'No Data Available' }}</td>
+                  <td>{{ prescription.medication || 'No Data Available' }}</td>
+                  <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noPrescriptions>
+          <p>No Prescriptions Available</p>
+        </ng-template>
+      </div>
+
+      <!-- Invoices Tab -->
+      <div class="tab-pane fade" id="invoices" role="tabpanel">
+        <div *ngIf="invoices && invoices.length > 0; else noInvoices">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>PATIENT</th>
+                  <th>DATE</th>
+                  <th>AMOUNT</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let invoice of invoices">
+                  <td>{{ invoice.id || '#INV-001' }}</td>
+                  <td>
+                    <img [src]="invoice.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
+                    {{ invoice.patientName || 'No Data Available' }}
+                  </td>
+                  <td>{{ invoice.date || 'No Data Available' }}</td>
+                  <td>{{ invoice.amount || 'No Data Available' }}</td>
+                  <td><span class="status" [ngClass]="invoice.status?.toLowerCase() || 'awaiting'">{{ invoice.status || 'AWAITING' }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noInvoices>
+          <p>No Invoices Available</p>
+        </ng-template>
+      </div>
     </div>
+  </div>
 </div>
-
-<app-footer></app-footer>

@@ -1,0 +1,178 @@
+/* General Page Styling */
+.register-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Register Card */
+.register-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 1200px;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.register-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Title */
+.title-wrapper h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.title-wrapper .subtitle {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+/* Profile Upload */
+/* Style the profile image upload container */
+.profile-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile-label {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Style the circular profile image container */
+  .profile-image-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ccc;
+    overflow: hidden;
+  }
+  
+  /* Style for the image inside the container */
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Style for the image name */
+  #imageName {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control, .form-control:focus {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #00c4cc;
+    box-shadow: 0 0 5px rgba(0, 196, 204, 0.3);
+}
+
+.input-group-text {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px 0 0 8px;
+    font-size: 14px;
+}
+
+.password-toggle {
+    cursor: pointer;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.password-toggle .bx {
+    font-size: 18px;
+    color: #6c757d;
+}
+
+/* Submit Button */
+.btn-primary {
+    background: #00c4cc;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #00b0b8;
+    transform: translateY(-2px);
+}
+
+/* Sign In Section */
+.sign-in-section p {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.sign-in-link {
+    color: #00c4cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.sign-in-link:hover {
+    text-decoration: underline;
+    color: #00b0b8;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    .register-card {
+        padding: 20px;
+    }
+
+    .title-wrapper h2 {
+        font-size: 24px;
+    }
+
+    .profile-img, .upload-overlay {
+        width: 80px;
+        height: 80px;
+    }
+
+    .btn-primary {
+        font-size: 14px;
+        padding: 10px;
+    }
+}

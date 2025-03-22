@@ -1,0 +1,216 @@
+<app-header></app-header>
+
+<div class="register-container">
+  <div class="register-card">
+    <div class="title-wrapper text-center">
+      <h2>Create a Doctor Account</h2>
+      <p class="subtitle">Join CarePath to offer healthcare services</p>
+    </div>
+    <div class="doctor">
+      <p><a routerLink="/">Are you a patient?</a></p>
+    </div>
+
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+      <!-- Profile Image Upload -->
+      <div class="profile-upload text-center">
+        <label for="profileImage" class="profile-label">
+          <input type="file" id="profileImage" accept="image/jpeg, image/png" hidden (change)="previewImage($event)">
+          <div class="profile-image-container">
+            <img *ngIf="imageSrc" [src]="imageSrc" alt="Profile Image" class="profile-image">
+          </div>
+        </label>
+        <div id="imageName">{{ imageName }}</div>
+      </div>
+
+      <!-- First Name -->
+      <div class="form-group">
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="Fname" class="form-control" [(ngModel)]="formData.Fname" required #fnameInput="ngModel">
+        <div *ngIf="fnameInput.invalid && (fnameInput.dirty || fnameInput.touched)" class="text-danger">
+          First name is required.
+        </div>
+      </div>
+
+      <!-- Last Name -->
+      <div class="form-group">
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="Lname" class="form-control" [(ngModel)]="formData.Lname" required #lnameInput="ngModel">
+        <div *ngIf="lnameInput.invalid && (lnameInput.dirty || lnameInput.touched)" class="text-danger">
+          Last name is required.
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="Pnumber" class="form-control" [(ngModel)]="formData.Pnumber" required #phoneInput="ngModel">
+        <div *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="text-danger">
+          Phone number is required.
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="Email" class="form-control" [(ngModel)]="formData.Email" required email #emailInput="ngModel">
+        <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="text-danger">
+          Invalid email.
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="Password" class="form-control" [(ngModel)]="formData.Password" required #passwordInput="ngModel">
+        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="text-danger">
+          Password is required.
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" [(ngModel)]="formData.confirmPassword" required #confirmPasswordInput="ngModel">
+        <div *ngIf="confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)" class="text-danger">
+          Please confirm your password.
+        </div>
+        <div *ngIf="formData.Password && formData.confirmPassword && formData.Password !== formData.confirmPassword" class="text-danger">
+          Passwords do not match.
+        </div>
+      </div>
+
+      <!-- Gender -->
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" name="Gender" class="form-control" [(ngModel)]="formData.Gender" required #genderInput="ngModel">
+          <option value="" disabled selected>Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+        <div *ngIf="genderInput.invalid && (genderInput.dirty || genderInput.touched)" class="text-danger">
+          Gender is required.
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" name="Location" class="form-control" [(ngModel)]="formData.Location" required #locationInput="ngModel">
+        <div *ngIf="locationInput.invalid && (locationInput.dirty || locationInput.touched)" class="text-danger">
+          Location is required.
+        </div>
+      </div>
+
+      <!-- Consultation Type -->
+      <div class="form-group">
+        <label for="consultationType">Consultation Type</label>
+        <select id="consultationType" name="ConsultationType" class="form-control" [(ngModel)]="formData.ConsultationType" required #consultationTypeInput="ngModel">
+          <option value="" disabled selected>Select Consultation Type</option>
+          <option value="Online">Online</option>
+          <option value="Offline">Offline</option>
+          <option value="Both">Both</option>
+        </select>
+        <div *ngIf="consultationTypeInput.invalid && (consultationTypeInput.dirty || consultationTypeInput.touched)" class="text-danger">
+          Consultation type is required.
+        </div>
+      </div>
+
+      <!-- Consultation Fee -->
+      <div class="form-group">
+        <label for="consultationFee">Consultation Fee (LKR)</label>
+        <input type="number" id="consultationFee" name="ConsultationFee" class="form-control" [(ngModel)]="formData.ConsultationFee" required #consultationFeeInput="ngModel">
+        <div *ngIf="consultationFeeInput.invalid && (consultationFeeInput.dirty || consultationFeeInput.touched)" class="text-danger">
+          Consultation fee is required.
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="form-group">
+        <label for="availability">Availability</label>
+        
+        <!-- Availability Days Selection -->
+        <div class="form-group">
+          <label>Select Availability Days:</label>
+          <div *ngFor="let day of days">
+            <input type="checkbox" [value]="day" (change)="onDayChange(day, $event)"> {{ day }}
+          </div>
+          <div *ngIf="selectedDays.length === 0 && registerForm.submitted" class="text-danger">
+            Please select at least one day for availability.
+          </div>
+        </div>
+
+        <!-- Time Selection -->
+        <div class="time-selection">
+          <label for="startTime">Start Time</label>
+          <input type="time" id="startTime" name="startTime" class="form-control" [(ngModel)]="formData.StartTime" required #startTimeInput="ngModel">
+          <div *ngIf="startTimeInput.invalid && (startTimeInput.dirty || startTimeInput.touched || registerForm.submitted)" class="text-danger">
+            Start time is required.
+          </div>
+
+          <label for="endTime">End Time</label>
+          <input type="time" id="endTime" name="endTime" class="form-control" [(ngModel)]="formData.EndTime" required #endTimeInput="ngModel">
+          <div *ngIf="endTimeInput.invalid && (endTimeInput.dirty || endTimeInput.touched || registerForm.submitted)" class="text-danger">
+            End time is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- Year of Experience -->
+      <div class="form-group">
+        <label for="yearExperience">Year of Experience</label>
+        <input type="number" id="yearExperience" name="YearExperience" class="form-control" [(ngModel)]="formData.YearExperience" required #yearExperienceInput="ngModel">
+        <div *ngIf="yearExperienceInput.invalid && (yearExperienceInput.dirty || yearExperienceInput.touched)" class="text-danger">
+          Year of experience is required.
+        </div>
+      </div>
+
+      <!-- Degree -->
+      <div class="form-group">
+        <label for="degree">Degree</label>
+        <select id="degree" name="Degree" class="form-control" [(ngModel)]="formData.Degree" required #degreeInput="ngModel">
+          <option value="" disabled selected>Select Degree</option>
+          <option value="MBBS">MBBS</option>
+          <option value="MD">MD</option>
+          <option value="MS">MS</option>
+          <option value="MCh">MCh</option>
+          <option value="DNB">DNB</option>
+          <option value="FRCS">FRCS</option>
+          <option value="Fellowship in Cardiology">Fellowship in Cardiology</option>
+          <option value="Diploma in Dermatology">Diploma in Dermatology</option>
+        </select>
+        <div *ngIf="degreeInput.invalid && (degreeInput.dirty || degreeInput.touched)" class="text-danger">
+          Degree is required.
+        </div>
+      </div>
+
+      <!-- Specialization -->
+      <div class="form-group">
+        <label for="specialization">Specialization</label>
+        <select id="specialization" name="Specialization" class="form-control" [(ngModel)]="formData.Specialization" required #specializationInput="ngModel">
+          <option value="" disabled selected>Select Specialization</option>
+          <option value="Cardiologist">Cardiologist</option>
+          <option value="Dermatologist">Dermatologist</option>
+          <option value="Neurologist">Neurologist</option>
+          <option value="Pediatrician">Pediatrician</option>
+          <option value="Orthopedist">Orthopedist</option>
+          <option value="General Practitioner">General Practitioner</option>
+          <option value="Dentist">Dentist</option>
+          <option value="Ophthalmologist">Ophthalmologist</option>
+          <option value="Gynecologist">Gynecologist</option>
+        </select>
+        <div *ngIf="specializationInput.invalid && (specializationInput.dirty || specializationInput.touched)" class="text-danger">
+          Specialization is required.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Sign Up</button>
+    </form>
+
+    <div class="text-center mt-3 sign-in-section">
+      <p>Already have an account? <a routerLink="/doctor-login" class="sign-in-link">Sign In</a></p>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
