@@ -18,6 +18,12 @@ router.post('/signup', (req, res) => {
         return res.status(400).json({ message: "All fields are required" });
     }
 
+    // Check if image size is more than 5MB
+    const imageSize = Buffer.byteLength(Image, 'base64');
+    if (imageSize > 5 * 1024 * 1024) { // 5MB
+        return res.status(413).json({ message: "Image size exceeds 5MB limit" });
+    }
+
     // Check if the user already exists in the database
     connection.query("SELECT Pid FROM Patient WHERE Email = ?", [Email], (err, results) => {
         if (err) {
@@ -53,10 +59,10 @@ router.post('/signup', (req, res) => {
     });
 });
 
+
 module.exports = router;
 
 
-// Login Route
 // Logout Route
 router.get('/logout', (req, res) => {
     if (!req.session.user) {

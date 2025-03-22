@@ -12,12 +12,12 @@ export class DataService {
 
   // Fetch doctor counts by specialization
   getDoctorCounts(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}home/doctor-counts`); // API endpoint for doctor counts 
+    return this.http.get<any>(`${this.baseUrl}home/doctor-counts`); // API endpoint for doctor counts
   }
 
   // Fetch newly registered doctors
   getNewlyRegisteredDoctors(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}home/newly-registered`); // API endpoint for newly 
+    return this.http.get<any>(`${this.baseUrl}home/newly-registered`); // API endpoint for newly registered doctors
   }
 
   // Fetch testimonials
@@ -33,5 +33,16 @@ export class DataService {
     if (params.location) httpParams = httpParams.set('location', params.location);
 
     return this.http.get<any[]>(`${this.baseUrl}home/search`, { params: httpParams });
+  }
+
+  // Signup API call
+  signUp(userData: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}patient/signup`, userData); // API endpoint for signup
+  }
+
+  // Login API call
+  login(email: string, password: string): Observable<any> {
+    const loginData = { Email: email, Password: password };
+    return this.http.post<any>(`${this.baseUrl}patient/login`, loginData); // API endpoint for login
   }
 }

@@ -1,5 +1,5 @@
 .hero-section {
-  background: linear-gradient(to right, #add8e6 50%, #eaf8f4 50%);
+  background: linear-gradient(to right, #add8e6 50%, #add8e6  50%);
 }
 
 .hero-title {
@@ -68,7 +68,7 @@
 .doctor-img {
   max-width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: fill;
 }
 
 

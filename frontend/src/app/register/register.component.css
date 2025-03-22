@@ -38,60 +38,47 @@
 }
 
 /* Profile Upload */
+/* Style the profile image upload container */
 .profile-upload {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.profile-label {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.profile-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #00c4cc;
-    transition: border-color 0.3s ease;
-}
-
-.profile-label:hover .profile-img {
-    border-color: #00b0b8;
-}
-
-.upload-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile-label {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Style the circular profile image container */
+  .profile-image-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.profile-label:hover .upload-overlay {
-    opacity: 1;
-}
-
-.upload-overlay .bx-camera {
-    font-size: 24px;
-    color: white;
-}
-
-.upload-overlay span {
-    font-size: 12px;
-    color: white;
-    margin-top: 5px;
-}
+    border: 2px solid #ccc;
+    overflow: hidden;
+  }
+  
+  /* Style for the image inside the container */
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Style for the image name */
+  #imageName {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+  
 
 /* Form Styling */
 .form-group {
