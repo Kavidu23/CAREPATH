@@ -1,13 +1,12 @@
 <app-header></app-header>
 <!--main image-->
-
 <div class="hero-section">
     <div class="container">
         <div class="row align-items-center">
             <!-- Left Side: Text and Search Box -->
             <div class="col-md-6 text-box">
                 <h1 class="hero-title">
-                    Discover Health : Find Best <span class="highlight">Doctors</span> Today
+                    Discover Health: Find Best <span class="highlight">Doctors</span> Today
                 </h1>
                 <div class="search-box">
                     <div class="input-group">
@@ -15,25 +14,32 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="bx bx-category"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Type" />
-
-                        <!-- Date Input -->
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="bx bx-calendar"></i></span>
-                        </div>
-                        <input type="date" class="form-control" />
+                        <input type="text" class="form-control" placeholder="Type" [(ngModel)]="searchType"
+                            (input)="onSearchTyping()" /> <!-- Trigger search on input typing -->
 
                         <!-- Location Input -->
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="bx bx-map"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Location" />
+                        <input type="text" class="form-control" placeholder="Location" [(ngModel)]="searchLocation"
+                            (input)="onSearchTyping()" /> <!-- Trigger search on input typing -->
+
 
                         <!-- Search Button -->
-                        <button class="btn search-btn">
+                        <button class="btn search-btn" (click)="onSearch()">
                             <i class="bx bx-search"></i>
                         </button>
                     </div>
+
+                    <!-- Show search results as suggestions -->
+                    <!-- Search Result Suggestions Box -->
+                    <div *ngIf="searchResults.length > 0" class="search-suggestions">
+                        <div *ngFor="let result of searchResults" class="search-suggestion"
+                            (click)="selectSuggestion(result)">
+                            {{ result.Specialization }} - {{ result.Location }}
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -46,6 +52,7 @@
 </div>
 
 
+
 <!-- Categories Section -->
 
 <div class="container">
@@ -55,31 +62,25 @@
             <div class="icon-circle">
                 <i class="bx bx-calendar" style='color:#f7f4f4'></i>
             </div>
-            <span>Book Appointments</span>
+            <span routerLink="/book-now">Book Appointments</span>
         </div>
         <div class="nav-item d-flex flex-column align-items-center">
             <div class="icon-circle">
                 <i class="bx bx-plus-medical" style='color:#f7f4f4'></i>
             </div>
-            <span>Hospitals & Clinics</span>
-        </div>
-        <div class="nav-item d-flex flex-column align-items-center">
-            <div class="icon-circle">
-                <i class="bx bx-file" style='color:#f7f4f4'></i>
-            </div>
-            <span>Patient Reports</span>
+            <span routerLink="/hospital">Hospitals & Clinics</span>
         </div>
         <div class="nav-item d-flex flex-column align-items-center">
             <div class="icon-circle">
                 <i class="bx bx-plus" style='color:#f7f4f4'></i>
             </div>
-            <span>Medicine & Suppliers</span>
+            <span routerLink="/supplier">Medicine & Suppliers</span>
         </div>
         <div class="nav-item d-flex flex-column align-items-center">
             <div class="icon-circle">
                 <i class="bx bx-home" style='color:#f7f4f4'></i>
             </div>
-            <span>Home Care</span>
+            <span routerLink="/homecare">Home Care</span>
         </div>
     </div>
 
@@ -95,34 +96,35 @@
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-brain"></i>
             <h5>Psychiatry</h5>
-            <p>112 Doctors</p>
+            <p>{{ psychiatryCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-dna"></i>
             <h5>Endocrinology</h5>
-            <p>104 Doctors</p>
+            <p>{{ endocrinologyCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
-            <i class="bx bx-lungs"></i>
+            <i class="bx bx-child"></i>
             <h5>Pulmonology</h5>
-            <p>41 Doctors</p>
+            <p>{{ pulmonologyCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-male"></i>
             <h5>Urology</h5>
-            <p>39 Doctors</p>
+            <p>{{ urologyCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-brain"></i>
             <h5>Neurology</h5>
-            <p>176 Doctors</p>
+            <p>{{ neurologyCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-heart"></i>
             <h5>Cardiology</h5>
-            <p>254 Doctors</p>
+            <p>{{ cardiologyCount }} Doctors</p>
         </div>
     </div>
+
 
     <!-- Our New Doctors -->
     <div class="text-center section-title">
@@ -131,27 +133,16 @@
     </div>
 
     <div class="row new-doctors">
-        <div class="col-md-3 doctor-card">
-            <h5>Neurologist</h5>
-            <p>Dr. Michael</p>
-            <button class="btn btn-primary">Book Now</button>
-        </div>
-        <div class="col-md-3 doctor-card">
-            <h5>Pediatrician</h5>
-            <p>Dr. Gayan Peries</p>
-            <button class="btn btn-primary">Book Now</button>
-        </div>
-        <div class="col-md-3 doctor-card">
-            <h5>Cardiologist</h5>
-            <p>Dr. Sandra Jhons</p>
-            <button class="btn btn-primary">Book Now</button>
-        </div>
-        <div class="col-md-3 doctor-card">
-            <h5>Psychologist</h5>
-            <p>Dr. Samantha S</p>
+        <div *ngFor="let doctor of newlyRegisteredDoctors" class="col-md-3 doctor-card">
+            <!-- Display doctor image -->
+            <img [src]="'assets/' + doctor.Image" alt="Doctor Image" class="doctor-img">
+
+            <h5>{{ doctor.Specialization }}</h5>
+            <p>{{ doctor.Fname }} {{ doctor.Lname }}</p>
             <button class="btn btn-primary">Book Now</button>
         </div>
     </div>
+
 
     <!-- Testimonials -->
     <div class="text-center section-title">
@@ -160,51 +151,44 @@
     </div>
 
     <div class="row testimonials">
-        <div class="col-md-3 review-card">
-            <p>“Nice treatment and great service.”</p>
-            <strong>Derry Handswan</strong>
-            <div class="stars">
-                <i class="bx bxs-star"></i>
-                <i class="bx bxs-star"></i>
-                <i class="bx bxs-star"></i>
-                <i class="bx bxs-star"></i>
-                <i class="bx bxs-star"></i>
+        <div *ngFor="let testimonial of testimonials" class="col-md-3 review-card">
+            <!-- Display feedback message -->
+            <p>“{{ testimonial.Message }}”</p>
+            <div class="align">
+                <strong>{{ testimonial.Fname }} {{ testimonial.Lname }}</strong>
+                <img [src]="'../../assets/' + testimonial.Image" height="70px" width="50px" alt="Doctor Image"
+                    class="doctor-img">
             </div>
-        </div>
-        <div class="col-md-3 review-card">
-            <p>“Good hospitality, highly recommended.”</p>
-            <strong>Johnson Dwayne</strong>
+            <!-- Display star rating -->
             <div class="stars">
-                <i class="bx bxs-star"></i>
-                <i class="bx bxs-star"></i>
-                <i class="bx bxs-star"></i>
-                <i class="bx bxs-star"></i>
-                <i class="bx bxs-star"></i>
+                <ng-container *ngFor="let star of [].constructor(testimonial.Rating); let i = index">
+                    <i class="bx bxs-star" [ngClass]="{'filled': i < testimonial.Rating}"></i>
+                </ng-container>
+            </div>
+
+            <!-- Display doctor image -->
+        </div>
+    </div>
+
+
+    <!--App Image-->
+    <!-- Download App Section -->
+    <div class="container-fluid">
+        <div class="row banner align-items-center">
+            <div class="col text-center">
+                <h1 class="banner-title">Download Our App Now!</h1>
+                <p class="banner-subtitle">Access doctors, hospitals, and medical services instantly.</p>
+                <div class="btn-group">
+                    <button class="btn btn-play-store">
+                        <i class='bx bxl-play-store'></i> Google Play
+                    </button>
+                    <button class="btn btn-app-store">
+                        <i class="bx bxl-apple"></i> App Store
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
-<!--App Image-->
-<!-- Download App Section -->
-<!-- Main Container -->
-<div class="container-fluid">
-    <div class="row banner align-items-center">
-        <div class="col text-center">
-            <h1 class="banner-title">Download Our App Now!</h1>
-            <p class="banner-subtitle">Access doctors, hospitals, and medical services instantly.</p>
-            <div class="btn-group">
-                <button class="btn btn-play-store">
-                    <i class='bx bxl-play-store'></i> Google Play
-                </button>
-                <button class="btn btn-app-store">
-                    <i class="bx bxl-apple"></i> App Store
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End Main Container -->
 
 <app-footer></app-footer>

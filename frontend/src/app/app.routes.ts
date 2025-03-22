@@ -15,6 +15,7 @@ import { BlogComponent } from './blog/blog.component';
 import { CompanyComponent } from './company/company.component';
 import { BooksComponent } from './books/books.component';
 import { BooknowComponent } from './booknow/booknow.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 export const routes: Routes = [
   {path: 'home', component: HomeComponent },  // Route for Home
@@ -34,5 +35,6 @@ export const routes: Routes = [
   {path: 'company', component: CompanyComponent},
   {path: 'book-confirm', component: BooksComponent},
   {path: 'book-now', component: BooknowComponent},
+  {path: 'feedback', component: FeedbackComponent},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];

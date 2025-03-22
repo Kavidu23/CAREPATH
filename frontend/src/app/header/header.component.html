@@ -22,37 +22,33 @@
     </div>
 </div>
 
-
-<!-- Navbar Section -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
-        <a class="navbar-brand text-info" href="#">CAREPATH</a>
+        <a class="navbar-brand text-info" routerLink="/home"><b>CAREPATH</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/home">Home</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="doctorsDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">Doctors</a>
                     <ul class="dropdown-menu" aria-labelledby="doctorsDropdown">
-                        <li><a class="dropdown-item" href="#">Doctor Dashboard</a></li>
-                        <li><a class="dropdown-item" href="#">Appointments</a></li>
-                        <li><a class="dropdown-item" href="#">View Patient Profile</a></li>
-                        <li><a class="dropdown-item" href="#">View Profile</a></li>
+                        <li><a class="dropdown-item" routerLink="/doctor-dashboard">Doctor Dashboard</a></li>
+                        <li><a class="dropdown-item" routerLink="/book-now">Appointments</a></li>
+                        <li><a class="dropdown-item" routerLink="/doctor-profile">View Profile</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="patientDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">Patient</a>
                     <ul class="dropdown-menu" aria-labelledby="patientDropdown">
-                        <li><a class="dropdown-item" href="#">Patient Dashboard</a></li>
-                        <li><a class="dropdown-item" href="#">Upcoming Appointments</a></li>
-                        <li><a class="dropdown-item" href="#">Give Feedback</a></li>
-                        <li><a class="dropdown-item" href="#">Find Doctors</a></li>
-                        <li><a class="dropdown-item" href="#">View Profile</a></li>
+                        <li><a class="dropdown-item" routerLink="/patient-dashboard">Patient Dashboard</a></li>
+                        <li><a class="dropdown-item" routerLink="/feedback">Give Feedback</a></li>
+                        <li><a class="dropdown-item" routerLink="/doctor-list">Find Doctors</a></li>
+                        <li><a class="dropdown-item" routerLink="/patient-profile">View Profile</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -67,15 +63,15 @@
                     <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
                     <ul class="dropdown-menu" aria-labelledby="pagesDropdown">
-                        <li><a class="dropdown-item" href="#">Medicine & Suppliers</a></li>
-                        <li><a class="dropdown-item" href="#">Home Care Services</a></li>
-                        <li><a class="dropdown-item" href="#">Blogs</a></li>
+                        <li><a class="dropdown-item" routerLink="/supplier">Medicine & Suppliers</a></li>
+                        <li><a class="dropdown-item" routerLink="/homecare">Home Care Services</a></li>
+                        <li><a class="dropdown-item" routerLink="/blog">Blogs</a></li>
                     </ul>
                 </li>
             </ul>
             <div class="header-buttons ms-3">
-                <button class="btn btn-primary me-2 custom-btn">Sign Up</button>
-                <button class="btn btn-secondary custom-btn">Register</button>
+                <button class="btn btn-primary me-2 custom-btn" routerLink="/login">Sign Up</button>
+                <button class="btn btn-secondary custom-btn" routerLink="/register">Register</button>
             </div>
         </div>
     </div>

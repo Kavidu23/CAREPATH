@@ -1,179 +1,163 @@
-/* Main Container */
+/* General Page Styling */
 .register-container {
-    padding: 10px;
-    background-color: #fff;
     min-height: 100vh;
-    position: relative;
-}
-
-/* Logo */
-.logo {
-    position: absolute;
-    top: 20px;
-    left: 40px;
-}
-
-.logo h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #00c4cc;
-    margin: 0;
-}
-
-/* Illustration Section */
-.illustration-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-}
-
-.illustration-img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* Form Section */
-.form-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.register-card {
-    background-color: white;
     padding: 20px;
+}
+
+/* Register Card */
+.register-card {
+    background: white;
     border-radius: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 1200px;
     width: 100%;
-    max-width: 450px;
+    transition: transform 0.3s ease;
 }
 
-.register-card h2 {
+.register-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Title */
+.title-wrapper h2 {
     font-size: 28px;
     font-weight: bold;
     color: #333;
     margin-bottom: 10px;
 }
 
-/* Doctor Link */
-.doctor-link {
-    color: #00c4cc;
-    text-decoration: none;
+.title-wrapper .subtitle {
     font-size: 14px;
-    font-weight: 500;
+    color: #6c757d;
+    margin-bottom: 20px;
 }
 
-.doctor-link:hover {
-    text-decoration: underline;
+/* Profile Upload */
+.profile-upload {
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-/* Form Styling */
-.form-label {
-    font-size: 14px;
-    color: #333;
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-
-.form-control {
-    border-radius: 10px;
-    padding: 12px;
-    font-size: 14px;
-    border: 1px solid #e0e0e0;
-    background-color: #f9f9f9;
-}
-
-.form-control::placeholder {
-    color: #aaa;
-}
-
-/* Input Group */
-.input-group-text {
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-right: none;
-    border-radius: 10px 0 0 10px;
-    padding: 12px;
-}
-
-.input-group .form-control {
-    border-left: none;
-    border-radius: 0 10px 10px 0;
-}
-
-.flag-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-}
-
-/* Password Toggle */
-.password-toggle {
+.profile-label {
+    position: relative;
+    display: inline-block;
     cursor: pointer;
 }
 
-/* Sign Up Button */
-.btn-primary {
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-    border: none;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 10px;
-    text-transform: uppercase;
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #00c4cc;
+    transition: border-color 0.3s ease;
+}
+
+.profile-label:hover .profile-img {
+    border-color: #00b0b8;
+}
+
+.upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-label:hover .upload-overlay {
+    opacity: 1;
+}
+
+.upload-overlay .bx-camera {
+    font-size: 24px;
     color: white;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(90deg, #3a9efb 0%, #00e0eb 100%);
+.upload-overlay span {
+    font-size: 12px;
+    color: white;
+    margin-top: 5px;
 }
 
-/* Divider */
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
 }
 
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.divider span {
-    padding: 0 10px;
-    color: #aaa;
+.form-label {
     font-size: 14px;
-    text-transform: uppercase;
-}
-
-/* Social Login Buttons */
-.btn-outline-secondary {
-    border: 1px solid #e0e0e0;
+    font-weight: 500;
     color: #333;
-    padding: 12px;
+}
+
+.form-control, .form-control:focus {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
     font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #00c4cc;
+    box-shadow: 0 0 5px rgba(0, 196, 204, 0.3);
+}
+
+.input-group-text {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px 0 0 8px;
+    font-size: 14px;
+}
+
+.password-toggle {
+    cursor: pointer;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+
+.password-toggle .bx {
+    font-size: 18px;
+    color: #6c757d;
+}
+
+/* Submit Button */
+.btn-primary {
+    background: #00c4cc;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
     border-radius: 10px;
-    background-color: #f9f9f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.btn-outline-secondary:hover {
-    background-color: #f0f0f0;
+.btn-primary:hover {
+    background: #00b0b8;
+    transform: translateY(-2px);
 }
 
-.btn-outline-secondary i {
-    margin-right: 10px;
+/* Sign In Section */
+.sign-in-section p {
+    font-size: 14px;
+    color: #6c757d;
 }
 
-/* Sign In Link */
 .sign-in-link {
     color: #00c4cc;
     text-decoration: none;
@@ -182,29 +166,26 @@
 
 .sign-in-link:hover {
     text-decoration: underline;
-}
-
-/* Box Icons */
-.bx {
-    font-size: 18px;
-    vertical-align: middle;
+    color: #00b0b8;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .illustration-section {
-        display: none;
-    }
-
-    .form-section {
+@media (max-width: 576px) {
+    .register-card {
         padding: 20px;
     }
 
-    .register-card {
-        max-width: 100%;
+    .title-wrapper h2 {
+        font-size: 24px;
     }
 
-    .logo {
-        left: 20px;
+    .profile-img, .upload-overlay {
+        width: 80px;
+        height: 80px;
+    }
+
+    .btn-primary {
+        font-size: 14px;
+        padding: 10px;
     }
 }

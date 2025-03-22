@@ -1,0 +1,67 @@
+<app-header></app-header>
+<!-- Feedback Section -->
+<div class="feedback-container">
+    <!-- Header -->
+    <div class="header-section text-center">
+        <h2>Feedback</h2>
+    </div>
+
+    <!-- Feedback Form -->
+    <div class="feedback-form">
+        <div class="form-card">
+            <form>
+                <!-- Name -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                </div>
+
+                <!-- Rating -->
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rate Your Experience</label>
+                    <div class="star-rating">
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                        <i class="bx bxs-star"></i>
+                    </div>
+                </div>
+
+                <!-- Comments -->
+                <div class="mb-3">
+                    <label for="comments" class="form-label">Comments</label>
+                    <textarea class="form-control" id="comments" rows="5" placeholder="Share your feedback..."
+                        required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message (Uncomment to show, comment out the form above) -->
+    <!--
+    <div class="feedback-form">
+      <div class="success-message text-center">
+        <div class="checkmark-circle">
+          <i class="bx bx-check"></i>
+        </div>
+        <h3>Thank You for Your Feedback!</h3>
+        <p>We appreciate your input and will use it to improve our services.</p>
+        <button class="btn btn-primary">Give Another Feedback</button>
+      </div>
+    </div>
+    -->
+</div>
+
+<app-footer></app-footer>

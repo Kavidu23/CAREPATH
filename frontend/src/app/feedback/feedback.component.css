@@ -1,0 +1,119 @@
+/* feedback.css */
+.feedback-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Header Section */
+  .header-section {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .header-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Feedback Form */
+  .feedback-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .form-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .form-control, .form-control:focus {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .form-control:focus {
+    border-color: #00c4cc;
+    box-shadow: 0 0 5px rgba(0, 196, 204, 0.3);
+  }
+  
+  /* Star Rating */
+  .star-rating {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .star-rating .bx {
+    font-size: 24px;
+    color: #e0e0e0;
+  }
+  
+  /* Submit Button */
+  .btn-primary {
+    background: #00c4cc;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+  
+  .btn-primary:hover {
+    background: #00b0b8;
+  }
+  
+  /* Success Message */
+  .success-message {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .checkmark-circle {
+    width: 60px;
+    height: 60px;
+    background-color: #28a745;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
+  }
+  
+  .checkmark-circle .bx-check {
+    font-size: 40px;
+    color: white;
+  }
+  
+  .success-message h3 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .success-message p {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 576px) {
+    .form-card, .success-message {
+      padding: 15px;
+    }
+  }

@@ -18,26 +18,34 @@ router.get('/search', (req, res) => {
         FROM Doctor d
         LEFT JOIN Doctor_Specialization ds ON d.Did = ds.Did
         WHERE 1=1`;
+    
     let params = [];
 
+    // Handle the type search with LIKE for partial matches
     if (type) {
-        query += ` AND ds.Specialization = ?`;
-        params.push(type);
+        query += ` AND ds.Specialization LIKE ?`;
+        params.push(`%${type}%`);
     }
+
+    // Handle the date search (assuming it's in a valid format for the query)
     if (date) {
         query += ` AND d.Availability LIKE ?`;
         params.push(`%${date}%`);
     }
+
+    // Handle the location search
     if (location) {
         query += ` AND d.Location LIKE ?`;
         params.push(`%${location}%`);
     }
 
+    // Execute the query
     connection.query(query, params, (err, results) => {
         if (err) return res.status(500).json({ message: "Database error", error: err });
         res.json(results);
     });
 });
+
 
 
 //Book appointment
@@ -128,6 +136,21 @@ router.get('/dashboard-status', (req, res) => {
     });
 });
 
+// Get doctor counts for each specialty
+router.get('/doctor-counts', (req, res) => {
+    const query = `
+        SELECT ds.Specialization, COUNT(d.Did) AS doctorCount
+        FROM Doctor d
+        JOIN Doctor_Specialization ds ON d.Did = ds.Did
+        WHERE d.Status = 1  -- Only active doctors
+        GROUP BY ds.Specialization
+    `;
+
+    connection.query(query, (err, results) => {
+        if (err) return res.status(500).json({ message: "Database error", error: err });
+        res.json(results);
+    });
+});
 
 
 

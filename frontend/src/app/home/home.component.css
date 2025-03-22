@@ -76,7 +76,7 @@
 
 
 .container {
-  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 .container button{
@@ -88,6 +88,7 @@
   display: flex;
   gap: 40px;
   padding: 50px;
+  border: 0.5px solid #000;
   border-radius: 20px;
   background: #f8f9fa;
   justify-content: center;
@@ -169,11 +170,21 @@
 }
 
 .review-card {
-  padding: 15px;
+  padding: 10px;
   border-radius: 10px;
   background: #fff;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-  width: 180px;
+  width: 300px;
+}
+
+.review-card .align{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-card img{
+  border-radius: 60%;
 }
 
 .stars i {
@@ -211,5 +222,29 @@
 }
 
 
+a{
+  text-decoration: none;
+  color: #000;
+}
+
+.search-suggestions {
+  border: 1px solid #ddd;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+  position: absolute;
+  width: 30%;
+  z-index: 100;
+  margin-top: 5px;
+}
+
+.search-suggestion {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.search-suggestion:hover {
+  background-color: #f1f1f1;
+}
 
 

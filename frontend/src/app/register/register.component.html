@@ -1,79 +1,93 @@
 <app-header></app-header>
 
-<!-- Patient Registration Container -->
 <div class="register-container">
-    <!-- Logo -->
-    <div class="logo">
-        <h1>CAREPATHY</h1>
+  <div class="register-card">
+    <!-- Form Title -->
+    <div class="title-wrapper text-center">
+      <h2>Create a Patient Account</h2>
+      <p class="subtitle">Join CarePath to access healthcare services easily</p>
     </div>
 
-    <div class="row align-items-center">
-        <!-- Left Side: Illustration -->
-        <div class="col-md-6 illustration-section">
-            <img src="../../assets/login.jpg" alt="Illustration" class="illustration-img" />
+    <!-- Profile Image Upload -->
+    <div class="profile-upload text-center">
+      <label for="profileImage" class="profile-label">
+        <img id="previewImage" src="../../assets/default-profile.png" alt="Profile Image" class="profile-img">
+        <div class="upload-overlay">
+          <i class="bx bx-camera"></i>
+          <span>Upload Profile Image</span>
         </div>
-
-        <!-- Right Side: Registration Form -->
-        <div class="col-md-6 form-section">
-            <div class="register-card">
-                <h2>Patient Register</h2>
-                <div class="d-flex justify-content-end">
-                    <a href="#" class="doctor-link">Are you a Doctor?</a>
-                </div>
-                <form>
-                    <!-- Name Field -->
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter your name" />
-                    </div>
-
-                    <!-- Phone Field with Country Code -->
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone</label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class='bx bxs-phone' style='color:#030303' ></i>
-                                +94
-                            </span>
-                            <input type="text" class="form-control" id="phone" placeholder="555-0123" />
-                        </div>
-                    </div>
-
-                    <!-- Password Field -->
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Create Password</label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="password" placeholder="Create a password" />
-                            <span class="input-group-text password-toggle">
-                                <i class="bx bx-show"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Sign Up Button -->
-                    <button type="submit" class="btn btn-primary w-100">
-                        Sign Up
-                    </button>
-                </form>
-
-                <!-- Divider -->
-                <div class="divider">
-                    <span>or</span>
-                </div>
-
-                <!-- Social Login Buttons -->
-                <button class="btn btn-outline-secondary w-100 mb-2">
-                    <i class="bx bxl-google"></i> Sign in With Google
-                </button>
-                <button class="btn btn-outline-secondary w-100">
-                    <i class="bx bxl-facebook"></i> Sign in With Facebook
-                </button>
-
-                <!-- Sign In Link -->
-                <div class="text-center mt-3">
-                    <p>Already have an account? <a href="#" class="sign-in-link">Sign In</a></p>
-                </div>
-            </div>
-        </div>
+        <input type="file" id="profileImage" accept="image/*" hidden>
+      </label>
     </div>
+
+    <form id="registerForm" class="needs-validation" novalidate>
+      <!-- First & Last Name -->
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="fname" class="form-label">First Name</label>
+          <input type="text" id="fname" class="form-control" placeholder="Enter first name" required>
+        </div>
+        <div class="col-md-6">
+          <label for="lname" class="form-label">Last Name</label>
+          <input type="text" id="lname" class="form-control" placeholder="Enter last name" required>
+        </div>
+      </div>
+
+      <!-- Phone & Email -->
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="phone" class="form-label">Phone Number</label>
+          <div class="input-group">
+            <span class="input-group-text">+94</span>
+            <input type="text" id="phone" class="form-control" placeholder="555-0123" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" placeholder="Enter email" required>
+        </div>
+      </div>
+
+      <!-- Gender & Birthdate -->
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="gender" class="form-label">Gender</label>
+          <select id="gender" class="form-control" required>
+            <option value="" disabled selected>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="birthdate" class="form-label">Date of Birth</label>
+          <input type="date" id="birthdate" class="form-control" required>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" id="location" class="form-control" placeholder="Enter your location" required>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password" class="form-label">Create Password</label>
+        <div class="input-group">
+          <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+          <span class="input-group-text password-toggle">
+            <i class="bx bx-show"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+    </form>
+
+    <!-- Already Have an Account? -->
+    <div class="text-center mt-3 sign-in-section">
+      <p>Already have an account? <a routerLink="/login" class="sign-in-link">Sign In</a></p>
+    </div>
+  </div>
 </div>
