@@ -3,11 +3,12 @@ import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
 import { DataService } from '../data.service'; // Import DataService
 import { CommonModule } from '@angular/common'; // For *ngIf, *ngFor
+import { NewheaderComponent } from '../newheader/newheader.component';
 
 @Component({
   selector: 'app-d-dashboard',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CommonModule], // Add CommonModule for directives
+  imports: [HeaderComponent, FooterComponent, CommonModule,NewheaderComponent], // Add CommonModule for directives
   templateUrl: './d-dashboard.component.html',
   styleUrls: ['./d-dashboard.component.css']
 })

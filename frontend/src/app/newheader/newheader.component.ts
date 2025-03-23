@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; // Import Router
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http'; // Import HttpClient for API requests
 
 @Component({
   selector: 'app-nheader',
@@ -13,7 +14,7 @@ import { RouterModule } from '@angular/router';
 export class NewheaderComponent implements OnInit {
   user: any; // To hold user data
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && window.sessionStorage) {
@@ -28,12 +29,24 @@ export class NewheaderComponent implements OnInit {
 
   // Method to logout and destroy the session
   logout(): void {
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      // Clear sessionStorage to remove user data
-      sessionStorage.removeItem('user');
-    }
-    
-    // Redirect to the login page
-    this.router.navigate(['/login']);
+    // First, make a POST request to the backend to destroy the session
+    this.http.post('http://localhost:3000/doctor/logout', {}, { withCredentials: true }) // Make POST request to backend logout route
+      .subscribe({
+        next: (response) => {
+          console.log('Backend session destroyed:', response);
+          
+          // Clear sessionStorage to remove user data from the frontend
+          if (typeof window !== 'undefined' && window.sessionStorage) {
+            sessionStorage.removeItem('user');
+          }
+          
+          // Redirect to the login page
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error('Error during logout:', err);
+        }
+      });
   }
+  
 }

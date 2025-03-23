@@ -92,10 +92,15 @@ export class DataService {
     return this.http.post<any>(`${this.baseUrl}doctor/signup`, formData);
   }
 
-  //Doctor patinet
+
   doctorlogin(email: string, password: string): Observable<any> {
     const loginData = { Email: email, Password: password };
-    return this.http.post<any>(`${this.baseUrl}doctor/login`, loginData); // API endpoint for login
+    return this.http.post<any>(`${this.baseUrl}doctor/login`, loginData, { withCredentials: true });
   }
-
+  
+  
+  // Method to check session
+  checkSession(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}doctor/session`, { withCredentials: true }); // withCredentials for session
+  }
 }

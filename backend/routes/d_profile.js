@@ -6,22 +6,30 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
+const session = require('express-session');
 
+// Setup session middleware
+router.use(session({
+    secret: process.env.SESSION_SECRET, // Store a secret in your .env file
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if you're using HTTPS
+}));
 
-//Get doctor profile
+// Get doctor profile
 router.get('/profile', authenticateDoctor, (req, res) => {
+    console.log('Session Data:', req.session.doctor); // Check session content
     if (!req.session.doctor) return res.status(401).json({ message: "Unauthenticated" });
     const { Did } = req.session.doctor;
     const query = `
-        SELECT Doctor.Did, Fname, Lname,Image,Doctor_Specialization.Specialization
-        FROM Doctor join Doctor_Specialization on Doctor.Did = Doctor_Specialization.Did
+        SELECT Doctor.Did, Fname, Lname, Image, Doctor_Specialization.Specialization
+        FROM Doctor JOIN Doctor_Specialization ON Doctor.Did = Doctor_Specialization.Did
         WHERE Doctor.Did = ?`;
     connection.query(query, [Did], (err, results) => {
         if (err) return res.status(500).json({ message: "Database error", error: err });
         res.json(results[0]);
     });
 });
-
 
 // Get doctor's clinics and availability
 router.get('/clinics', authenticateDoctor, (req, res) => {
@@ -69,8 +77,6 @@ router.get('/appointments', authenticateDoctor, (req, res) => {
         res.json(results);
     });
 });
-
-
 
 // Get doctor’s bank details
 router.get('/bank-details', authenticateDoctor, (req, res) => {
@@ -143,12 +149,8 @@ router.get('/invoices', authenticateDoctor, (req, res) => {
     });
 });
 
-
-
-
-
 // Update clinic availability
-router.put('/uclinics', authenticateDoctor, (req, res) => {
+router.put('/uclinics/:CCid', authenticateDoctor, (req, res) => {
     const { CCid } = req.params;
     const { availability } = req.body;
 
@@ -159,18 +161,14 @@ router.put('/uclinics', authenticateDoctor, (req, res) => {
     });
 });
 
-
-// Update doctor’s bank details
-router.put('/bank-details', authenticateDoctor, (req, res) => {
-    const { Did } = req.session.doctor;
-    const { BankName, BNumber, Location } = req.body;
-
-    const query = `UPDATE Accounts SET BankName = ?, BNumber = ?, Location = ? WHERE Aid = (SELECT Aid FROM Doctor WHERE Did = ?)`;
-    connection.query(query, [BankName, BNumber, Location, Did], (err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", error: err });
-        res.json({ message: "Bank details updated successfully" });
+// Logout route to destroy the session
+router.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Failed to log out' });
+        }
+        res.json({ message: 'Logged out successfully' });
     });
 });
-
 
 module.exports = router;

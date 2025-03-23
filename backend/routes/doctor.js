@@ -5,6 +5,7 @@ const { authenticateAdmin } = require('../services/adminMiddleware'); // Import 
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 require('dotenv').config();
 
 // Signup doctor
@@ -73,21 +74,24 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-//Login doctor
+// Doctor Login route
 router.post('/login', async (req, res) => {
     const { Email, Password } = req.body;
 
+    // Check if email and password are provided
     if (!Email || !Password) {
-        return res.status(409).json({ message: "Email and password are required" });
+        return res.status(400).json({ message: "Email and password are required" }); // 400 instead of 409
     }
 
     try {
-        // Querying the database for the doctor with the given email
+        // Check if doctor is already logged in
+        if (req.session.doctor) {
+            return res.status(400).json({ message: "Doctor already logged in" });
+        }
+
+        // Query database for doctor with the provided email
         const query = "SELECT * FROM Doctor WHERE Email = ?";
         connection.query(query, [Email], async (err, results) => {
-            if(req.session.doctor){
-                return res.status(400).json({ message: "Doctor already logged in" });
-            }
             if (err) {
                 console.error("Database error:", err);
                 return res.status(500).json({ message: "Database error", error: err });
@@ -104,15 +108,17 @@ router.post('/login', async (req, res) => {
                 return res.status(401).json({ message: "Invalid email or password" });
             }
 
-            // Store only necessary information in the session
+            // Store doctor session
             req.session.doctor = {
-                Did: doctor.Did,  // assuming Did is the Doctor's ID
+                Did: doctor.Did,
                 Email: doctor.Email,
                 Fname: doctor.Fname,
                 Lname: doctor.Lname,
+                // You can add other doctor details to the session if necessary
             };
 
-            res.json({ message: "Login successful" , doctor: req.session.doctor});
+            // Respond with success
+            res.json({ message: "Login successful", doctor: req.session.doctor });
         });
     } catch (err) {
         console.error("Login error:", err);
@@ -121,21 +127,29 @@ router.post('/login', async (req, res) => {
 });
 
 
+
+
 //Logout doctor
-router.get('/logout', authenticateDoctor, (req, res) => {
-    if(!req.session.doctor){
-        return res.status(400).json({ message: "You have not logged in" });
+// Logout route
+router.post('/logout', (req, res) => {
+    if (!req.session.doctor) {
+        return res.status(400).json({ message: "You are not logged in." });
     }
+
+    // Destroy session
     req.session.destroy((err) => {
         if (err) {
             console.error("Session destroy error:", err);
             return res.status(500).json({ message: "Server error" });
         }
 
-        res.clearCookie('connect.sid');
+        // Clear the session cookie
+        res.clearCookie('connect.sid'); // Assuming you are using default session cookie name
+
         res.json({ message: "Logout successful" });
     });
 });
+
 
 //delete doctor
 router.delete('/delete', authenticateDoctor,authenticateAdmin, (req, res) => {
