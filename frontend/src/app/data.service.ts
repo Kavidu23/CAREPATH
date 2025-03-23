@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,51 @@ export class DataService {
   private baseUrl = 'http://localhost:3000/'; // Base URL for your API
 
   constructor(private http: HttpClient) {}
+
+  // Method to check if the doctor is logged in
+  checkSession(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}doctor/session`, { withCredentials: true }); // withCredentials for session
+  }
+
+  // Fetch doctor profile
+  getDoctorProfile(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/profile`, { withCredentials: true });
+  }
+
+  // Fetch upcoming appointments
+  getUpcomingAppointments(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/appointments`, { withCredentials: true });
+  }
+
+  // Fetch clinics availability
+  getClinicsAvailability(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/clinics`, { withCredentials: true });
+  }
+
+  // Fetch bank details
+  getBankDetails(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/bank-details`, { withCredentials: true });
+  }
+
+  // Fetch appointment data
+  getAppointments(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/appointments`, { withCredentials: true });
+  }
+
+  // Fetch medical records data
+  getMedicalRecords(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/medical-records`, { withCredentials: true });
+  }
+
+  // Fetch prescriptions data
+  getPrescriptions(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/prescriptions`, { withCredentials: true });
+  }
+
+  // Fetch invoices data
+  getInvoices(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/invoices`, { withCredentials: true });
+  }
 
   // Fetch doctor counts by specialization
   getDoctorCounts(): Observable<any> {
@@ -20,9 +65,15 @@ export class DataService {
     return this.http.get<any>(`${this.baseUrl}home/newly-registered`); // API endpoint for newly registered doctors
   }
 
+  getTodayPatients(): Observable<{ total_patients: number }> {
+    return this.http.get<{ total_patients: number }>(`${this.baseUrl}d_profile/today_patients`, { withCredentials: true });
+  }
+  
+  
+
   // Fetch testimonials
   getTestimonials(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}home/feedback`);
+    return this.http.get<any>(`${this.baseUrl}home/feedback`); // API endpoint for testimonials
   }
 
   // Search doctors based on type, date, and location
@@ -46,61 +97,13 @@ export class DataService {
     return this.http.post<any>(`${this.baseUrl}patient/login`, loginData); // API endpoint for login
   }
 
-
-  // Fetch doctor profile
-  getDoctorProfile(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}doctor/profile`); // API endpoint for doctor profile
-  }
-
-  // Fetch upcoming appointments
-  getUpcomingAppointments(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}d_profile/appointments`); // API endpoint for upcoming appointments
-  }
-
-  // Fetch clinics availability
-  getClinicsAvailability(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}d_profile/clinics`); // API endpoint for clinics availability
-  }
-
-  // Fetch bank details
-  getBankDetails(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}d_profile/bank-details`); // API endpoint for bank details
-  }
-
-  // Fetch appointment data
-  getAppointments(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}d_profile/appointments`); // API endpoint for appointments
-  }
-
-  // Fetch medical records data
-  getMedicalRecords(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}d_profile/medical-records`); // API endpoint for medical records
-  }
-
-  // Fetch prescriptions data
-  getPrescriptions(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}d_profile/prescriptions`); // API endpoint for prescriptions
-  }
-
-  // Fetch invoices data
-  getInvoices(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}d_profile/invoices`); // API endpoint for invoices
-  }
-
   // Add the signUpDoctor method to handle doctor registration
   signUpDoctor(formData: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}doctor/signup`, formData);
+    return this.http.post<any>(`${this.baseUrl}doctor/signup`, formData); // API endpoint for doctor registration
   }
 
-
-  doctorlogin(email: string, password: string): Observable<any> {
+  doctorLogin(email: string, password: string): Observable<any> {
     const loginData = { Email: email, Password: password };
-    return this.http.post<any>(`${this.baseUrl}doctor/login`, loginData, { withCredentials: true });
-  }
-  
-  
-  // Method to check session
-  checkSession(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}doctor/session`, { withCredentials: true }); // withCredentials for session
+    return this.http.post<any>(`${this.baseUrl}doctor/login`, loginData, { withCredentials: true }); // API endpoint for doctor login
   }
 }

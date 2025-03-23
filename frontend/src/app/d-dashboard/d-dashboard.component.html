@@ -3,251 +3,131 @@
 <div class="dashboard-container">
   <!-- Header with Profile -->
   <div class="header-section text-center">
-    <img [src]="doctorProfile.profilePic || 'assets/profile-pic.jpg'" alt="Doctor Profile" class="profile-pic" />
-    <h2 class="doctor-name">{{ doctorProfile.name || 'No Data Available' }}</h2>
-    <p class="doctor-specialty">{{ doctorProfile.specialty || 'No Data Available' }}</p>
+    <img [src]="doctorProfile.Image ? 'assets/' + doctorProfile.Image : 'assets/profile-pic.jpg'" 
+         alt="Doctor Profile" class="profile-pic" width="50" height="50" />
+    <h2 class="doctor-name">{{ (doctorProfile.Fname + ' ' + doctorProfile.Lname) || 'No Data Available' }}</h2>
+    <p class="doctor-specialty">{{ doctorProfile.Specialization || 'No Data Available' }}</p>
   </div>
 
   <!-- Stats Section -->
-  <div class="stats-section row text-center">
+  <div class="stats-section row text-center justify-content-center">
     <div class="col-md-6 stat-box">
-      <p class="stat-label">LIFETIME PATIENTS VISITS</p>
-      <h3 class="stat-value">{{ doctorProfile.lifetimeVisits || 'No Data Available' }}</h3>
-    </div>
-    <div class="col-md-6 stat-box">
-      <p class="stat-label">APPOINTMENTS TODAY</p>
-      <h3 class="stat-value">{{ doctorProfile.todayAppointments || 'No Data Available' }}</h3>
+      <p class="stat-label">TODAY'S PATIENTS</p>
+      <h3 class="stat-value">{{ todayPatients || 'No Data Available' }}</h3>
     </div>
   </div>
 
-  <!-- Upcoming Video Call Appointments Section -->
-  <div class="upcoming-section" *ngIf="upcomingAppointments && upcomingAppointments.length > 0; else noUpcomingAppointments">
+  <!-- Upcoming Video Call Appointments -->
+  <div class="upcoming-section">
     <h4>UPCOMING VIDEO CALL APPOINTMENTS</h4>
-    <div *ngFor="let appointment of upcomingAppointments" class="upcoming-card">
-      <div class="upcoming-info d-flex align-items-center">
-        <img [src]="appointment.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
-        <div>
-          <h5>{{ appointment.patientName || 'No Data Available' }}</h5>
-          <p><i class="bx bx-calendar"></i> {{ appointment.date || 'No Data Available' }}</p>
+    <ng-container *ngIf="upcomingAppointments.length > 0; else noUpcomingAppointments">
+      <div *ngFor="let appointment of upcomingAppointments" class="upcoming-card">
+        <div class="upcoming-info d-flex align-items-center">
+          <i class='bx bx-video'></i>
+          <div>
+            <h5>{{ appointment.Fname + ' ' + appointment.Lname }}</h5>
+            <p><i class="bx bx-calendar"></i> {{ appointment.Date | date:'yyyy-MM-dd' }} at {{ appointment.Time }}</p>
+          </div>
         </div>
+        <button class="btn btn-primary">
+          <i class="bx bx-video"></i> Join Call
+        </button>
       </div>
-      <button class="btn btn-primary">
-        <i class="bx bx-video"></i> Join Call
-      </button>
-    </div>
+    </ng-container>
+    <ng-template #noUpcomingAppointments>
+      <p>No Upcoming Appointments</p>
+    </ng-template>
   </div>
-  <ng-template #noUpcomingAppointments>
-    <p>No Upcoming Appointments</p>
-  </ng-template>
 
-  <!-- Clinics & Availability Section -->
-  <div class="clinics-section" *ngIf="clinicsAvailability && clinicsAvailability.length > 0; else noClinics">
+  <!-- Clinics & Availability -->
+  <div class="clinics-section">
     <h4>CLINICS & AVAILABILITY</h4>
-    <div *ngFor="let clinic of clinicsAvailability" class="clinic-card">
-      <div class="clinic-info d-flex align-items-center">
-        <img [src]="clinic.icon || 'assets/clinic-icon.png'" alt="Clinic Icon" class="clinic-icon" />
-        <div>
-          <h5>{{ clinic.name || 'No Data Available' }}</h5>
-          <p class="clinic-fee">{{ clinic.fee || 'No Data Available' }}</p>
+    <ng-container *ngIf="clinicsAvailability.length > 0; else noClinics">
+      <div *ngFor="let clinic of clinicsAvailability" class="clinic-card">
+        <div class="clinic-info d-flex align-items-center">
+          <i class='bx bxs-clinic' ></i>
+          <div>
+            <h5>{{ clinic.Name }}</h5>
+            <p class="clinic-location">{{ clinic.Location }}</p>
+          </div>
         </div>
       </div>
-      <div class="availability">
-        <p *ngFor="let slot of clinic.availability">
-          <strong>{{ slot.day || 'No Data Available' }}:</strong> {{ slot.time || 'No Data Available' }} <span class="change-link">CHANGE</span>
-        </p>
-      </div>
-    </div>
+    </ng-container>
+    <ng-template #noClinics>
+      <p>No Clinics Available</p>
+    </ng-template>
   </div>
-  <ng-template #noClinics>
-    <p>No Clinics Available</p>
-  </ng-template>
 
-  <!-- Bank Details Section -->
-  <div class="bank-details-section" *ngIf="bankDetails; else noBankDetails">
-    <h4>BANK DETAILS</h4>
-    <div class="bank-card row">
-      <div class="col-md-4 stat-box">
-        <p class="stat-label">TOTAL</p>
-        <h3 class="stat-value">{{ bankDetails.total || 'No Data Available' }}</h3>
+  <!-- Appointments Section -->
+  <div class="appointments-section">
+    <h4>Appointments</h4>
+    <ng-container *ngIf="appointments.length > 0; else noAppointments">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>PATIENT</th>
+              <th>DATE</th>
+              <th>TYPE</th>
+              <th>STATUS</th>
+              <th>ACTION</th> <!-- Added Action column -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appt of appointments">
+              <td>{{ appt.Aid || '#AF-0128' }}</td>
+              <td>{{ appt.Fname + ' ' + appt.Lname }}</td>
+              <td>{{ appt.Date | date:'yyyy-MM-dd' }}</td>
+              <td>{{ appt.type || 'No Data Available' }}</td>
+              <td><span class="status" [ngClass]="appt.status?.toLowerCase() || 'awaiting'">
+                  {{ appt.status || 'AWAITING' }}
+                </span></td>
+              <td>
+                <button *ngIf="appt.type === 'Online'" class="btn btn-primary">
+                  <i class="bx bx-video"></i> Join Call
+                </button>
+                <!-- No button for physical appointments -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="col-md-4 stat-box">
-        <p class="stat-label">EARNED</p>
-        <h3 class="stat-value">{{ bankDetails.earned || 'No Data Available' }}</h3>
-      </div>
-      <div class="col-md-4 stat-box">
-        <p class="stat-label">PENDING</p>
-        <h3 class="stat-value">{{ bankDetails.pending || 'No Data Available' }}</h3>
-      </div>
-      <div class="bank-info mt-3">
-        <p><strong>Bank Name:</strong> {{ bankDetails.bankName || 'No Data Available' }}</p>
-        <p><strong>Branch Name:</strong> {{ bankDetails.branchName || 'No Data Available' }}</p>
-        <p><strong>Account Name:</strong> {{ bankDetails.accountName || 'No Data Available' }}</p>
-        <div class="bank-actions d-flex justify-content-between">
-          <a href="#" class="action-link">EDIT DETAILS</a>
-        </div>
-      </div>
-    </div>
-    <button class="btn btn-primary mt-3">
-      <i class="bx bx-money"></i> REQUEST PAYMENT
-    </button>
+    </ng-container>
+    <ng-template #noAppointments>
+      <p>No Appointments Available</p>
+    </ng-template>
   </div>
-  <ng-template #noBankDetails>
-    <p>No Bank Details Available</p>
-  </ng-template>
 
-  <!-- Reports Section with Tabs -->
-  <div class="reports-section">
-    <h4>REPORTS</h4>
-    <ul class="nav nav-tabs" id="reportsTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="appointments-tab" data-bs-toggle="tab" href="#appointments" role="tab">Appointments</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="medical-records-tab" data-bs-toggle="tab" href="#medical-records" role="tab">Medical Records</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" href="#prescriptions" role="tab">Prescriptions</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab">Invoices</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="reportsTabContent">
-      <!-- Appointments Tab -->
-      <div class="tab-pane fade show active" id="appointments" role="tabpanel">
-        <div *ngIf="appointments && appointments.length > 0; else noAppointments">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>PATIENT</th>
-                  <th>DATE</th>
-                  <th>TYPE</th>
-                  <th>STATUS</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let appt of appointments">
-                  <td>{{ appt.id || '#AF-0128' }}</td>
-                  <td>
-                    <img [src]="appt.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
-                    {{ appt.patientName || 'No Data Available' }}
-                  </td>
-                  <td>{{ appt.date || 'No Data Available' }}</td>
-                  <td>{{ appt.type || 'No Data Available' }}</td>
-                  <td><span class="status" [ngClass]="appt.status?.toLowerCase() || 'awaiting'">{{ appt.status || 'AWAITING' }}</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <ng-template #noAppointments>
-          <p>No Appointments Available</p>
-        </ng-template>
+  <!-- Prescriptions Section -->
+  <div class="prescriptions-section">
+    <h4>Prescriptions</h4>
+    <ng-container *ngIf="prescriptions.length > 0; else noPrescriptions">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>PATIENT</th>
+              <th>DURATION</th>
+              <th>FREQUENCY</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prescription of prescriptions">
+              <td>{{ prescription.Rid }}</td>
+              <td>{{ prescription.Fname + ' ' + prescription.Lname }}</td>
+              <td>{{ prescription.Duration }}</td>
+              <td>{{ prescription.Frequency }}</td>
+              <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-      <!-- Medical Records Tab -->
-      <div class="tab-pane fade" id="medical-records" role="tabpanel">
-        <div *ngIf="medicalRecords && medicalRecords.length > 0; else noMedicalRecords">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>PATIENT</th>
-                  <th>DATE</th>
-                  <th>DIAGNOSIS</th>
-                  <th>ACTION</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let record of medicalRecords">
-                  <td>{{ record.id || '#MR-001' }}</td>
-                  <td>
-                    <img [src]="record.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
-                    {{ record.patientName || 'No Data Available' }}
-                  </td>
-                  <td>{{ record.date || 'No Data Available' }}</td>
-                  <td>{{ record.diagnosis || 'No Data Available' }}</td>
-                  <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <ng-template #noMedicalRecords>
-          <p>No Medical Records Available</p>
-        </ng-template>
-      </div>
-
-      <!-- Prescriptions Tab -->
-      <div class="tab-pane fade" id="prescriptions" role="tabpanel">
-        <div *ngIf="prescriptions && prescriptions.length > 0; else noPrescriptions">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>PATIENT</th>
-                  <th>DATE</th>
-                  <th>MEDICATION</th>
-                  <th>ACTION</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let prescription of prescriptions">
-                  <td>{{ prescription.id || '#PR-001' }}</td>
-                  <td>
-                    <img [src]="prescription.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
-                    {{ prescription.patientName || 'No Data Available' }}
-                  </td>
-                  <td>{{ prescription.date || 'No Data Available' }}</td>
-                  <td>{{ prescription.medication || 'No Data Available' }}</td>
-                  <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <ng-template #noPrescriptions>
-          <p>No Prescriptions Available</p>
-        </ng-template>
-      </div>
-
-      <!-- Invoices Tab -->
-      <div class="tab-pane fade" id="invoices" role="tabpanel">
-        <div *ngIf="invoices && invoices.length > 0; else noInvoices">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>PATIENT</th>
-                  <th>DATE</th>
-                  <th>AMOUNT</th>
-                  <th>STATUS</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let invoice of invoices">
-                  <td>{{ invoice.id || '#INV-001' }}</td>
-                  <td>
-                    <img [src]="invoice.patientPic || 'assets/patient-pic.jpg'" alt="Patient" class="patient-pic" />
-                    {{ invoice.patientName || 'No Data Available' }}
-                  </td>
-                  <td>{{ invoice.date || 'No Data Available' }}</td>
-                  <td>{{ invoice.amount || 'No Data Available' }}</td>
-                  <td><span class="status" [ngClass]="invoice.status?.toLowerCase() || 'awaiting'">{{ invoice.status || 'AWAITING' }}</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <ng-template #noInvoices>
-          <p>No Invoices Available</p>
-        </ng-template>
-      </div>
-    </div>
+    </ng-container>
+    <ng-template #noPrescriptions>
+      <p>No Prescriptions Available</p>
+    </ng-template>
   </div>
 </div>

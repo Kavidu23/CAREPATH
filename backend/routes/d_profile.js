@@ -63,7 +63,7 @@ router.get('/statistics', authenticateDoctor, (req, res) => {
 });
 
 // Get doctor's appointments
-router.get('/appointments', authenticateDoctor, (req, res) => {
+router.get('/appointments', authenticateDoctor,(req, res) => {
     const { Did } = req.session.doctor;
     const query = `
         SELECT Appointment.Aid, Patient.Fname, Patient.Lname, Appointment.Date, Appointment.Time, Appointment.Type, Appointment.Did
@@ -79,7 +79,7 @@ router.get('/appointments', authenticateDoctor, (req, res) => {
 });
 
 // Get doctor’s bank details
-router.get('/bank-details', authenticateDoctor, (req, res) => {
+router.get('/bank-details', authenticateDoctor,(req, res) => {
     const { Did } = req.session.doctor;
     const query = `SELECT * FROM Accounts WHERE Aid = (SELECT Aid FROM Doctor WHERE Did = ?)`;
 
@@ -102,7 +102,7 @@ router.put('/bank-details', authenticateDoctor, (req, res) => {
 });
 
 // Get medical records
-router.get('/medical-records', authenticateDoctor, (req, res) => {
+router.get('/medical-records', authenticateDoctor,(req, res) => {
     const { Did } = req.session.doctor;
     const query = `
         SELECT Record.Rid, Patient.Fname, Patient.Lname, Record.Diagnosis, Record.BloodType, Record.MedicalHistory, Record.Allergies, Record.CreatedAt
@@ -134,7 +134,7 @@ router.get('/prescriptions', authenticateDoctor, (req, res) => {
 });
 
 // Get invoices
-router.get('/invoices', authenticateDoctor, (req, res) => {
+router.get('/invoices', authenticateDoctor,(req, res) => {
     const { Did } = req.session.doctor;
     const query = `
         SELECT Invoice.Id, Patient.Fname, Patient.Lname, Invoice.TotalAmount, Invoice.Discount, Invoice.FinalAmount, Invoice.PaymentMethod, Invoice.IssuedDate, Invoice.PaymentStatus
@@ -149,26 +149,49 @@ router.get('/invoices', authenticateDoctor, (req, res) => {
     });
 });
 
-// Update clinic availability
-router.put('/uclinics/:CCid', authenticateDoctor, (req, res) => {
-    const { CCid } = req.params;
-    const { availability } = req.body;
-
-    const query = `UPDATE clinic_doctor SET Availability = ? WHERE CCid = ?`;
-    connection.query(query, [availability, CCid], (err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", error: err });
-        res.json({ message: "Availability updated successfully" });
-    });
-});
-
-// Logout route to destroy the session
-router.post('/logout', (req, res) => {
-    req.session.destroy((err) => {
+router.get('/today_patients', async (req, res) => {
+    try {
+      // Log session data to check if the doctor data is available
+      console.log('Session data:', req.session);
+  
+      if (!req.session.doctor) {
+        return res.status(400).json({ error: 'Doctor data not found in session' });
+      }
+  
+      const { Did } = req.session.doctor;  // Assuming doctorId is stored in session
+      if (!Did) {
+        return res.status(400).json({ error: 'Doctor ID not found in session' });
+      }
+  
+      const today = new Date().toISOString().split('T')[0]; // Get today's date in 'YYYY-MM-DD' format
+      const query = `
+        SELECT COUNT(DISTINCT Pid) as total_patients
+        FROM appointment
+        WHERE Did = ? AND DATE(Date) = ?
+      `;
+  
+      console.log('Executing query with Did:', Did, 'and today:', today); // Log query parameters
+  
+      // Use connection.query instead of db.query
+      connection.query(query, [Did, today], (err, result) => {
         if (err) {
-            return res.status(500).json({ message: 'Failed to log out' });
+          console.error('Error executing query:', err);  // Log error
+          return res.status(500).json({ error: 'Database error', message: err.message });
         }
-        res.json({ message: 'Logged out successfully' });
-    });
-});
-
+  
+        console.log('Query result:', result);  // Log the result
+  
+        if (!result || result.length === 0) {
+          return res.status(404).json({ error: 'No data found for today\'s patients' });
+        }
+  
+        res.json({ total_patients: result[0]?.total_patients || 0 });
+      });
+    } catch (error) {
+      console.error('Error fetching today\'s patients:', error);  // Log the full error
+      res.status(500).json({ error: 'Internal Server Error', message: error.message }); // Return error message
+    }
+  });
+  
+  
 module.exports = router;

@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const rateLimit = require('express-rate-limit');
 const app = express();
 
 // CORS Configuration
@@ -18,6 +19,16 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: false }  // Set to true in production with HTTPS
 }));
+
+// Rate Limit Middleware Configuration
+const limiter = rateLimit({
+  windowMs: 1000,  // 1 second
+  max: 1000, // Limit each IP to 5 requests per second (adjust for testing)
+  message: 'Too many requests from this IP, please try again later.',
+});
+
+// Apply the rate limit to all routes
+app.use(limiter);
 
 // Parse JSON request bodies
 app.use(express.json());
