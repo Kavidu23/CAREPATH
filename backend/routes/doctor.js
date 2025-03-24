@@ -307,7 +307,13 @@ router.get('/reports',authenticateDoctor,(req, res) => {
     });
 });
 
-
+router.get('/session-doctor', (req, res) => {
+    if (req.session.doctor) {
+      return res.status(200).json(true);
+    } else {
+      return res.status(401).json({ message: 'Doctor session not found' });
+    }
+  });
 
 
 

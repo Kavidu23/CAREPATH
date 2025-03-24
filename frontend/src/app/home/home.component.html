@@ -1,13 +1,4 @@
-<div *ngIf="isUserLoggedIn; else notLoggedIn">
-    <!-- Show header for logged-in users -->
-    <app-nheader></app-nheader>
-  </div>
-  
-  <ng-template #notLoggedIn>
-    <!-- Show alternative header for non-logged-in users -->
-    <app-header></app-header>
-  </ng-template>
-  
+<app-header></app-header>
 <!--main image-->
 <div class="hero-section">
     <div class="container">

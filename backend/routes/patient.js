@@ -62,7 +62,7 @@ router.post('/signup', (req, res) => {
 
 
 // Logout Route
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     if (!req.session.user) {
         return res.status(400).json({ message: "No active session to log out" });
     }
@@ -348,12 +348,18 @@ router.get('/reports',authenticateUser,(req, res) => {
     });
 });
 
-router.get('/session-user', (req, res) => {
-    if (req.session.user) {
-        res.json(req.session.user); // Return session user data
-    } else {
-        res.status(401).json({ message: 'User not logged in' });
+router.get('/session-patient', authenticateUser, (req, res) => {
+    // Check if session exists
+    if (!req.session) {
+        return res.status(500).json({ message: 'Session is not initialized' });
     }
+
+    // Check if user is stored in session
+    if (!req.session.user) {
+        return res.status(401).json({ message: 'Patient session not found' });
+    }
+
+    return res.status(200).json(true);
 });
 
 

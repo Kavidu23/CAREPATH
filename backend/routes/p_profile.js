@@ -179,4 +179,65 @@ router.get('/reports', authenticateUser, (req, res) => {
     });
 });
 
+// Get prescription
+router.get('/prescription', authenticateUser, (req, res) => {
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Patient session not found." }); // Or 403, depending on your auth logic
+    }
+  
+    const { Pid } = req.session.user;
+  
+    const queries = `
+      SELECT Rid, prescription.Did, Duration, Frequency, Description, doctor.Fname
+      FROM prescription left join doctor on prescription.Did=doctor.Did
+      WHERE Pid = ?;
+    `;
+  
+    connection.query(queries, [Pid], (error, results) => {
+      if (error) {
+        console.error("Database error:", error); // Log the error for debugging
+        return res.status(500).json({ message: "Database error", error: error }); // 500 for server error
+      }
+  
+      if (results.length === 0) {
+        return res.status(404).json({ message: "No prescriptions found for this patient." });
+      }
+  
+      res.status(200).json(results);
+    });
+  });
+
+
+
+
+
+// Get invoice
+router.get('/invoice', authenticateUser, (req, res) => {
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Patient session not found." }); // Or 403, depending on your auth logic
+    }
+  
+    const { Pid } = req.session.user;
+  
+    const queries = `
+      SELECT Invoice.Pid, Patient.Fname, IssuedDate, FinalAmount, PaymentStatus
+      FROM Invoice
+      LEFT JOIN Patient ON Invoice.Pid = Patient.Pid
+      WHERE Invoice.Pid = ?;
+    `;
+  
+    connection.query(queries, [Pid], (error, results) => {
+      if (error) {
+        console.error("Database error:", error); // Log the error for debugging
+        return res.status(500).json({ message: "Database error", error: error }); // 500 for server error
+      }
+  
+      if (results.length === 0) {
+        return res.status(404).json({ message: "No invoice found for this patient." });
+      }
+  
+      res.status(200).json(results);
+    });
+  });  
+
 module.exports = router;

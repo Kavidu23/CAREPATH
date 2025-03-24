@@ -97,6 +97,25 @@ export class DataService {
     return this.http.post<any>(`${this.baseUrl}patient/login`, loginData, { withCredentials: true }); // API endpoint for login
   }
 
+  doctorLogout(): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}doctor/logout`, { withCredentials: true });
+  }
+  
+  patientLogout(): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}patient/logout`, {},{ withCredentials: true });
+  }
+  
+  // ✅ Check if the current session belongs to a doctor
+  checkDoctorSession(): Observable<any> {
+    return this.http.get(`${this.baseUrl}doctor/session-doctor`, { withCredentials: true });
+  }
+
+  // ✅ Check if the current session belongs to a patient
+  checkPatientSession(): Observable<any> {
+    return this.http.get(`${this.baseUrl}patient/session-patient`, { withCredentials: true });
+  }
+
+  
   // Add the signUpDoctor method to handle doctor registration
   signUpDoctor(formData: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}doctor/signup`, formData); // API endpoint for doctor registration
@@ -148,6 +167,15 @@ export class DataService {
     return this.http.get<any>(`${this.baseUrl}session/check-doctor-session`, { withCredentials: true });
   }
 
+  // Fetch prescriptions from patient
+  getPatientPrescriptions(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}p_profile/prescription`, { withCredentials: true });
+  }
+  
+  //get patent invoice
+  getPatientInvoice(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}p_profile/invoice`, { withCredentials: true });
+  }
  
     
   

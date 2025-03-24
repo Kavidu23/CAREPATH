@@ -27,8 +27,8 @@ export class PDashboardComponent implements OnInit, OnDestroy {
 
   upcomingAppointments: { id: string; doctorName: string; date: string; time: string; specialty?: string; location?: string; clinicName?: string; type?: string; }[] = [];
   pastAppointments: { id: string; doctorName: string; date: string; time: string; duration?: string; specialty?: string; location?: string; clinicName?: string; type?: string; }[] = [];
-  prescriptions: { id: string; medication: string; doctorName: string; duration: string; date?: string }[] = [];
-  invoices: { id: string; patientName: string; date: string; amount: string; status: string }[] = [];
+  prescriptions: { id: string; frequency: string; description: string; doctor: string; }[] = [];
+  invoices: { id: string; Fname: string; Date: string; Amount: string; Status: string }[] = [];
 
   private isLoading = false;
   private subscription = new Subscription();
@@ -53,8 +53,8 @@ export class PDashboardComponent implements OnInit, OnDestroy {
       { fetch: this.dataService.getPatientProfile(), target: 'patientProfile', isArray: false },
       { fetch: this.dataService.getPatientUpcomingAppointments(), target: 'upcomingAppointments', isArray: true },
       { fetch: this.dataService.getPastAppointments(), target: 'pastAppointments', isArray: true },
-      { fetch: this.dataService.getPrescriptions(), target: 'prescriptions', isArray: true },
-      { fetch: this.dataService.getInvoices(), target: 'invoices', isArray: true }
+      { fetch: this.dataService.getPatientPrescriptions(), target: 'prescriptions', isArray: true },
+      { fetch: this.dataService.getPatientInvoice(), target: 'invoices', isArray: true }
     ];
 
     let requests = of(null);
@@ -150,21 +150,22 @@ export class PDashboardComponent implements OnInit, OnDestroy {
       case 'prescriptions':
         this.prescriptions = (data || []).map((pres: any) => ({
           id: pres.Rid?.toString() || pres.id?.toString() || 'Unknown',
-          medication: pres.Medication || pres.medication || 'N/A',
-          doctorName: `${pres.DoctorFname || pres.Fname || 'N/A'} ${pres.DoctorLname || pres.Lname || 'N/A'}`,
-          duration: pres.Duration || pres.duration || 'N/A',
-          date: pres.Date || pres.date || 'N/A',
+          doctor: pres.Fname || pres.doctor || 'N/A',
+          frequency: `${pres.Frequency || pres.frequency || 'N/A'} ${pres.DoctorLname || pres.Lname || 'N/A'}`,
+          description: pres.Description || pres.description || 'N/A'
         }));
         break;
       case 'invoices':
-        this.invoices = (data || []).map((inv: any) => ({
-          id: inv.id?.toString() || inv.InvoiceId?.toString() || 'Unknown',
-          patientName: `${inv.Fname || inv.firstName || 'N/A'} ${inv.Lname || inv.lastName || 'N/A'}`,
-          date: inv.Date || inv.date || 'N/A',
-          amount: inv.Amount || inv.amount || 'N/A',
-          status: inv.Status || inv.status || 'Pending',
-        }));
-        break;
+          this.invoices = (data || []).map((inv: any) => ({
+              id: inv.Pid?.toString() || 'Unknown',
+              Name: `${inv.Fname || 'N/A'}`,
+              Date: inv.IssuedDate || 'N/A',
+              Amount: inv.FinalAmount || 'N/A',
+              Status: inv.PaymentStatus || 'Pending',
+          }));
+          console.log(this.invoices);  // Debugging line to check the data
+          break;
+             
     }
   }
 
@@ -211,6 +212,17 @@ export class PDashboardComponent implements OnInit, OnDestroy {
     const isConfirmed = window.confirm("Are you sure you want to cancel this appointment?");
     if (isConfirmed) {
       this.cancelAppointment(appointmentId);
+    }
+  }
+
+  
+  joinAppointment(appointmentId: string) {
+    // Ask for confirmation to join the appointment
+    const confirmJoin = confirm('Are you sure you want to join the appointment?');
+    if (confirmJoin) {
+      console.log(`Joining online appointment with ID: ${appointmentId}`);
+      // You can redirect to a meeting link or perform any action
+      // Example: window.location.href = 'https://example.com/meeting-link';
     }
   }
   
