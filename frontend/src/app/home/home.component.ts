@@ -6,6 +6,7 @@ import { DataService } from '../data.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NewheaderComponent } from "../newheader/newheader.component";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,8 @@ export class HomeComponent implements OnInit {
   searchResults: any[] = [];
   searchDebounceTimeout: any;
   user: any = null;
+  isUserLoggedIn: boolean = false; // Track user session status
+  isDoctorLoggedIn: boolean = false; // Track doctor session status
 
   constructor(
     private dataService: DataService,
@@ -37,7 +40,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeData();
-    this.loadUserSession();
+    this.loadUserSession(); // Load user session
+    this.loadDoctorSession(); // Load doctor session
   }
 
   private initializeData(): void {
@@ -46,16 +50,34 @@ export class HomeComponent implements OnInit {
     this.loadTestimonials();
   }
 
-  private loadUserSession(): void {
-    try {
-      if (isPlatformBrowser(this.platformId)) {
-        const storedUser = sessionStorage.getItem('user');
-        this.user = storedUser ? JSON.parse(storedUser) : null;
+  loadUserSession(): void {
+    this.dataService.getUserSession().subscribe({
+      next: (response) => {
+        console.log('User session response:', response); // Log response to check the value
+        this.isUserLoggedIn = response.loggedIn; // Set login status based on backend response
+      },
+      error: () => {
+        this.isUserLoggedIn = false; // Set loggedIn to false in case of an error
+        console.error('Error fetching user session');
       }
-    } catch (error) {
-      console.error('Error accessing sessionStorage:', error);
-    }
+    });
   }
+  
+  loadDoctorSession(): void {
+    this.dataService.getDoctorSession().subscribe({
+      next: (response) => {
+        console.log('Doctor session response:', response); // Log response to check the value
+        this.isDoctorLoggedIn = response.loggedIn; // Set login status based on backend response
+      },
+      error: () => {
+        this.isDoctorLoggedIn = false; // Set loggedIn to false in case of an error
+        console.error('Error fetching doctor session');
+      }
+    });
+  }
+  
+
+  
 
   loadSpecialtyData() {
     this.dataService.getDoctorCounts().subscribe(

@@ -13,8 +13,8 @@
   }
   
   .profile-pic {
-    width: 100px;
-    height: 100px;
+    width: 170px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 10px;
@@ -152,7 +152,7 @@
   
   /* Reports Section */
   .reports-section {
-    margin-top: 20px;
+    margin-top: 30px;
   }
   
   .reports-section h4 {

@@ -3,16 +3,28 @@ const connection = require('../connection'); // Import connection
 const { authenticateUser } = require('../services/userMiddleware'); // Import middleware
 const router = express.Router();
 require('dotenv').config();
+const session = require('express-session');
+
+
+// Setup session middleware
+router.use(session({
+    secret: process.env.SESSION_SECRET, // Store a secret in your .env file
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if you're using HTTPS
+}));
+
+
 
 // Get patient profile
-router.get('/profile', authenticateUser, (req, res) => {
-    if (!req.session.patient) return res.status(401).json({ message: "Unauthenticated" });
+router.get('/profile', authenticateUser ,(req, res) => {
+    if (!req.session.user) return res.status(401).json({ message: "Unauthenticated, Session not available" });
 
     const { Pid } = req.session.user;
-    const query = `SELECT Pid, Fname, Lname, Gender,Image,TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age 
-                   FROM Patient
-                   JOIN Patient_Details ON Patient.Pid = Patient_Details.Pid
-                   WHERE Patient.Pid = ?`;
+    const query = `SELECT Patient.Pid, Fname, Lname, Gender, Image, TIMESTAMPDIFF(YEAR, Birthdate, CURDATE()) AS Age
+FROM Patient
+JOIN Patient_Details ON Patient.Pid = Patient_Details.Pid
+WHERE Patient.Pid = ?;`;
 
     connection.query(query, [Pid], (err, results) => {
         if (err) return res.status(500).json({ message: "Database error", error: err });
@@ -21,14 +33,34 @@ router.get('/profile', authenticateUser, (req, res) => {
 });
 
 // Get upcoming appointments
-router.get('/appointments/upcoming',authenticateUser, (req, res) => {
+router.get('/upcoming',authenticateUser, (req, res) => {
     const { Pid } = req.session.user;
-    const query = `SELECT Appointment.Aid, Doctor.Fname AS DoctorName, Doctor.Lname, Doctor.Specialization, 
-                          Appointment.Date, Appointment.Time, Appointment.Type 
-                   FROM Appointment 
-                   JOIN Doctor ON Appointment.Did = Doctor.Did
-                   WHERE Appointment.Pid = ? AND Appointment.Date >= CURDATE() 
-                   ORDER BY Appointment.Date, Appointment.Time`;
+    const query = `SELECT
+    Appointment.Aid,
+    Doctor.Fname AS DoctorName,
+    Doctor.Lname,
+    Doctor_Specialization.Specialization,
+    Appointment.Date,
+    Appointment.Time,
+    Appointment.Type,
+    Clinic.Name AS ClinicName,
+    Clinic.Location AS ClinicLocation
+FROM
+    Appointment
+JOIN
+    Doctor ON Appointment.Did = Doctor.Did
+JOIN
+    Doctor_Specialization ON Doctor.Did = Doctor_Specialization.Did
+LEFT JOIN
+    Doctor_Clinic ON Doctor.Did = Doctor_Clinic.Did  -- Ensure doctors with no clinic still appear
+LEFT JOIN
+    Clinic ON Doctor_Clinic.Cid = Clinic.Cid  -- Ensure appointments appear even if no clinic is assigned
+WHERE
+    Appointment.Pid = ? 
+    AND Appointment.Date >= CURDATE()
+ORDER BY
+    Appointment.Date, Appointment.Time;
+`;
 
     connection.query(query, [Pid], (err, results) => {
         if (err) return res.status(500).json({ message: "Database error", error: err });
@@ -53,18 +85,40 @@ router.delete('/appointments/cancel/:Aid',authenticateUser, (req, res) => {
 // Get past appointments
 router.get('/appointments/past',authenticateUser, (req, res) => {
     const { Pid } = req.session.user;
-    const query = `SELECT Appointment.Aid, Doctor.Fname AS DoctorName, Doctor.Lname, Doctor.Specialization, 
-                          Appointment.Date, Appointment.Time, Appointment.Type 
-                   FROM Appointment 
-                   JOIN Doctor ON Appointment.Did = Doctor.Did
-                   WHERE Appointment.Pid = ? AND Appointment.Date < CURDATE() 
-                   ORDER BY Appointment.Date DESC`;
+    const query = `SELECT
+    Appointment.Aid,
+    Doctor.Fname AS DoctorName,
+    Doctor.Lname,
+    Doctor_Specialization.Specialization,
+    Appointment.Date,
+    Appointment.Time,
+    Appointment.Type,
+    Clinic.Name AS ClinicName,
+    Clinic.Location AS ClinicLocation
+FROM
+    Appointment
+JOIN
+    Doctor ON Appointment.Did = Doctor.Did
+JOIN
+    Doctor_Specialization ON Doctor.Did = Doctor_Specialization.Did
+LEFT JOIN
+    Doctor_Clinic ON Doctor.Did = Doctor_Clinic.Did  -- Changed to LEFT JOIN
+LEFT JOIN
+    Clinic ON Doctor_Clinic.Cid = Clinic.Cid  -- Changed to LEFT JOIN
+WHERE
+    Appointment.Pid = ? AND Appointment.Date < CURDATE()
+ORDER BY
+    Appointment.Date DESC;
+`;
 
     connection.query(query, [Pid], (err, results) => {
         if (err) return res.status(500).json({ message: "Database error", error: err });
         res.json(results);
     });
 });
+
+
+
 
 // Reschedule an appointment
 router.put('/appointments/reschedule/:Aid', authenticateUser, (req, res) => {

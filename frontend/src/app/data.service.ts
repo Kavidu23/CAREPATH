@@ -20,7 +20,7 @@ export class DataService {
     return this.http.get<any>(`${this.baseUrl}d_profile/profile`, { withCredentials: true });
   }
 
-  // Fetch upcoming appointments
+  // Fetch upcoming appointments doctor
   getUpcomingAppointments(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}d_profile/appointments`, { withCredentials: true });
   }
@@ -94,7 +94,7 @@ export class DataService {
   // Login API call
   login(email: string, password: string): Observable<any> {
     const loginData = { Email: email, Password: password };
-    return this.http.post<any>(`${this.baseUrl}patient/login`, loginData); // API endpoint for login
+    return this.http.post<any>(`${this.baseUrl}patient/login`, loginData, { withCredentials: true }); // API endpoint for login
   }
 
   // Add the signUpDoctor method to handle doctor registration
@@ -106,4 +106,49 @@ export class DataService {
     const loginData = { Email: email, Password: password };
     return this.http.post<any>(`${this.baseUrl}doctor/login`, loginData, { withCredentials: true }); // API endpoint for doctor login
   }
+
+    // Fetch patient profile
+    getPatientProfile(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}p_profile/profile`, { withCredentials: true });
+    }
+  
+    // Fetch upcoming appointments patient
+    getPatientUpcomingAppointments(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}p_profile/upcoming`, { withCredentials: true });
+    }
+  
+    // Cancel an appointment
+    cancelAppointment(Aid: string): Observable<any> {
+      return this.http.delete<any>(`${this.baseUrl}p_profile/appointments/cancel/${Aid}`, { withCredentials: true });
+    }
+  
+    // Fetch past appointments
+    getPastAppointments(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}p_profile/appointments/past`, { withCredentials: true });
+    }
+  
+    // Reschedule an appointment
+    rescheduleAppointment(Aid: string, newDate: string, newTime: string): Observable<any> {
+      const body = { newDate, newTime };
+      return this.http.put<any>(`${this.baseUrl}p_profile/appointments/reschedule/${Aid}`, body, { withCredentials: true });
+    }
+  
+    // Fetch reports (Appointments, Medical Records, Prescriptions, Invoices)
+    getReports(): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}p_profile/reports`, { withCredentials: true });
+    }
+    
+   // API call to check if the user session exists
+  getUserSession(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}session/check-user-session`, { withCredentials: true });
+  }
+
+  // API call to check if the doctor session exists
+  getDoctorSession(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}session/check-doctor-session`, { withCredentials: true });
+  }
+
+ 
+    
+  
 }

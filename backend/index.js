@@ -11,6 +11,7 @@ const dlistRouter = require('./routes/d_list');
 const clinicRouter = require('./routes/clinics');
 const priflistRouter = require('./routes/p_profile');
 const homecareRouter = require('./routes/homecare');
+const sessionRouter=require('./routes/session');
 const app = express();
 
 // Configure MySQL session store
@@ -34,5 +35,6 @@ app.use('/d_list', dlistRouter);
 app.use('/clinics', clinicRouter);
 app.use('/p_profile', priflistRouter);
 app.use('/home-care', homecareRouter);
+app.use('/session', sessionRouter);
 
 module.exports = app;

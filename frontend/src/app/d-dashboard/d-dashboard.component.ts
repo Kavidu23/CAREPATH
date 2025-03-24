@@ -63,11 +63,11 @@ export class DDashboardComponent implements OnInit, OnDestroy {
         concatMap(() =>
           call.fetch.pipe(
             tap(() => console.log(`Fetching ${call.target} (Request ${index + 1}/${apiCalls.length})`)),
-            delay(2000),
+            delay(20),
             retryWhen(errors =>
               errors.pipe(
                 tap(err => console.warn(`Retrying ${call.target} due to:`, err)),
-                delay(3000),
+                delay(30),
                 take(2)
               )
             ),
