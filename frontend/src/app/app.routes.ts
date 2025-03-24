@@ -18,19 +18,21 @@ import { BooknowComponent } from './booknow/booknow.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { DregistrationComponent } from './dregistration/dregistration.component';
 import { DloginComponent } from './dlogin/dlogin.component';
+import { doctorAuthGuard } from './doctor.guard';
+import { patientAuthGuard } from './patient.guard';
 
 
 export const routes: Routes = [
   {path: 'home', component: HomeComponent },  // Route for Home
   {path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect empty path to Home
-  {path: 'doctor-dashboard', component: DDashboardComponent},
-  {path: 'patient-dashboard', component: PDashboardComponent},
+  {path: 'doctor-dashboard', component: DDashboardComponent, canActivate:[doctorAuthGuard]},
+  {path: 'patient-dashboard', component: PDashboardComponent,canActivate:[patientAuthGuard]},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'doctor-list', component: DlistComponent},
-  {path: 'doctor-profile', component: DprofileComponent},
-  {path: 'patient-profile', component: PprofileComponent},
-  {path: 'change-password', component: ChangepComponent},
+  {path: 'doctor-profile', component: DprofileComponent,canActivate:[doctorAuthGuard]},
+  {path: 'patient-profile', component: PprofileComponent,canActivate:[patientAuthGuard]},
+  {path: 'change-password', component: ChangepComponent,canActivate:[patientAuthGuard]},
   {path: 'hospital', component: HospitalComponent},
   {path: 'supplier', component: SupplierComponent},
   {path: 'homecare', component: HomecareComponent},
@@ -38,7 +40,7 @@ export const routes: Routes = [
   {path: 'company', component: CompanyComponent},
   {path: 'book-confirm', component: BooksComponent},
   {path: 'book-now', component: BooknowComponent},
-  {path: 'feedback', component: FeedbackComponent},
+  {path: 'feedback', component: FeedbackComponent,canActivate:[patientAuthGuard]},
   {path: 'doctor-registration',component:DregistrationComponent},
   {path:'doctor-login',component:DloginComponent},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)

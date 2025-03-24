@@ -194,13 +194,13 @@ router.put('/updateEmail',authenticateUser,(req,res)=>{
 
 // Delete a patient
 router.delete('/delete', authenticateUser, (req, res) => {
-    const { Email } = req.body; // Destructure Email from req.body
+    const { Pid } = req.session.user; // Destructure Email from req.body
 
     if (!Email) {
         return res.status(400).json({ message: "Email is required" });
     }
 
-    connection.query("DELETE FROM Patient WHERE Email = ?", [Email], (err, results) => {
+    connection.query("DELETE FROM Patient WHERE Email = ?", [Pid], (err, results) => {
         if (err) {
             return res.status(500).json({ message: "Database error" });
         }

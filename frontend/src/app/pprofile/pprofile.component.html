@@ -1,79 +1,21 @@
-<app-header></app-header>
+<app-nheader></app-nheader>
 
-<!-- patient-profile.component.html -->
 <div class="patient-profile-container">
     <!-- Header -->
     <div class="header-section text-center">
-        <img src="assets/patient-pic.jpg" alt="Patient Profile" class="profile-pic" />
-        <h2 class="patient-name">Caroline Niomi</h2>
-        <p class="patient-details">Female | 23 years 02 months | ID - 1234</p>
-    </div>
-
-    <!-- Profile Section -->
-    <div class="profile-section">
-        <h4>PROFILE</h4>
-        <div class="profile-card">
-            <!-- Profile Image Upload -->
-            <div class="mb-3">
-                <label class="form-label">Profile Image</label>
-                <div class="upload-box">
-                    <input type="file" id="profileImage" class="form-control" style="display: none;" />
-                    <label for="profileImage" class="upload-label">
-                        <i class="bx bx-upload"></i> Upload New
-                    </label>
-                    <span class="upload-info">Your image should below 4 MB. Accepted format: .jpg, .png, .svg</span>
-                    <a href="#" class="remove-link">Remove</a>
-                </div>
-            </div>
-
-            <!-- Form Fields -->
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="Enter first name" />
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="Enter last name" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="phone" class="form-label">Phone number</label>
-                    <input type="text" class="form-control" id="phone" placeholder="Enter phone number" />
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter email address" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="location" class="form-label">Current - Location</label>
-                    <input type="text" class="form-control" id="location" placeholder="Enter current location" />
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="gender" class="form-label">Gender</label>
-                    <select class="form-control" id="gender">
-                        <option value="">Select gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="dob" class="form-label">Date of Birth</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="dob" placeholder="Select date of birth" />
-                    <span class="input-group-text"><i class="bx bx-calendar"></i></span>
-                </div>
-            </div>
-
-            <!-- Save Button -->
-            <button class="btn btn-primary w-100">Save</button>
+        <div class="profile-image-wrapper">
+            <img [src]="patientProfile.image ? 'assets/' + patientProfile.image : 'assets/profile-pic.jpg'"
+                alt="Doctor Profile" class="profile-pic" width="50" height="50" />
         </div>
+        <h2 class="patient-name">{{ patientProfile.firstName }} {{ patientProfile.lastName }}</h2>
+        <p class="patient-details">
+            {{ patientProfile.gender || 'Not Specified' }} |
+            {{ patientProfile.age || 'Not Specified' }} |
+            ID - {{ patientProfile.patientId || 'N/A' }}
+        </p>
     </div>
+
+    
 
     <!-- Password Section -->
     <div class="password-section">
@@ -83,16 +25,15 @@
                 <div>
                     <p class="mb-0"><strong>Change Password</strong></p>
                 </div>
-                <a href="#" class="change-link">Change</a>
+                <a href="#" class="change-link" (click)="changePassword(); $event.preventDefault()">Change</a>
             </div>
         </div>
     </div>
 
     <!-- Delete Account -->
     <div class="delete-account-section">
-        <a href="#" class="delete-link">Delete Account?</a>
+        <a href="#" class="delete-link" (click)="deleteAccount(); $event.preventDefault()">Delete Account?</a>
     </div>
 </div>
-
 
 <app-footer></app-footer>

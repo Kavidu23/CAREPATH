@@ -1,52 +1,64 @@
-<app-header></app-header>
-
-<!-- change-password.component.html -->
 <div class="change-password-container">
-    <div class="change-password-card">
-        <h4>Change Password</h4>
-        <form>
-            <!-- Current Password -->
-            <div class="mb-3">
-                <label for="currentPassword" class="form-label">Current Password <span class="required">*</span></label>
-                <div class="input-group">
-                    <input type="password" class="form-control" id="currentPassword"
-                        placeholder="Enter current password" />
-                    <span class="input-group-text">
-                        <i class="bx bx-show"></i>
-                    </span>
-                </div>
-            </div>
+  <div class="change-password-card">
+    <h4>Change Password</h4>
+    <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit()">
+      <!-- Current Password -->
+      <div class="mb-3">
+        <label for="currentPassword" class="form-label">Current Password <span class="required">*</span></label>
+        <div class="input-group">
+          <input [type]="showCurrentPassword ? 'text' : 'password'" class="form-control" id="currentPassword"
+                 formControlName="currentPassword" placeholder="Enter current password" />
+          <span class="input-group-text" (click)="togglePasswordVisibility('current')">
+            <i class="bx" [ngClass]="showCurrentPassword ? 'bx-hide' : 'bx-show'"></i>
+          </span>
+        </div>
+        <div *ngIf="changePasswordForm.get('currentPassword')?.touched && changePasswordForm.get('currentPassword')?.invalid" class="text-danger">
+          <small *ngIf="changePasswordForm.get('currentPassword')?.errors?.['required']">Current password is required.</small>
+          <small *ngIf="changePasswordForm.get('currentPassword')?.errors?.['minlength']">Password must be at least 6 characters long.</small>
+        </div>
+      </div>
 
-            <!-- New Password -->
-            <div class="mb-3">
-                <label for="newPassword" class="form-label">New Password <span class="required">*</span></label>
-                <div class="input-group">
-                    <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" />
-                    <span class="input-group-text">
-                        <i class="bx bx-show"></i>
-                    </span>
-                </div>
-            </div>
+      <!-- New Password -->
+      <div class="mb-3">
+        <label for="newPassword" class="form-label">New Password <span class="required">*</span></label>
+        <div class="input-group">
+          <input [type]="showNewPassword ? 'text' : 'password'" class="form-control" id="newPassword"
+                 formControlName="newPassword" placeholder="Enter new password" />
+          <span class="input-group-text" (click)="togglePasswordVisibility('new')">
+            <i class="bx" [ngClass]="showNewPassword ? 'bx-hide' : 'bx-show'"></i>
+          </span>
+        </div>
+        <div *ngIf="changePasswordForm.get('newPassword')?.touched && changePasswordForm.get('newPassword')?.invalid" class="text-danger">
+          <small *ngIf="changePasswordForm.get('newPassword')?.errors?.['required']">New password is required.</small>
+          <small *ngIf="changePasswordForm.get('newPassword')?.errors?.['minlength']">Password must be at least 6 characters long.</small>
+        </div>
+      </div>
 
-            <!-- Confirm Password -->
-            <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password <span class="required">*</span></label>
-                <div class="input-group">
-                    <input type="password" class="form-control" id="confirmPassword"
-                        placeholder="Confirm new password" />
-                    <span class="input-group-text">
-                        <i class="bx bx-show"></i>
-                    </span>
-                </div>
-            </div>
+      <!-- Confirm Password -->
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirm Password <span class="required">*</span></label>
+        <div class="input-group">
+          <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control" id="confirmPassword"
+                 formControlName="confirmPassword" placeholder="Confirm new password" />
+          <span class="input-group-text" (click)="togglePasswordVisibility('confirm')">
+            <i class="bx" [ngClass]="showConfirmPassword ? 'bx-hide' : 'bx-show'"></i>
+          </span>
+        </div>
+        <div *ngIf="changePasswordForm.get('confirmPassword')?.touched && changePasswordForm.get('confirmPassword')?.invalid" class="text-danger">
+          <small *ngIf="changePasswordForm.get('confirmPassword')?.errors?.['required']">Please confirm your new password.</small>
+        </div>
+        <div *ngIf="changePasswordForm.errors?.['mismatch'] && changePasswordForm.get('confirmPassword')?.touched" class="text-danger">
+          <small>Passwords do not match.</small>
+        </div>
+      </div>
 
-            <!-- Buttons -->
-            <div class="d-flex justify-content-end gap-2">
-                <button type="button" class="btn btn-outline-secondary">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-        </form>
-    </div>
+      <!-- Buttons -->
+      <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="changePasswordForm.invalid">Save Changes</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <app-footer></app-footer>

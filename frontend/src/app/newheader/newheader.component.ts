@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../data.service'; // Correct import
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-nheader',
+  imports: [RouterModule], // ✅ Added RouterModule for routing
   standalone: true,
   templateUrl: './newheader.component.html',
   styleUrls: ['./newheader.component.css']

@@ -5,7 +5,7 @@ import { DataService } from './data.service';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-export const patientAuthGuard: CanActivateFn = (route, state) => {
+export const patientAuthGuard: CanActivateFn = (route, state) => {  // ✅ Ensure 'export' is included
   const router = inject(Router);
   const dataService = inject(DataService);
 

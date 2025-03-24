@@ -176,7 +176,26 @@ export class DataService {
   getPatientInvoice(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}p_profile/invoice`, { withCredentials: true });
   }
- 
+  
+  //update patient
+  updatePatientEmail(formData: FormData): Observable<any> {
+    return this.http.put(`${this.baseUrl}patient/updateEmail`, formData, { withCredentials: true });
+  }
+
+  //delete patient account
+  deletePatientAccount(): Observable<any> {
+    return this.http.delete(`${this.baseUrl}patient/delete`, { withCredentials: true });
+  }
+  
+  //change patient passowrd
+  changePassword(oldpassword: string, newpassword: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}patient/changepassword`, {
+      oldpassword,
+      newpassword
+    }, { withCredentials: true });
+  }
+
+  
     
   
 }
