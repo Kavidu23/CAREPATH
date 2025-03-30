@@ -57,7 +57,7 @@ export class DataService {
 
   // Fetch doctor counts by specialization
   getDoctorCounts(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}home/doctor-counts`); // API endpoint for doctor counts
+    return this.http.get<any>(`${this.baseUrl}home/doctor-counts`, { withCredentials: true }); // API endpoint for doctor counts
   }
 
   // Fetch newly registered doctors
@@ -208,4 +208,28 @@ export class DataService {
   submitFeedback(feedback: any): Observable<any> {
     return this.http.post(`${this.baseUrl}patient/feedback`, feedback, { withCredentials: true });
   }
+
+
+  getDoctors(filters: any): Observable<any> {
+    let params = new HttpParams();
+
+    // Add filters to the URL params
+    if (filters.specialization) params = params.set('specialization', filters.specialization);
+    if (filters.gender) params = params.set('gender', filters.gender);
+    if (filters.availability) params = params.set('availability', filters.availability);
+
+    return this.http.post<any>(`${this.baseUrl}d_list`, { params });
+  }
+
+
+  // Get doctor details by ID
+  getDoctorById(doctorId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_list/:Did${doctorId}`, { withCredentials: true });
+  }
+
+
+  getDoctorsFiltered(filters: string) {
+    return this.http.get<any[]>(`${this.baseUrl}d_list/filter?${filters}`, { withCredentials: true });
+  }
+
 }

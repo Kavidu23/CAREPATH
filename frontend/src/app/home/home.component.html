@@ -95,32 +95,32 @@
     <div class="row specialties">
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-brain"></i>
-            <h5>Psychiatry</h5>
-            <p>{{ psychiatryCount }} Doctors</p>
+            <h5>Obstetrics</h5>
+            <p>{{ ObstetricsCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-dna"></i>
-            <h5>Endocrinology</h5>
-            <p>{{ endocrinologyCount }} Doctors</p>
+            <h5>Dermatologists</h5>
+            <p>{{ DermatologistCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-child"></i>
-            <h5>Pulmonology</h5>
-            <p>{{ pulmonologyCount }} Doctors</p>
+            <h5>Cardiologists</h5>
+            <p>{{ CardiologistCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-male"></i>
-            <h5>Urology</h5>
+            <h5>Urologist</h5>
             <p>{{ urologyCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-brain"></i>
-            <h5>Neurology</h5>
+            <h5>Neurologist</h5>
             <p>{{ neurologyCount }} Doctors</p>
         </div>
         <div class="col-md-2 text-center specialty-box">
             <i class="bx bx-heart"></i>
-            <h5>Cardiology</h5>
+            <h5>Pediatrician</h5>
             <p>{{ cardiologyCount }} Doctors</p>
         </div>
     </div>
@@ -135,7 +135,7 @@
     <div class="row new-doctors">
         <div *ngFor="let doctor of newlyRegisteredDoctors" class="col-md-3 doctor-card">
             <!-- Display doctor image -->
-            <img [src]="'assets/' + doctor.Image" alt="Doctor Image" class="doctor-img">
+            <img [src]="'assets/' + doctor.Image" alt="Doctor Image" height="50px" width="200px" class="doctor-img">
 
             <h5>{{ doctor.Specialization }}</h5>
             <p>{{ doctor.Fname }} {{ doctor.Lname }}</p>

@@ -17,9 +17,9 @@ import { HeadercheckComponent } from "../headercheck/headercheck.component";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  psychiatryCount: number = 0;
-  endocrinologyCount: number = 0;
-  pulmonologyCount: number = 0;
+  ObstetricsCount: number = 0;
+  DermatologistCount: number = 0;
+  CardiologistCount: number = 0;
   urologyCount: number = 0;
   neurologyCount: number = 0;
   cardiologyCount: number = 0;
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private dataService: DataService,
     @Inject(PLATFORM_ID) private platformId: any
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initializeData();
@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  
+
   loadDoctorSession(): void {
     this.dataService.getDoctorSession().subscribe({
       next: (response) => {
@@ -76,31 +76,31 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-  
 
-  
+
+
 
   loadSpecialtyData() {
     this.dataService.getDoctorCounts().subscribe(
       (data) => {
         data.forEach((specialty: { Specialization: string, doctorCount: number }) => {
-          switch (specialty.Specialization.toLowerCase()) {
-            case 'psychiatry':
-              this.psychiatryCount = specialty.doctorCount;
+          switch (specialty.Specialization) {
+            case 'Obstetrics':
+              this.ObstetricsCount = specialty.doctorCount;
               break;
-            case 'endocrinology':
-              this.endocrinologyCount = specialty.doctorCount;
+            case 'Dermatologist':
+              this.DermatologistCount = specialty.doctorCount;
               break;
-            case 'pulmonology':
-              this.pulmonologyCount = specialty.doctorCount;
+            case 'Cardiologist':
+              this.CardiologistCount = specialty.doctorCount;
               break;
-            case 'urology':
+            case 'Urologist':
               this.urologyCount = specialty.doctorCount;
               break;
-            case 'neurology':
+            case 'Neurologist':
               this.neurologyCount = specialty.doctorCount;
               break;
-            case 'cardiology':
+            case 'Pediatrician':
               this.cardiologyCount = specialty.doctorCount;
               break;
             default:

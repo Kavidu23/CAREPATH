@@ -132,7 +132,7 @@
 
       <!-- Consultation Fee -->
       <div class="form-group">
-        <label for="consultationFee">Consultation Fee (LKR)</label>
+        <label for="consultationFee">Consultation Fee (One Patient) (LKR)</label>
         <input type="number" id="consultationFee" name="ConsultationFee" class="form-control"
           [(ngModel)]="formData.ConsultationFee" required #consultationFeeInput="ngModel">
         <div *ngIf="consultationFeeInput.invalid && (consultationFeeInput.dirty || consultationFeeInput.touched)"

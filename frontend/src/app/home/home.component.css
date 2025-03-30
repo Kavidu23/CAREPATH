@@ -1,5 +1,5 @@
 .hero-section {
-  background: linear-gradient(to right, #add8e6 50%, #add8e6  50%);
+  background: linear-gradient(to right, #add8e6 50%, #add8e6 50%);
 }
 
 .hero-title {
@@ -71,15 +71,13 @@
   object-fit: fill;
 }
 
-
 /* Rest of the parts */
-
 
 .container {
   margin-bottom: 20px;
 }
 
-.container button{
+.container button {
   cursor: context-menu;
 }
 
@@ -150,16 +148,17 @@
 .new-doctors {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .doctor-card {
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
   width: 200px;
+
 }
 
 /* Testimonials */
@@ -170,20 +169,21 @@
 }
 
 .review-card {
-  padding: 10px;
+  padding: 30px;
   border-radius: 10px;
   background: #fff;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
   width: 300px;
 }
 
-.review-card .align{
+.review-card .align {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.review-card img{
+.review-card img {
+  height: 50px;
   border-radius: 60%;
 }
 
@@ -209,20 +209,19 @@
 }
 
 /* Styling for the Download App Section */
-.container-fluid{
+.container-fluid {
   margin-top: 50px;
   background-color: #8bbdf3;
   padding: 20px;
   border-radius: 20px;
 }
 
-.container-fluid button{
+.container-fluid button {
   background-color: #ffffff;
   margin: 30px;
 }
 
-
-a{
+a {
   text-decoration: none;
   color: #000;
 }
@@ -246,5 +245,3 @@ a{
 .search-suggestion:hover {
   background-color: #f1f1f1;
 }
-
-

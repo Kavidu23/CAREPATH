@@ -1,84 +1,130 @@
-const express = require('express');
-const connection = require('../connection'); // Import database connection
+const express = require("express");
+const connection = require("../connection"); // Import database connection
 const router = express.Router();
+const moment = require("moment"); // Use moment.js to handle date/time
 
-// Get all doctors with optional filters & pagination
-router.get('/', (req, res) => {
-    let { specialization, gender, availability, consultationType, clinic, location, search, page, limit } = req.query;
-    
-    page = page ? parseInt(page) : 1;
-    limit = limit ? parseInt(limit) : 10;
-    let offset = (page - 1) * limit;
+router.post("/", (req, res) => {
+  let { specialization, gender, availability, page, limit } = req.body;
 
-    let filters = [];
-    let values = [];
+  page = page ? parseInt(page) : 1;
+  limit = limit ? parseInt(limit) : 10;
+  let offset = (page - 1) * limit;
 
-    if (specialization) {
-        filters.push(`Specialization = ?`);
-        values.push(specialization);
+  let filters = [];
+  let values = [];
+
+  // Add filters based on request body
+  if (specialization) {
+    filters.push(`Specialization IN (?)`);
+    values.push(specialization.split(","));
+  }
+
+  if (gender) {
+    // Modify the gender filter to use IN with case-insensitive matching
+    filters.push(`LOWER(Gender) IN (?)`);
+    values.push([gender.toLowerCase()]); // Ensure case-insensitivity by converting to lowercase
+  }
+
+  if (availability) {
+    const currentDay = moment().format("dddd"); // Get today's day name (e.g., Monday)
+    filters.push(`Availability LIKE ?`);
+    values.push(`%${currentDay}%`);
+  }
+
+  // Construct the base query
+  let query = `SELECT doctor.Did, Image, Fname, Lname, Specialization, Gender, YearExperience, Location, 
+                          ConsultationFee 
+                   FROM doctor 
+                   LEFT JOIN doctor_specialization ON doctor.Did = doctor_specialization.Did`;
+
+  // If there are filters, append them to the query
+  if (filters.length > 0) {
+    query += ` WHERE ` + filters.join(" AND ");
+  }
+
+  // Add pagination
+  query += ` LIMIT ? OFFSET ?`;
+  values.push(limit, offset);
+
+  // Execute the query
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Database error", error: err });
     }
+    res.json(results);
+  });
+});
 
-    if (gender) {
-        filters.push(`Gender = ?`);
-        values.push(gender);
+router.get("/filter", (req, res) => {
+  const { specialization, gender, availability, page, limit } = req.query;
+
+  const pageNum = page ? parseInt(page) : 1;
+  const limitNum = limit ? parseInt(limit) : 10;
+  const offset = (pageNum - 1) * limitNum;
+
+  let filters = [];
+  let values = [];
+
+  // Add filters based on query parameters
+  if (specialization) {
+    filters.push(`Specialization = ?`);
+    values.push(specialization);
+  }
+
+  if (gender) {
+    filters.push(`Gender = ?`);
+    values.push(gender);
+  }
+
+  // Availability filter logic: check if doctor is available today or tomorrow
+  if (availability) {
+    const currentDay = moment().format("dddd"); // Get today's day name (e.g., Monday)
+    const currentTime = moment().format("HH:mm"); // Get current time in 24-hour format
+
+    // Add availability filter for today or tomorrow
+    filters.push(`(Availability LIKE ? OR Availability LIKE ?)`);
+    values.push(`%${currentDay}%`, `%${currentDay}%`);
+  }
+
+  // Construct the base query
+  let query = `SELECT doctor.Did, gender,Availability,Image, Fname, Lname, Specialization, Gender, YearExperience, Location, ConsultationFee 
+                 FROM doctor JOIN doctor_specialization ON doctor.Did = doctor_specialization.Did`;
+
+  // If there are filters, append them to the query
+  if (filters.length > 0) {
+    query += ` WHERE ` + filters.join(" AND ");
+  }
+
+  // Add pagination
+  query += ` LIMIT ? OFFSET ?`;
+  values.push(limitNum, offset);
+
+  // Execute the query
+  connection.query(query, values, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Database error", error: err });
     }
-
-    if (availability === "today") {
-        filters.push(`Did IN (SELECT Did FROM Doctor_Availability WHERE Date = CURDATE())`);
-    } else if (availability === "tomorrow") {
-        filters.push(`Did IN (SELECT Did FROM Doctor_Availability WHERE Date = DATE_ADD(CURDATE(), INTERVAL 1 DAY))`);
-    }
-
-    if (consultationType) {
-        filters.push(`Did IN (SELECT Did FROM Consultation_Type WHERE Type = ?)`);
-        values.push(consultationType);
-    }
-
-    if (clinic) {
-        filters.push(`Did IN (SELECT Did FROM Clinic_Doctor WHERE ClinicName = ?)`);
-        values.push(clinic);
-    }
-
-    if (location) {
-        filters.push(`Location = ?`);
-        values.push(location);
-    }
-
-    if (search) {
-        filters.push(`(Fname LIKE ? OR Lname LIKE ? OR Specialization LIKE ?)`);
-        values.push(`%${search}%`, `%${search}%`, `%${search}%`);
-    }
-
-    let query = `SELECT Did, Fname, Lname, Specialization, Gender, Experience, Location, 
-                        ConsultationFee, Rating 
-                 FROM Doctor`;
-
-    if (filters.length > 0) {
-        query += ` WHERE ` + filters.join(' AND ');
-    }
-
-    query += ` LIMIT ? OFFSET ?`;
-    values.push(limit, offset);
-
-    connection.query(query, values, (err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", error: err });
-        res.json(results);
-    });
+    res.json(results);
+  });
 });
 
 // Get a specific doctor by ID
-router.get('/:Did',  (req, res) => {
-    const { Did } = req.params;
+router.get("/:Did", (req, res) => {
+  const { Did } = req.params;
 
-    const query = `SELECT Did, Fname, Lname, Specialization, Gender, Experience, Location, 
-                          ConsultationFee, Rating, Description 
-                   FROM Doctor WHERE Did = ?`;
+  const query = `SELECT doctor.Did, Fname, Lname, Specialization, Gender, YearExperience, Location, 
+                        ConsultationFee 
+                 FROM doctor 
+                 LEFT JOIN doctor_specialization ON doctor.Did = doctor_specialization.Did
+                 WHERE doctor.Did = ?`;
 
-    connection.query(query, [Did], (err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", error: err });
-        if (results.length === 0) return res.status(404).json({ message: "Doctor not found" });
-        res.json(results[0]);
-    });
+  connection.query(query, [Did], (err, results) => {
+    if (err)
+      return res.status(500).json({ message: "Database error", error: err });
+    if (results.length === 0)
+      return res.status(404).json({ message: "Doctor not found" });
+    res.json(results[0]);
+  });
 });
 
 module.exports = router;
