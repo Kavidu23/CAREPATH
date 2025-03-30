@@ -5,6 +5,7 @@ import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { catchError, delay, concatMap, retryWhen, tap, take } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
+import { HeadercheckComponent } from "../headercheck/headercheck.component";
 
 interface TodayPatientsResponse {
   total_patients: number;  // Updated to reflect the backend response
@@ -13,7 +14,7 @@ interface TodayPatientsResponse {
 @Component({
   selector: 'app-d-dashboard',
   standalone: true,
-  imports: [CommonModule, NewheaderComponent],
+  imports: [CommonModule, NewheaderComponent, HeadercheckComponent],
   templateUrl: './d-dashboard.component.html',
   styleUrls: ['./d-dashboard.component.css']
 })

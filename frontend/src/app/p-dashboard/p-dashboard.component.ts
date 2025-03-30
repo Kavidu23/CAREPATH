@@ -7,11 +7,12 @@ import { catchError, delay, concatMap, retryWhen, tap, take } from 'rxjs/operato
 import { of, Subscription } from 'rxjs';
 import { FooterComponent } from "../footer/footer.component";
 import { HeaderComponent } from "../header/header.component";
+import { HeadercheckComponent } from "../headercheck/headercheck.component";
 
 @Component({
   selector: 'app-p-dashboard',
   standalone: true,
-  imports: [CommonModule, NewheaderComponent, FooterComponent, HeaderComponent],
+  imports: [CommonModule, NewheaderComponent, FooterComponent, HeaderComponent, HeadercheckComponent],
   templateUrl: './p-dashboard.component.html',
   styleUrls: ['./p-dashboard.component.css']
 })

@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
 import { HeaderComponent } from '../header/header.component'; // Import HeaderComponent
 import { RouterModule } from '@angular/router';
+import { HeadercheckComponent } from "../headercheck/headercheck.component";
 
 @Component({
   selector: 'app-dlogin',
   standalone: true,
-  imports: [FormsModule, CommonModule, HeaderComponent, RouterModule], // Add CommonModule for ngIf support
+  imports: [FormsModule, CommonModule, HeaderComponent, RouterModule, HeadercheckComponent], // Add CommonModule for ngIf support
   templateUrl: './dlogin.component.html',
   styleUrls: ['./dlogin.component.css']
 })

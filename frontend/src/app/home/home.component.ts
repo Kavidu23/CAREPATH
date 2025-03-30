@@ -7,11 +7,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NewheaderComponent } from "../newheader/newheader.component";
 import { Observable } from 'rxjs';
+import { HeadercheckComponent } from "../headercheck/headercheck.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule, HeaderComponent, FooterComponent, CommonModule, FormsModule, NewheaderComponent],
+  imports: [RouterModule, HeaderComponent, FooterComponent, CommonModule, FormsModule, NewheaderComponent, HeadercheckComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

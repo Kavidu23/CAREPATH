@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
+import { HeadercheckComponent } from "../headercheck/headercheck.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, FormsModule, FooterComponent, RouterModule],
+  imports: [HeaderComponent, CommonModule, FormsModule, FooterComponent, RouterModule, HeadercheckComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })

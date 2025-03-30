@@ -5,6 +5,7 @@ import { FooterComponent } from "../footer/footer.component";
 import { NewheaderComponent } from "../newheader/newheader.component";
 import { DataService } from '../data.service'; // Assuming you have a DataService
 import { Router } from '@angular/router';
+import { HeadercheckComponent } from "../headercheck/headercheck.component";
 
 @Component({
   selector: 'app-pprofile',
@@ -13,8 +14,9 @@ import { Router } from '@angular/router';
     CommonModule,
     HeaderComponent,
     FooterComponent,
-    NewheaderComponent
-  ],
+    NewheaderComponent,
+    HeadercheckComponent
+],
   templateUrl: './pprofile.component.html',
   styleUrls: ['./pprofile.component.css']
 })

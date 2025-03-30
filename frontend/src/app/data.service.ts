@@ -203,4 +203,9 @@ export class DataService {
   requestPasswordReset(email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}patient/forgotpassword`, { Email: email });
   }
+
+  //patient feedback
+  submitFeedback(feedback: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}patient/feedback`, feedback, { withCredentials: true });
+  }
 }

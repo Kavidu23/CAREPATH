@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common'; // For *ngIf, *ngFor, etc.
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from "../header/header.component";
 import { NewheaderComponent } from "../newheader/newheader.component";
-import { FooterComponent } from "../footer/footer.component"; // For routerLink directive
+import { FooterComponent } from "../footer/footer.component";
+import { HeadercheckComponent } from "../headercheck/headercheck.component"; // For routerLink directive
 
 @Component({
   selector: 'app-dregistration',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink, HeaderComponent, NewheaderComponent, FooterComponent], // Add necessary modules
+  imports: [FormsModule, CommonModule, RouterLink, HeaderComponent, NewheaderComponent, FooterComponent, HeadercheckComponent], // Add necessary modules
   templateUrl: './dregistration.component.html',
   styleUrls: ['./dregistration.component.css']
 })
