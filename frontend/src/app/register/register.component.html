@@ -25,7 +25,8 @@
       <!-- First Name -->
       <div class="form-group">
         <label for="fname">First Name</label>
-        <input type="text" id="fname" name="Fname" class="form-control" [(ngModel)]="formData.Fname" [required]="true" #fnameInput="ngModel">
+        <input type="text" id="fname" name="Fname" class="form-control" [(ngModel)]="formData.Fname" [required]="true"
+          #fnameInput="ngModel">
         <div *ngIf="fnameInput.invalid && (fnameInput.dirty || fnameInput.touched)" class="text-danger">
           First name is required.
         </div>
@@ -34,55 +35,68 @@
       <!-- Last Name -->
       <div class="form-group">
         <label for="lname">Last Name</label>
-        <input type="text" id="lname" name="Lname" class="form-control" [(ngModel)]="formData.Lname" [required]="true" #lnameInput="ngModel">
+        <input type="text" id="lname" name="Lname" class="form-control" [(ngModel)]="formData.Lname" [required]="true"
+          #lnameInput="ngModel">
         <div *ngIf="lnameInput.invalid && (lnameInput.dirty || lnameInput.touched)" class="text-danger">
           Last name is required.
         </div>
       </div>
 
-      <!-- Phone Number -->
+      <!-- Phone Number Field -->
       <div class="form-group">
         <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" name="Pnumber" class="form-control" [(ngModel)]="formData.Pnumber" [required]="true" #phoneInput="ngModel">
+        <input type="tel" id="phone" name="Pnumber" class="form-control" [(ngModel)]="formData.Pnumber"
+          [required]="true" #phoneInput="ngModel" pattern="^\d{10}$">
         <div *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="text-danger">
-          Phone number is required.
+          Phone number must be exactly 10 digits (no '+' or special characters).
         </div>
       </div>
 
       <!-- Email -->
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" name="Email" class="form-control" [(ngModel)]="formData.Email" [required]="true" email #emailInput="ngModel">
+        <input type="email" id="email" name="Email" class="form-control" [(ngModel)]="formData.Email" [required]="true"
+          email #emailInput="ngModel">
         <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="text-danger">
           Invalid email.
         </div>
       </div>
 
-      <!-- Password -->
+      <!-- Password Field -->
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="Password" class="form-control" [(ngModel)]="formData.Password" [required]="true" #passwordInput="ngModel">
+        <input type="password" id="password" name="Password" class="form-control" [(ngModel)]="formData.Password"
+          [required]="true" #passwordInput="ngModel">
         <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="text-danger">
           Password is required.
         </div>
+        <div *ngIf="formData.Password && (formData.Password.length < 4 || formData.Password.length > 6)"
+          class="text-danger">
+          Password must be between 4 and 6 characters.
+        </div>
       </div>
 
-      <!-- Confirm Password -->
+      <!-- Confirm Password Field -->
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" [(ngModel)]="formData.confirmPassword" [required]="true" #confirmPasswordInput="ngModel">
-        <div *ngIf="confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)" class="text-danger">
+        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+          [(ngModel)]="formData.confirmPassword" [required]="true" #confirmPasswordInput="ngModel">
+        <div *ngIf="confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)"
+          class="text-danger">
           Please confirm your password.
         </div>
-        <div *ngIf="formData.Password && formData.confirmPassword && formData.Password !== formData.confirmPassword" class="text-danger">
+        <div *ngIf="formData.Password && formData.confirmPassword && formData.Password !== formData.confirmPassword"
+          class="text-danger">
           Passwords do not match.
         </div>
       </div>
 
+
       <!-- Location -->
       <div class="form-group">
         <label for="location">Location</label>
-        <input type="text" id="location" name="Location" class="form-control" [(ngModel)]="formData.Location" [required]="true" #locationInput="ngModel">
+        <input type="text" id="location" name="Location" class="form-control" [(ngModel)]="formData.Location"
+          [required]="true" #locationInput="ngModel">
         <div *ngIf="locationInput.invalid && (locationInput.dirty || locationInput.touched)" class="text-danger">
           Location is required.
         </div>
@@ -91,7 +105,8 @@
       <!-- Gender -->
       <div class="form-group">
         <label for="gender">Gender</label>
-        <select id="gender" name="Gender" class="form-control" [(ngModel)]="formData.Gender" [required]="true" #genderInput="ngModel">
+        <select id="gender" name="Gender" class="form-control" [(ngModel)]="formData.Gender" [required]="true"
+          #genderInput="ngModel">
           <option value="" disabled selected>Select Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
@@ -103,13 +118,18 @@
       </div>
 
       <!-- Birthdate -->
-      <div class="form-group">
-        <label for="birthdate">Birthdate</label>
-        <input type="date" id="birthdate" name="Birthdate" class="form-control" [(ngModel)]="formData.Birthdate" [required]="true" #birthdateInput="ngModel">
-        <div *ngIf="birthdateInput.invalid && (birthdateInput.dirty || birthdateInput.touched)" class="text-danger">
-          Birthdate is required.
-        </div>
-      </div>
+<div class="form-group">
+  <label for="birthdate">Birthdate</label>
+  <input type="date" id="birthdate" name="Birthdate" class="form-control" [(ngModel)]="formData.Birthdate"
+    [attr.max]="maxBirthdate" required #birthdateInput="ngModel">
+  <div *ngIf="birthdateInput.invalid && (birthdateInput.dirty || birthdateInput.touched)" class="text-danger">
+    Birthdate is required.
+  </div>
+  <div *ngIf="formData.Birthdate && formData.Birthdate > maxBirthdate" class="text-danger">
+    Birth year must be **2005 or earlier**.
+  </div>
+</div>
+
 
       <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Sign Up</button>
     </form>

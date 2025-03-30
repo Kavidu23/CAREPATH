@@ -20,6 +20,10 @@ import { DregistrationComponent } from './dregistration/dregistration.component'
 import { DloginComponent } from './dlogin/dlogin.component';
 import { doctorAuthGuard } from './doctor.guard';
 import { patientAuthGuard } from './patient.guard';
+import { EmailpasswordComponent } from './emailpassword/emailpassword.component';
+import { Component } from '@angular/core';
+import { ResetPasswordComponent } from './reset-password-component/reset-password-component.component';
+import { RequestPasswordResetComponent } from './request-password-reset-component/request-password-reset-component.component';
 
 
 export const routes: Routes = [
@@ -43,5 +47,8 @@ export const routes: Routes = [
   {path: 'feedback', component: FeedbackComponent,canActivate:[patientAuthGuard]},
   {path: 'doctor-registration',component:DregistrationComponent},
   {path:'doctor-login',component:DloginComponent},
+  {path :'app-emailpassword',component:EmailpasswordComponent},
+  {path:'reset-password', component:ResetPasswordComponent},
+  {path:'request-reset', component:RequestPasswordResetComponent},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];

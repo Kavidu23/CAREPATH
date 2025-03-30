@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class DataService {
   private baseUrl = 'http://localhost:3000/'; // Base URL for your API
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Method to check if the doctor is logged in
   checkSession(): Observable<any> {
@@ -68,8 +68,8 @@ export class DataService {
   getTodayPatients(): Observable<{ total_patients: number }> {
     return this.http.get<{ total_patients: number }>(`${this.baseUrl}d_profile/today_patients`, { withCredentials: true });
   }
-  
-  
+
+
 
   // Fetch testimonials
   getTestimonials(): Observable<any> {
@@ -100,11 +100,11 @@ export class DataService {
   doctorLogout(): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}doctor/logout`, { withCredentials: true });
   }
-  
+
   patientLogout(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}patient/logout`, {},{ withCredentials: true });
+    return this.http.post<any>(`${this.baseUrl}patient/logout`, {}, { withCredentials: true });
   }
-  
+
   // ✅ Check if the current session belongs to a doctor
   checkDoctorSession(): Observable<any> {
     return this.http.get(`${this.baseUrl}doctor/session-doctor`, { withCredentials: true });
@@ -115,7 +115,7 @@ export class DataService {
     return this.http.get(`${this.baseUrl}patient/session-patient`, { withCredentials: true });
   }
 
-  
+
   // Add the signUpDoctor method to handle doctor registration
   signUpDoctor(formData: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}doctor/signup`, formData); // API endpoint for doctor registration
@@ -126,38 +126,38 @@ export class DataService {
     return this.http.post<any>(`${this.baseUrl}doctor/login`, loginData, { withCredentials: true }); // API endpoint for doctor login
   }
 
-    // Fetch patient profile
-    getPatientProfile(): Observable<any> {
-      return this.http.get<any>(`${this.baseUrl}p_profile/profile`, { withCredentials: true });
-    }
-  
-    // Fetch upcoming appointments patient
-    getPatientUpcomingAppointments(): Observable<any> {
-      return this.http.get<any>(`${this.baseUrl}p_profile/upcoming`, { withCredentials: true });
-    }
-  
-    // Cancel an appointment
-    cancelAppointment(Aid: string): Observable<any> {
-      return this.http.delete<any>(`${this.baseUrl}p_profile/appointments/cancel/${Aid}`, { withCredentials: true });
-    }
-  
-    // Fetch past appointments
-    getPastAppointments(): Observable<any> {
-      return this.http.get<any>(`${this.baseUrl}p_profile/appointments/past`, { withCredentials: true });
-    }
-  
-    // Reschedule an appointment
-    rescheduleAppointment(Aid: string, newDate: string, newTime: string): Observable<any> {
-      const body = { newDate, newTime };
-      return this.http.put<any>(`${this.baseUrl}p_profile/appointments/reschedule/${Aid}`, body, { withCredentials: true });
-    }
-  
-    // Fetch reports (Appointments, Medical Records, Prescriptions, Invoices)
-    getReports(): Observable<any> {
-      return this.http.get<any>(`${this.baseUrl}p_profile/reports`, { withCredentials: true });
-    }
-    
-   // API call to check if the user session exists
+  // Fetch patient profile
+  getPatientProfile(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}p_profile/profile`, { withCredentials: true });
+  }
+
+  // Fetch upcoming appointments patient
+  getPatientUpcomingAppointments(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}p_profile/upcoming`, { withCredentials: true });
+  }
+
+  // Cancel an appointment
+  cancelAppointment(Aid: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}p_profile/appointments/cancel/${Aid}`, { withCredentials: true });
+  }
+
+  // Fetch past appointments
+  getPastAppointments(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}p_profile/appointments/past`, { withCredentials: true });
+  }
+
+  // Reschedule an appointment
+  rescheduleAppointment(Aid: string, newDate: string, newTime: string): Observable<any> {
+    const body = { newDate, newTime };
+    return this.http.put<any>(`${this.baseUrl}p_profile/appointments/reschedule/${Aid}`, body, { withCredentials: true });
+  }
+
+  // Fetch reports (Appointments, Medical Records, Prescriptions, Invoices)
+  getReports(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}p_profile/reports`, { withCredentials: true });
+  }
+
+  // API call to check if the user session exists
   getUserSession(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}session/check-user-session`, { withCredentials: true });
   }
@@ -171,12 +171,12 @@ export class DataService {
   getPatientPrescriptions(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}p_profile/prescription`, { withCredentials: true });
   }
-  
+
   //get patent invoice
   getPatientInvoice(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}p_profile/invoice`, { withCredentials: true });
   }
-  
+
   //update patient
   updatePatientEmail(formData: FormData): Observable<any> {
     return this.http.put(`${this.baseUrl}patient/updateEmail`, formData, { withCredentials: true });
@@ -186,7 +186,7 @@ export class DataService {
   deletePatientAccount(): Observable<any> {
     return this.http.delete(`${this.baseUrl}patient/delete`, { withCredentials: true });
   }
-  
+
   //change patient passowrd
   changePassword(oldpassword: string, newpassword: string): Observable<any> {
     return this.http.post(`${this.baseUrl}patient/changepassword`, {
@@ -194,8 +194,13 @@ export class DataService {
       newpassword
     }, { withCredentials: true });
   }
+  //reset password
+  resetPassword(email: string, token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}patient/resetpassword`, { email, token, newPassword }, { withCredentials: true });
+  }
 
-  
-    
-  
+  //patient forgot password
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}patient/forgotpassword`, { Email: email });
+  }
 }

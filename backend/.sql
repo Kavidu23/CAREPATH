@@ -204,3 +204,10 @@ CREATE TABLE clinic_doctor (
     Cid INT REFERENCES clinic(Cid) ON DELETE CASCADE,
     Did INT REFERENCES doctor(Did) ON DELETE CASCADE,
 );
+
+
+CREATE TABLE PasswordReset (
+    Email VARCHAR(255) PRIMARY KEY,
+    Token VARCHAR(64) NOT NULL,
+    Expiry DATETIME NOT NULL
+);

@@ -24,7 +24,7 @@ export class LoginComponent {
   onLogin(): void {
     this.errorMessage = '';
     this.successMessage = '';
-  
+    
     if (!this.email || !this.password) {
       this.errorMessage = 'Both email and password are required.';
       return;
@@ -47,12 +47,14 @@ export class LoginComponent {
           setTimeout(() => {
             this.router.navigate(['/patient-dashboard']);
           }, 2000);
+        } else if (error.status === 401) {
+          // Password incorrect
+          this.errorMessage = 'Incorrect email or password. Please try again.';
+        } else {
+          this.errorMessage = 'Login failed. Please try again later.';
         }
       }
     );
-  }
-  
-  
-  
+  }  
   
 }
