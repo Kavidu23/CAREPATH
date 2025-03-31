@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common'; // Import CommonModule
 export class HeadercheckComponent implements OnInit {
 
   isLoggedIn: boolean = false;
+  isDoctor: boolean = false; // New variable for doctor session check
 
   constructor(private DataService: DataService) { }
 
@@ -21,16 +22,24 @@ export class HeadercheckComponent implements OnInit {
     this.checkLoginStatus();
   }
 
-  // Check if the session belongs to a logged-in patient
+  // Check if the session belongs to a logged-in patient or doctor
   checkLoginStatus(): void {
     this.DataService.checkPatientSession().subscribe(
       (response) => {
-        // If the session is valid (true), set isLoggedIn to true
         this.isLoggedIn = response === true;
       },
       (error) => {
-        // If there is an error (e.g., patient session not found), set isLoggedIn to false
         this.isLoggedIn = false;
+      }
+    );
+
+    // Check if the session belongs to a doctor
+    this.DataService.checkDoctorSession().subscribe(
+      (response) => {
+        this.isDoctor = response === true;
+      },
+      (error) => {
+        this.isDoctor = false;
       }
     );
   }

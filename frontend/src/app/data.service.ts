@@ -105,12 +105,12 @@ export class DataService {
     return this.http.post<any>(`${this.baseUrl}patient/logout`, {}, { withCredentials: true });
   }
 
-  // ✅ Check if the current session belongs to a doctor
+  // Check if the current session belongs to a doctor
   checkDoctorSession(): Observable<any> {
     return this.http.get(`${this.baseUrl}doctor/session-doctor`, { withCredentials: true });
   }
 
-  // ✅ Check if the current session belongs to a patient
+  // Check if the current session belongs to a patient
   checkPatientSession(): Observable<any> {
     return this.http.get(`${this.baseUrl}patient/session-patient`, { withCredentials: true });
   }

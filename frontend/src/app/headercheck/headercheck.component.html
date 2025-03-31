@@ -1,2 +1,2 @@
-<app-header *ngIf="!isLoggedIn"></app-header>
-<app-nheader *ngIf="isLoggedIn"></app-nheader>
+<app-header *ngIf="!isLoggedIn && !isDoctor"></app-header>
+<app-nheader *ngIf="isLoggedIn || isDoctor"></app-nheader>
