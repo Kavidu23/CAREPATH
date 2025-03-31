@@ -34,7 +34,7 @@ export class PDashboardComponent implements OnInit, OnDestroy {
   private isLoading = false;
   private subscription = new Subscription();
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
     console.log('Patient dashboard initialized. Fetching data...');
@@ -123,30 +123,30 @@ export class PDashboardComponent implements OnInit, OnDestroy {
           age: profileData.Age || profileData.age || 'N/A',
         };
         break;
-        case 'upcomingAppointments':
+      case 'upcomingAppointments':
         this.upcomingAppointments = (data || []).map((appt: any) => ({
-        id: appt.Aid?.toString() || 'Unknown',
-        doctorName: appt.DoctorName || 'N/A',
-        date: appt.Date || 'N/A',
-        time: appt.Time || 'N/A',
-        specialty: appt.Specialization || 'N/A',
-        type: appt.Type || 'N/A',
-        clinicName: appt.ClinicName || 'N/A', // Added Clinic Name
-        location: appt.ClinicLocation || 'N/A', // Added Clinic Location
+          id: appt.Aid?.toString() || 'Unknown',
+          doctorName: appt.DoctorName || 'N/A',
+          date: appt.Date || 'N/A',
+          time: appt.Time || 'N/A',
+          specialty: appt.Specialization || 'N/A',
+          type: appt.Type || 'N/A',
+          clinicName: appt.ClinicName || 'N/A', // Added Clinic Name
+          location: appt.ClinicLocation || 'N/A', // Added Clinic Location
         }));
-     
+
         break;
-        case 'pastAppointments':
-          this.pastAppointments = (data || []).map((appt: any) => ({
-              id: appt.Aid?.toString() || 'Unknown',
-              doctorName: appt.DoctorName || 'N/A',
-              date: appt.Date || 'N/A',
-              time: appt.Time || 'N/A',
-              specialty: appt.Specialization || 'N/A', // Fixed from Specialty to Specialization
-              location: appt.ClinicLocation || 'N/A', // Fixed from Location to ClinicLocation
-              clinicName: appt.ClinicName || 'N/A', // Added ClinicName
-              type: appt.Type || 'N/A', // Added Type (Physical/Online)
-          }));      
+      case 'pastAppointments':
+        this.pastAppointments = (data || []).map((appt: any) => ({
+          id: appt.Aid?.toString() || 'Unknown',
+          doctorName: appt.DoctorName || 'N/A',
+          date: appt.Date || 'N/A',
+          time: appt.Time || 'N/A',
+          specialty: appt.Specialization || 'N/A', // Fixed from Specialty to Specialization
+          location: appt.ClinicLocation || 'N/A', // Fixed from Location to ClinicLocation
+          clinicName: appt.ClinicName || 'N/A', // Added ClinicName
+          type: appt.Type || 'N/A', // Added Type (Physical/Online)
+        }));
         break;
       case 'prescriptions':
         this.prescriptions = (data || []).map((pres: any) => ({
@@ -157,16 +157,16 @@ export class PDashboardComponent implements OnInit, OnDestroy {
         }));
         break;
       case 'invoices':
-          this.invoices = (data || []).map((inv: any) => ({
-              id: inv.Pid?.toString() || 'Unknown',
-              Name: `${inv.Fname || 'N/A'}`,
-              Date: inv.IssuedDate || 'N/A',
-              Amount: inv.FinalAmount || 'N/A',
-              Status: inv.PaymentStatus || 'Pending',
-          }));
-          console.log(this.invoices);  // Debugging line to check the data
-          break;
-             
+        this.invoices = (data || []).map((inv: any) => ({
+          id: inv.Pid?.toString() || 'Unknown',
+          Name: `${inv.Fname || 'N/A'}`,
+          Date: inv.IssuedDate || 'N/A',
+          Amount: inv.FinalAmount || 'N/A',
+          Status: inv.PaymentStatus || 'Pending',
+        }));
+        console.log(this.invoices);  // Debugging line to check the data
+        break;
+
     }
   }
 
@@ -216,7 +216,7 @@ export class PDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+
   joinAppointment(appointmentId: string) {
     // Ask for confirmation to join the appointment
     const confirmJoin = confirm('Are you sure you want to join the appointment?');
@@ -226,5 +226,5 @@ export class PDashboardComponent implements OnInit, OnDestroy {
       // Example: window.location.href = 'https://example.com/meeting-link';
     }
   }
-  
+
 }

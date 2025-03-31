@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { NewheaderComponent } from '../newheader/newheader.component';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
-import { catchError, delay, concatMap, retryWhen, tap, take } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { HeadercheckComponent } from "../headercheck/headercheck.component";
-
-interface TodayPatientsResponse {
-  total_patients: number;  // Updated to reflect the backend response
-}
+import { retryWhen, scan, delay } from 'rxjs/operators';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-d-dashboard',
@@ -27,17 +25,18 @@ export class DDashboardComponent implements OnInit, OnDestroy {
     Specialization: ''
   };
 
-  upcomingAppointments: { Fname: string; Lname: string; Date: string; Time: string }[] = [];
+  upcomingAppointments: { Aid?: string; Fname: string; Lname: string; Date: string; Time: string; Type: string }[] = [];
   clinicsAvailability: { Name: string; Location: string; fee?: string; availability?: { day: string; time: string }[] }[] = [];
-  appointments: { Aid?: string; Fname: string; Lname: string; Date: string; type: string; status?: string }[] = [];
+  appointments: { Aid?: string; Fname: string; Lname: string; Date: string; Type: string; status?: string }[] = [];
   prescriptions: { Rid?: string; Fname: string; Lname: string; Duration: string; Frequency: string }[] = [];
   invoices: { id?: string; patientPic?: string; patientName: string; date: string; amount: string; status?: string }[] = [];
-  todayPatients: number = 0; // To store today's patient count
+  newClinics: { Name: string; Location: string; Pnumber:String ;Cid: string; }[] = [];
+  totalPatients: number = 0; // Stores today's patient count
 
   private isLoading = false;
   private subscription = new Subscription();
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private dataService: DataService, private router: Router, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     if (this.isLoading) {
@@ -48,120 +47,219 @@ export class DDashboardComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     console.log('Fetching dashboard data...');
 
-    const apiCalls = [
-      { fetch: this.dataService.getDoctorProfile(), target: 'doctorProfile', isArray: false },
-      { fetch: this.dataService.getUpcomingAppointments(), target: 'upcomingAppointments', isArray: true },
-      { fetch: this.dataService.getClinicsAvailability(), target: 'clinicsAvailability', isArray: true },
-      { fetch: this.dataService.getAppointments(), target: 'appointments', isArray: true },
-      { fetch: this.dataService.getPrescriptions(), target: 'prescriptions', isArray: true },
-      { fetch: this.dataService.getInvoices(), target: 'invoices', isArray: true },
-      { fetch: this.dataService.getTodayPatients(), target: 'todayPatients', isArray: false } // New API call for todayPatients
-    ];
-
-    let requests = of(null);
-    apiCalls.forEach((call, index) => {
-      requests = requests.pipe(
-        concatMap(() =>
-          call.fetch.pipe(
-            tap(() => console.log(`Fetching ${call.target} (Request ${index + 1}/${apiCalls.length})`)),
-            delay(20),
-            retryWhen(errors =>
-              errors.pipe(
-                tap(err => console.warn(`Retrying ${call.target} due to:`, err)),
-                delay(30),
-                take(2)
-              )
-            ),
-            catchError(err => {
-              console.error(`Failed to fetch ${call.target}:`, err.status, err.statusText);
-              return of(call.isArray ? [] : {});
-            })
-          )
-        ),
-        concatMap(data => {
-          this.mapFetchedData(call.target, data);
-          return of(null);
-        })
-      );
-    });
-
-    this.subscription.add(requests.subscribe({
-      complete: () => {
-        console.log('All data fetched successfully:', {
-          doctorProfile: this.doctorProfile,
-          upcomingAppointments: this.upcomingAppointments,
-          clinicsAvailability: this.clinicsAvailability,
-          appointments: this.appointments,
-          prescriptions: this.prescriptions,
-          invoices: this.invoices,
-          todayPatients: this.todayPatients // Log the fetched todayPatients count
-        });
-        this.isLoading = false;
-      },
-      error: (err) => console.error('Request sequence failed:', err)
-    }));
+    // Fetching all the data at once
+    this.fetchDashboardData();
   }
 
-  private mapFetchedData(target: string, data: any) {
-    console.log(`Mapping data for ${target}:`, data); // Log data for debugging
+  private fetchDashboardData(): void {
+    this.subscription.add(
+      this.dataService.getDoctorProfile().pipe(
+        retryWhen((errors) =>
+          errors.pipe(
+            scan((retryCount, error) => {
+              if (retryCount >= 3 || error.status !== 429) {
+                throw error;
+              }
+              console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
+              return retryCount + 1;
+            }, 0),
+            delay(3000)
+          )
+        ),
+        tap((data) => {
+          this.doctorProfile = { ...this.doctorProfile, ...data };
+          console.log('Doctor Profile:', this.doctorProfile);
+        }),
+        catchError((err) => {
+          console.error('Failed to fetch doctor profile:', err);
+          return of({});
+        })
+      ).subscribe()
+    );
 
-    switch (target) {
-      case 'doctorProfile':
-        this.doctorProfile = { ...this.doctorProfile, ...data };
-        break;
-      case 'todayPatients':
-        // Since the backend returns { total_patients: 1 }, we need to map it correctly
-        this.todayPatients = data?.total_patients || 0; // Adjust according to backend response
-        break;  
-      case 'upcomingAppointments':
-        this.upcomingAppointments = (data as any[]).map(appt => ({
-          Fname: appt.Fname || 'N/A',
-          Lname: appt.Lname || 'N/A',
-          Date: appt.Date || 'N/A',
-          Time: appt.Time || 'N/A'
-        }));
-        break;
-      case 'clinicsAvailability':
-        this.clinicsAvailability = (data as any[]).map(clinic => ({
-          Name: clinic.Name || 'N/A',
-          Location: clinic.Location || 'N/A',
-          fee: clinic.fee || 'N/A',
-          availability: clinic.availability || []
-        }));
-        break;
-      case 'appointments':
-        this.appointments = (data as any[]).map(appt => ({
-          Aid: appt.Aid?.toString() || 'Unknown',
-          Fname: appt.Fname || 'N/A',
-          Lname: appt.Lname || 'N/A',
-          Date: appt.Date || 'N/A',
-          type: appt.Type || 'General',
-          status: appt.Status || 'AWAITING'
-        }));
-        break;
-      case 'prescriptions':
-        this.prescriptions = (data as any[]).map(pres => ({
-          Rid: pres.Rid?.toString() || 'Unknown',
-          Fname: pres.Fname || 'N/A',
-          Lname: pres.Lname || 'N/A',
-          Duration: pres.Duration || 'N/A',
-          Frequency: pres.Frequency || 'N/A'
-        }));
-        break;
-      case 'invoices':
-        this.invoices = (data as any[]).map(inv => ({
-          id: inv.id?.toString() || 'Unknown',
-          patientName: `${inv.Fname || 'N/A'} ${inv.Lname || 'N/A'}`,
-          date: inv.date || 'N/A',
-          amount: inv.amount || 'N/A',
-          status: inv.status || 'Pending'
-        }));
-        break;
-    }
+    this.subscription.add(
+      this.dataService.getUpcomingAppointments().pipe(
+        retryWhen((errors) =>
+          errors.pipe(
+            scan((retryCount, error) => {
+              if (retryCount >= 3 || error.status !== 429) {
+                throw error;
+              }
+              console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
+              return retryCount + 1;
+            }, 0),
+            delay(3000)
+          )
+        ),
+        tap((data) => {
+          this.upcomingAppointments = data || [];
+          console.log('Upcoming Appointments:', this.upcomingAppointments);
+        }),
+        catchError((err) => {
+          console.error('Failed to fetch upcoming appointments:', err);
+          return of([]);
+        })
+      ).subscribe()
+    );
+
+    this.subscription.add(
+      this.dataService.getClinicsAvailability().pipe(
+        retryWhen((errors) =>
+          errors.pipe(
+            scan((retryCount, error) => {
+              if (retryCount >= 3 || error.status !== 429) {
+                throw error;
+              }
+              console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
+              return retryCount + 1;
+            }, 0),
+            delay(3000)
+          )
+        ),
+        tap((data) => {
+          this.clinicsAvailability = data || [];
+          console.log('Clinics Availability:', this.clinicsAvailability);
+        }),
+        catchError((err) => {
+          console.error('Failed to fetch clinics availability:', err);
+          return of([]);
+        })
+      ).subscribe()
+    );
+
+    this.subscription.add(
+      this.dataService.getAppointments().pipe(
+        retryWhen((errors) =>
+          errors.pipe(
+            scan((retryCount, error) => {
+              if (retryCount >= 3 || error.status !== 429) {
+                throw error;
+              }
+              console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
+              return retryCount + 1;
+            }, 0),
+            delay(3000)
+          )
+        ),
+        tap((data) => {
+          this.appointments = data || [];
+          console.log('Appointments:', this.appointments);
+        }),
+        catchError((err) => {
+          console.error('Failed to fetch appointments:', err);
+          return of([]);
+        })
+      ).subscribe()
+    );
+
+    this.subscription.add(
+      this.dataService.getPrescriptions().pipe(
+        retryWhen((errors) =>
+          errors.pipe(
+            scan((retryCount, error) => {
+              if (retryCount >= 3 || error.status !== 429) {
+                throw error;
+              }
+              console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
+              return retryCount + 1;
+            }, 0),
+            delay(3000)
+          )
+        ),
+        tap((data) => {
+          this.prescriptions = data || [];
+          console.log('Prescriptions:', this.prescriptions);
+        }),
+        catchError((err) => {
+          console.error('Failed to fetch prescriptions:', err);
+          return of([]);
+        })
+      ).subscribe()
+    );
+
+    this.subscription.add(
+      this.dataService.getInvoices().pipe(
+        retryWhen((errors) =>
+          errors.pipe(
+            scan((retryCount, error) => {
+              if (retryCount >= 3 || error.status !== 429) {
+                throw error;
+              }
+              console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
+              return retryCount + 1;
+            }, 0),
+            delay(3000)
+          )
+        ),
+        tap((data) => {
+          this.invoices = data || [];
+          console.log('Invoices:', this.invoices);
+        }),
+        catchError((err) => {
+          console.error('Failed to fetch invoices:', err);
+          return of([]);
+        })
+      ).subscribe()
+    );
+
+    this.subscription.add(
+      this.dataService.getTodayPatients().pipe(
+        retryWhen((errors) =>
+          errors.pipe(
+            scan((retryCount, error) => {
+              if (retryCount >= 3 || error.status !== 429) {
+                throw error;
+              }
+              console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
+              return retryCount + 1;
+            }, 0),
+            delay(3000)
+          )
+        ),
+        tap((data) => {
+          this.totalPatients = data?.total_patients ?? 0;
+          console.log('Total Patients:', this.totalPatients);
+        }),
+        catchError((err) => {
+          console.error('Failed to fetch today\'s patients:', err);
+          return of({ total_patients: 0 });
+        })
+      ).subscribe()
+    );
+
+    this.subscription.add(
+      this.dataService.getNewClinicsDetails().pipe(
+        retryWhen((errors) =>
+          errors.pipe(
+            scan((retryCount, error) => {
+              if (retryCount >= 3 || error.status !== 429) {
+                throw error;
+              }
+              console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
+              return retryCount + 1;
+            }, 0),
+            delay(3000)
+          )
+        ),
+        tap((data) => {
+          this.newClinics = data || [];
+          console.log('Updated newClinics:', this.newClinics);
+        }),
+        catchError((err) => {
+          console.error('Failed to fetch clinics:', err);
+          return of([]);
+        })
+      ).subscribe()
+    );
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     console.log('Component destroyed, subscriptions cleaned up');
+  }
+
+  joinCall(appointmentId: string): void {
+    this.router.navigate(['/video-call', appointmentId]);
+    console.log(`Joining video call for appointment ID: ${appointmentId}`);
   }
 }

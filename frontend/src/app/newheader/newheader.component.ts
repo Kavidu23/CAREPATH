@@ -29,15 +29,19 @@ export class NewheaderComponent implements OnInit {
       next: (doctorResponse: any) => {
         if (doctorResponse === true) {
           this.dataService.doctorLogout().subscribe({
-            next: () => this.completeLogout(),
-            error: () => this.completeLogout()
+            next: () => {
+              this.completeLogout();  // Call completeLogout after doctor logout success
+            },
+            error: () => {
+              this.completeLogout();  // Call completeLogout even if there's an error during doctor logout
+            }
           });
         } else {
           this.checkPatientSession();
         }
       },
       error: () => {
-        this.checkPatientSession();
+        this.checkPatientSession();  // Proceed to check for patient session in case of error
       }
     });
   }
@@ -47,21 +51,25 @@ export class NewheaderComponent implements OnInit {
       next: (userResponse: any) => {
         if (userResponse === true) {
           this.dataService.patientLogout().subscribe({
-            next: () => this.completeLogout(),
-            error: () => this.completeLogout()
+            next: () => {
+              this.completeLogout();  // Call completeLogout after patient logout success
+            },
+            error: () => {
+              this.completeLogout();  // Call completeLogout even if there's an error during patient logout
+            }
           });
         } else {
-          this.completeLogout();
+          this.completeLogout();  // No session for either doctor or patient
         }
       },
       error: () => {
-        this.completeLogout();
+        this.completeLogout();  // Proceed to complete logout if checking session fails
       }
     });
   }
 
   private completeLogout(): void {
-    sessionStorage.removeItem('user');
-    this.router.navigate(['/login']);
+    sessionStorage.removeItem('user'); // Clear session storage
+    this.router.navigate(['/login']); // Redirect to login page
   }
 }

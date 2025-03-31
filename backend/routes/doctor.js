@@ -130,7 +130,6 @@ router.post('/login', async (req, res) => {
 
 
 //Logout doctor
-// Logout route
 router.post('/logout', (req, res) => {
     if (!req.session.doctor) {
         return res.status(400).json({ message: "You are not logged in." });

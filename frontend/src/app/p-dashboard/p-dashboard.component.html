@@ -11,192 +11,189 @@
   </div> -->
 
 
-  <!-- Header with Profile -->
-  <div class="header-section text-center">
-    <img [src]="patientProfile.image ? 'assets/' + patientProfile.image : 'assets/profile-pic.jpg'" alt="Doctor Profile"
-      class="profile-pic" width="50" height="50" />
-    <h2 class="patient-name">{{ patientProfile.firstName }} {{ patientProfile.lastName }}</h2>
-    <p class="patient-details">{{ patientProfile.gender }} | {{ patientProfile.age }} | ID - {{ patientProfile.patientId
-      || 'N/A' }}</p>
-  </div>
+<!-- Header with Profile -->
+<div class="header-section text-center">
+  <img [src]="patientProfile.image ? 'assets/' + patientProfile.image : 'assets/profile-pic.jpg'" alt="Doctor Profile"
+    class="profile-pic" width="50" height="50" />
+  <h2 class="patient-name">{{ patientProfile.firstName }} {{ patientProfile.lastName }}</h2>
+  <p class="patient-details">{{ patientProfile.gender }} | {{ patientProfile.age }} | ID - {{ patientProfile.patientId
+    || 'N/A' }}</p>
+</div>
 
-  <!-- Appointments Section -->
-  <div class="appointments-section">
-    <h4>UPCOMING APPOINTMENTS</h4>
-    <div class="row">
-      <div class="col-md-12" *ngFor="let appointment of upcomingAppointments">
-        <div class="appointment-card">
-          <div class="appointment-info d-flex align-items-center">
-            <div>
-              <h5>{{ appointment.doctorName }}</h5>
-              <p>{{ appointment.type }}</p>
-              <p>{{ appointment.specialty }}</p>
-              <p>{{ appointment.date }} - {{ appointment.time }} at {{ appointment.clinicName }} at {{
-                appointment.location }}</p>
-            </div>
+<!-- Appointments Section -->
+<div class="appointments-section">
+  <h4>UPCOMING APPOINTMENTS</h4>
+  <div class="row">
+    <div class="col-md-12" *ngFor="let appointment of upcomingAppointments">
+      <div class="appointment-card">
+        <div class="appointment-info d-flex align-items-center">
+          <div>
+            <h5>{{ appointment.doctorName }}</h5>
+            <p>{{ appointment.type }}</p>
+            <p>{{ appointment.specialty }}</p>
+            <p>{{ appointment.date }} - {{ appointment.time }} at {{ appointment.clinicName }} at {{
+              appointment.location }}</p>
           </div>
-          <button class="btn btn-danger" (click)="confirmCancel(appointment.id)">
-            <i class='bx bx-window-close' ></i> Cancel
-          </button>
-          <button class="btn btn-primary" (click)="rescheduleAppointment(appointment.id)">
-            <i class="bx bx-calendar"></i> Reschedule
-          </button>
-          <!-- Show "Join" button for online appointments -->
-          <button *ngIf="appointment.type === 'Online'" class="btn btn-primary"
-            (click)="joinAppointment(appointment.id)">
-            <i class="bx bx-video"></i>Join Call
-          </button>
         </div>
-      </div>
-      <div class="col-md-6" *ngIf="upcomingAppointments.length === 0">
-        <p>No upcoming appointments available.</p>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Book a New Appointment Section -->
-  <div class="book-appointment-section">
-    <div class="book-appointment-card">
-      <h5>Book a New Appointment</h5>
-      <button class="btn btn-primary" (click)="bookNewAppointment()">
-        <i class='bx bx-book-add'></i>Book Now
-      </button>
-    </div>
-  </div>
-
-  <!-- Past Appointments Section -->
-  <div class="past-appointments-section">
-    <h4>PAST APPOINTMENTS</h4>
-    <div class="past-appointment-card" *ngFor="let appointment of pastAppointments">
-      <div class="past-appointment-info d-flex align-items-center">
-        <div>
-          <h5>{{ appointment.doctorName }}</h5>
-          <p>{{ appointment.specialty }}</p>
-          <p><i class="bx bx-calendar"></i> {{ appointment.date }}</p>
-          <p><i class="bx bx-time"></i> {{ appointment.time }} ({{ appointment.duration }})</p>
-          <p><i class='bx bxs-category'></i> {{ appointment.type }}</p>
-          <p><i class='bx bxs-clinic'></i>{{ appointment.clinicName }}</p>
-          <p><i class="bx bx-map"></i> {{ appointment.location }}</p>
-        </div>
-      </div>
-      <div class="past-appointment-actions">
-        <button class="btn btn-warning duration-btn">
-          <i class="bx bx-time"></i> {{ appointment.duration }}
+        <button class="btn btn-danger" (click)="confirmCancel(appointment.id)">
+          <i class='bx bx-window-close'></i> Cancel
+        </button>
+        <!-- Show "Join" button for online appointments -->
+        <button *ngIf="appointment.type === 'Online'" class="btn btn-primary" (click)="joinAppointment(appointment.id)">
+          <i class="bx bx-video"></i>Join Call
         </button>
       </div>
     </div>
-    <p *ngIf="pastAppointments.length === 0">No past appointments available.</p>
+    <div class="col-md-6" *ngIf="upcomingAppointments.length === 0">
+      <p>No upcoming appointments available.</p>
+    </div>
   </div>
-  <br>
-  <!-- Tab Navigation -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="appointments-tab" data-bs-toggle="tab" href="#appointments"
-        role="tab">Appointments</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" href="#prescriptions" role="tab">Prescriptions</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab">Invoices</a>
-    </li>
-  </ul>
+</div>
 
-  <!-- Tab Content -->
-  <div class="tab-content">
-    <!-- Appointments Tab -->
-    <div class="tab-pane fade show active" id="appointments" role="tabpanel">
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DOCTOR</th>
-              <th>DATE</th>
-              <th>TYPE</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let appointment of pastAppointments">
-              <td>{{ appointment.id }}</td>
-              <td>
-                {{ appointment.doctorName }}
-              </td>
-              <td>{{ appointment.date }}, {{ appointment.time }}</td>
-              <td>Clinic Visit</td>
-              <td><span class="status completed">COMPLETED</span></td>
-            </tr>
-            <tr *ngIf="pastAppointments.length === 0">
-              <td colspan="5">No appointments available.</td>
-            </tr>
-          </tbody>
-        </table>
+
+<!-- Book a New Appointment Section -->
+<div class="book-appointment-section">
+  <div class="book-appointment-card">
+    <h5>Book a New Appointment</h5>
+    <button class="btn btn-primary" (click)="bookNewAppointment()">
+      <i class='bx bx-book-add'></i>Book Now
+    </button>
+  </div>
+</div>
+
+<!-- Past Appointments Section -->
+<div class="past-appointments-section">
+  <h4>PAST APPOINTMENTS</h4>
+  <div class="past-appointment-card" *ngFor="let appointment of pastAppointments">
+    <div class="past-appointment-info d-flex align-items-center">
+      <div>
+        <h5>{{ appointment.doctorName }}</h5>
+        <p>{{ appointment.specialty }}</p>
+        <p><i class="bx bx-calendar"></i> {{ appointment.date }}</p>
+        <p><i class="bx bx-time"></i> {{ appointment.time }} ({{ appointment.duration }})</p>
+        <p><i class='bx bxs-category'></i> {{ appointment.type }}</p>
+        <p><i class='bx bxs-clinic'></i>{{ appointment.clinicName }}</p>
+        <p><i class="bx bx-map"></i> {{ appointment.location }}</p>
       </div>
     </div>
-
-    <!-- Prescriptions Tab -->
-    <div class="tab-pane fade" id="prescriptions" role="tabpanel">
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DOCTOR</th>
-              <th>Frequency</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let prescription of prescriptions">
-              <td>{{ prescription.id }}</td>
-              <td>
-                {{ prescription.doctor}}
-              </td>
-              <td>{{ prescription.frequency}}</td>
-              <td>{{ prescription.description}}</td>
-              <td><a href="#" class="action-link"
-                  (click)="viewPrescription(prescription.id.toString()); $event.preventDefault()"><i class="bx bx-file"></i>
-                  View</a></td>
-            </tr>
-            <tr *ngIf="prescriptions.length === 0">
-              <td colspan="5">No prescriptions available.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="past-appointment-actions">
+      <button class="btn btn-warning duration-btn">
+        <i class="bx bx-time"></i> {{ appointment.duration }}
+      </button>
     </div>
-
-    <!-- Invoices Tab -->
-    <div class="tab-pane fade" id="invoices" role="tabpanel">
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>PATIENT</th>
-              <th>DATE</th>
-              <th>AMOUNT</th>
-              <th>STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let invoice of invoices">
-              <td>{{ invoice.id }}</td> <!-- 'id' instead of 'Pid' -->
-              <td>{{ invoice.Fname }}</td> <!-- 'patientName' instead of 'Fname' -->
-              <td>{{ invoice.Date}}</td> <!-- 'issuedDate' instead of 'IssuedDate' -->
-              <td>{{ invoice.Amount}}</td> <!-- 'finalAmount' instead of 'FinalAmount' -->
-              <td><span
-                  [ngClass]="{'status completed': invoice.Status=== 'PAID', 'status awaiting': invoice.Status !== 'PAID'}">
-                  {{ invoice.Status }}</span></td> <!-- 'paymentStatus' instead of 'PaymentStatus' -->
-            </tr>
-            <tr *ngIf="invoices.length === 0">
-              <td colspan="5">No invoices available.</td>
-            </tr>
-          </tbody>          
-        </table>
-      </div>
-    </div> 
   </div>
+  <p *ngIf="pastAppointments.length === 0">No past appointments available.</p>
+</div>
+<br>
+<!-- Tab Navigation -->
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="appointments-tab" data-bs-toggle="tab" href="#appointments"
+      role="tab">Appointments</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" href="#prescriptions" role="tab">Prescriptions</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab">Invoices</a>
+  </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content">
+  <!-- Appointments Tab -->
+  <div class="tab-pane fade show active" id="appointments" role="tabpanel">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>DOCTOR</th>
+            <th>DATE</th>
+            <th>TYPE</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appointment of pastAppointments">
+            <td>{{ appointment.id }}</td>
+            <td>
+              {{ appointment.doctorName }}
+            </td>
+            <td>{{ appointment.date }}, {{ appointment.time }}</td>
+            <td>Clinic Visit</td>
+            <td><span class="status completed">COMPLETED</span></td>
+          </tr>
+          <tr *ngIf="pastAppointments.length === 0">
+            <td colspan="5">No appointments available.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Prescriptions Tab -->
+  <div class="tab-pane fade" id="prescriptions" role="tabpanel">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>DOCTOR</th>
+            <th>Frequency</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prescription of prescriptions">
+            <td>{{ prescription.id }}</td>
+            <td>
+              {{ prescription.doctor}}
+            </td>
+            <td>{{ prescription.frequency}}</td>
+            <td>{{ prescription.description}}</td>
+            <td><a href="#" class="action-link"
+                (click)="viewPrescription(prescription.id.toString()); $event.preventDefault()"><i
+                  class="bx bx-file"></i>
+                View</a></td>
+          </tr>
+          <tr *ngIf="prescriptions.length === 0">
+            <td colspan="5">No prescriptions available.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Invoices Tab -->
+  <div class="tab-pane fade" id="invoices" role="tabpanel">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>PATIENT</th>
+            <th>DATE</th>
+            <th>AMOUNT</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let invoice of invoices">
+            <td>{{ invoice.id }}</td> <!-- 'id' instead of 'Pid' -->
+            <td>{{ invoice.Fname }}</td> <!-- 'patientName' instead of 'Fname' -->
+            <td>{{ invoice.Date}}</td> <!-- 'issuedDate' instead of 'IssuedDate' -->
+            <td>{{ invoice.Amount}}</td> <!-- 'finalAmount' instead of 'FinalAmount' -->
+            <td><span
+                [ngClass]="{'status completed': invoice.Status=== 'PAID', 'status awaiting': invoice.Status !== 'PAID'}">
+                {{ invoice.Status }}</span></td> <!-- 'paymentStatus' instead of 'PaymentStatus' -->
+          </tr>
+          <tr *ngIf="invoices.length === 0">
+            <td colspan="5">No invoices available.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 <app-footer></app-footer>

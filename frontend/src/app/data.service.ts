@@ -22,12 +22,17 @@ export class DataService {
 
   // Fetch upcoming appointments doctor
   getUpcomingAppointments(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}d_profile/appointments`, { withCredentials: true });
+    return this.http.get<any>(`${this.baseUrl}d_profile/upcoming-appointments`, { withCredentials: true });
   }
 
   // Fetch clinics availability
   getClinicsAvailability(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}d_profile/clinics`, { withCredentials: true });
+  }
+
+  //Fetch new clicnic
+  getNewClinicsDetails(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}d_profile/newClinics`, { withCredentials: true });
   }
 
   // Fetch bank details
@@ -65,10 +70,11 @@ export class DataService {
     return this.http.get<any>(`${this.baseUrl}home/newly-registered`); // API endpoint for newly registered doctors
   }
 
+  //Fetch today patinets
   getTodayPatients(): Observable<{ total_patients: number }> {
+    console.log('Fetching today’s patient count...');
     return this.http.get<{ total_patients: number }>(`${this.baseUrl}d_profile/today_patients`, { withCredentials: true });
   }
-
 
 
   // Fetch testimonials
@@ -98,7 +104,7 @@ export class DataService {
   }
 
   doctorLogout(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}doctor/logout`, { withCredentials: true });
+    return this.http.post<any>(`${this.baseUrl}doctor/logout`, {},{ withCredentials: true });
   }
 
   patientLogout(): Observable<any> {

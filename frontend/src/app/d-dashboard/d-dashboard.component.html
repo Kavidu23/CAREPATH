@@ -2,8 +2,8 @@
 <div class="dashboard-container">
   <!-- Header with Profile -->
   <div class="header-section text-center">
-    <img [src]="doctorProfile.Image ? 'assets/' + doctorProfile.Image : 'assets/profile-pic.jpg'" 
-         alt="Doctor Profile" class="profile-pic" width="50" height="50" />
+    <img [src]="doctorProfile.Image ? 'assets/' + doctorProfile.Image : 'assets/profile-pic.jpg'" alt="Doctor Profile"
+      class="profile-pic" width="50" height="50" />
     <h2 class="doctor-name">{{ (doctorProfile.Fname + ' ' + doctorProfile.Lname) || 'No Data Available' }}</h2>
     <p class="doctor-specialty">{{ doctorProfile.Specialization || 'No Data Available' }}</p>
   </div>
@@ -12,13 +12,13 @@
   <div class="stats-section row text-center justify-content-center">
     <div class="col-md-6 stat-box">
       <p class="stat-label">TODAY'S PATIENTS</p>
-      <h3 class="stat-value">{{ todayPatients || 'No Data Available' }}</h3>
+      <h3 class="stat-value">{{ totalPatients || 'No Data Available' }}</h3>
     </div>
   </div>
 
-  <!-- Upcoming Video Call Appointments -->
+  <!-- UpcomingAppointments -->
   <div class="upcoming-section">
-    <h4>UPCOMING VIDEO CALL APPOINTMENTS</h4>
+    <h4>UPCOMING APPOINTMENTS</h4>
     <ng-container *ngIf="upcomingAppointments.length > 0; else noUpcomingAppointments">
       <div *ngFor="let appointment of upcomingAppointments" class="upcoming-card">
         <div class="upcoming-info d-flex align-items-center">
@@ -28,7 +28,7 @@
             <p><i class="bx bx-calendar"></i> {{ appointment.Date | date:'yyyy-MM-dd' }} at {{ appointment.Time }}</p>
           </div>
         </div>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" *ngIf="appointment.Type === 'Online'" (click)="joinCall(appointment.Aid ?? '')">
           <i class="bx bx-video"></i> Join Call
         </button>
       </div>
@@ -44,7 +44,7 @@
     <ng-container *ngIf="clinicsAvailability.length > 0; else noClinics">
       <div *ngFor="let clinic of clinicsAvailability" class="clinic-card">
         <div class="clinic-info d-flex align-items-center">
-          <i class='bx bxs-clinic' ></i>
+          <i class='bx bxs-clinic'></i>
           <div>
             <h5>{{ clinic.Name }}</h5>
             <p class="clinic-location">{{ clinic.Location }}</p>
@@ -69,8 +69,6 @@
               <th>PATIENT</th>
               <th>DATE</th>
               <th>TYPE</th>
-              <th>STATUS</th>
-              <th>ACTION</th> <!-- Added Action column -->
             </tr>
           </thead>
           <tbody>
@@ -78,16 +76,7 @@
               <td>{{ appt.Aid || '#AF-0128' }}</td>
               <td>{{ appt.Fname + ' ' + appt.Lname }}</td>
               <td>{{ appt.Date | date:'yyyy-MM-dd' }}</td>
-              <td>{{ appt.type || 'No Data Available' }}</td>
-              <td><span class="status" [ngClass]="appt.status?.toLowerCase() || 'awaiting'">
-                  {{ appt.status || 'AWAITING' }}
-                </span></td>
-              <td>
-                <button *ngIf="appt.type === 'Online'" class="btn btn-primary">
-                  <i class="bx bx-video"></i> Join Call
-                </button>
-                <!-- No button for physical appointments -->
-              </td>
+              <td>{{ appt.Type || 'No Data Available' }}</td>
             </tr>
           </tbody>
         </table>
@@ -127,6 +116,24 @@
     </ng-container>
     <ng-template #noPrescriptions>
       <p>No Prescriptions Available</p>
+    </ng-template>
+  </div>
+
+  <!-- Clinics & Availability -->
+  <div class="clinics-section">
+    <h4>NEW CLINICS (Contact them if you need to register for)</h4>
+    <div *ngFor="let newclinic of newClinics" class="clinic-card">
+      <div class="clinic-info d-flex align-items-center">
+        <i class='bx bxs-clinic'></i>
+        <div>
+          <h5>{{ newclinic.Name }}</h5>
+          <p class="clinic-location">{{ newclinic.Location }}</p>
+          <p class="clinic-location">{{ newclinic.Pnumber }}</p>
+        </div>
+      </div>
+    </div>
+    <ng-template #noClinics>
+      <p>No Clinics Available</p>
     </ng-template>
   </div>
 </div>
