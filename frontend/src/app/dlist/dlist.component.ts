@@ -5,11 +5,12 @@ import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
 import { HeadercheckComponent } from "../headercheck/headercheck.component";
 import { DataService } from '../data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, HeadercheckComponent], // Ensure required modules are included
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, HeadercheckComponent],
   templateUrl: './dlist.component.html',
   styleUrls: ['./dlist.component.css']
 })
@@ -44,7 +45,7 @@ export class DlistComponent implements OnInit {
     }
   ];
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router) {}
 
   ngOnInit() {
     this.loadDoctors(); // Load available doctors initially
@@ -56,7 +57,6 @@ export class DlistComponent implements OnInit {
     });
   }
 
-  
   applyFilters() {
     let filters: any = {};
   
@@ -74,9 +74,8 @@ export class DlistComponent implements OnInit {
       console.log('Doctors fetched: ', this.doctors);
     });
   }
-     
 
   bookAppointment(doctor: any) {
-    console.log('Booking appointment for', doctor);
+    this.router.navigate(['/book-now'], { queryParams: { Did: doctor.Did } });
   }
 }

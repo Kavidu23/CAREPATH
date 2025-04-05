@@ -1,12 +1,12 @@
 <app-headercheck></app-headercheck>
 <!--main image-->
-<div class="hero-section">
+<div class="hero-section" data-aos="fade-up">
     <div class="container">
         <div class="row align-items-center">
             <!-- Left Side: Text and Search Box -->
             <div class="col-md-6 text-box">
                 <h1 class="hero-title">
-                    Discover Health: Find Best <span class="highlight">Doctors</span> Today
+                    Discover Health: Find Best<span class="highlights">Doctors</span>Today
                 </h1>
                 <div class="search-box">
                     <div class="input-group">
@@ -45,7 +45,7 @@
 
             <!-- Right Side: Doctor Image -->
             <div class="col-md-6 text-center">
-                <img src="../../assets/doctor.jpg"  alt="Doctor" class="doctor-img" />
+                <img src="../../assets/doctor.jpg" alt="Doctor" class="doctor-img" />
             </div>
         </div>
     </div>
@@ -57,7 +57,7 @@
 
 <div class="container">
     <!-- Top Navigation -->
-    <div class="top-nav d-flex justify-content-center flex-wrap">
+    <div class="top-nav d-flex justify-content-center flex-wrap" data-aos="fade-up">
         <div class="nav-item d-flex flex-column align-items-center">
             <div class="icon-circle">
                 <i class="bx bx-calendar" style='color:#f7f4f4'></i>
@@ -87,38 +87,37 @@
 
 
     <!-- Highlighting Care -->
-    <div class="text-center section-title">
-        <button id="title" class="btn btn-primary">Hospitals & Clinics</button>
+    <div class="text-center section-title" id="ttext">
         <h2>Highlighting the Care & Support</h2>
     </div>
 
-    <div class="row specialties">
-        <div class="col-md-2 text-center specialty-box">
+    <div class="row specialties" data-aos="zoom-in">
+        <div class="col-md-2 text-center specialty-box" data-aos-delay="100">
             <i class="bx bx-brain"></i>
             <h5>Obstetrics</h5>
             <p>{{ ObstetricsCount }} Doctors</p>
         </div>
-        <div class="col-md-2 text-center specialty-box">
+        <div class="col-md-2 text-center specialty-box" data-aos-delay="100">
             <i class="bx bx-dna"></i>
             <h5>Dermatologists</h5>
             <p>{{ DermatologistCount }} Doctors</p>
         </div>
-        <div class="col-md-2 text-center specialty-box">
+        <div class="col-md-2 text-center specialty-box" data-aos-delay="100">
             <i class="bx bx-child"></i>
             <h5>Cardiologists</h5>
             <p>{{ CardiologistCount }} Doctors</p>
         </div>
-        <div class="col-md-2 text-center specialty-box">
+        <div class="col-md-2 text-center specialty-box" data-aos-delay="100">
             <i class="bx bx-male"></i>
             <h5>Urologist</h5>
             <p>{{ urologyCount }} Doctors</p>
         </div>
-        <div class="col-md-2 text-center specialty-box">
+        <div class="col-md-2 text-center specialty-box" data-aos-delay="100">
             <i class="bx bx-brain"></i>
             <h5>Neurologist</h5>
             <p>{{ neurologyCount }} Doctors</p>
         </div>
-        <div class="col-md-2 text-center specialty-box">
+        <div class="col-md-2 text-center specialty-box" data-aos-delay="100">
             <i class="bx bx-heart"></i>
             <h5>Pediatrician</h5>
             <p>{{ cardiologyCount }} Doctors</p>
@@ -127,30 +126,29 @@
 
 
     <!-- Our New Doctors -->
-    <div class="text-center section-title">
-        <button id="title" class="btn btn-primary">Our New Doctors</button>
+    <div class="text-center section-title" data-aos="fade-up" id="ttext">
         <h2>Our New Doctors</h2>
     </div>
 
     <div class="row new-doctors">
-        <div *ngFor="let doctor of newlyRegisteredDoctors" class="col-md-3 doctor-card">
+        <div *ngFor="let doctor of newlyRegisteredDoctors" class="col-md-3 doctor-card" data-aos="fade-up"
+            data-aos-delay="200">
             <!-- Display doctor image -->
             <img [src]="'assets/' + doctor.Image" alt="Doctor Image" height="50px" width="200px" class="doctor-img">
 
             <h5>{{ doctor.Specialization }}</h5>
             <p>{{ doctor.Fname }} {{ doctor.Lname }}</p>
-            <button class="btn btn-primary">Book Now</button>
+            <a class="btn btn-primary" [routerLink]="['/book-now']" [queryParams]="{ Did: doctor.Did }">Book Now</a>
         </div>
     </div>
 
 
     <!-- Testimonials -->
-    <div class="text-center section-title">
-        <button id="title" class="btn btn-primary">Testimonial</button>
+    <div class="text-center section-title" id="ttext">
         <h2>15k Users Trust Us</h2>
     </div>
 
-    <div class="row testimonials">
+    <div class="row testimonials" data-aos="zoom-in-up">
         <div *ngFor="let testimonial of testimonials" class="col-md-3 review-card">
             <!-- Display feedback message -->
             <p>“{{ testimonial.Message }}”</p>
@@ -170,24 +168,101 @@
         </div>
     </div>
 
-
-    <!--App Image-->
-    <!-- Download App Section -->
-    <div class="container-fluid">
-        <div class="row banner align-items-center">
-            <div class="col text-center">
-                <h1 class="banner-title">Download Our App Now!</h1>
-                <p class="banner-subtitle">Access doctors, hospitals, and medical services instantly.</p>
-                <div class="btn-group">
-                    <button class="btn btn-play-store">
-                        <i class='bx bxl-play-store'></i> Google Play
-                    </button>
-                    <button class="btn btn-app-store">
-                        <i class="bx bxl-apple"></i> App Store
-                    </button>
-                </div>
-            </div>
-        </div>
+<!-- Blue Card Section (Only One Card, Full Width) -->
+<div class="p-5 blue-card text-center text-white" data-aos="fade-up" data-aos-duration="1200">
+    <h1 class="banner-title fw-bold">Get the Care You Need – Anytime, Anywhere!</h1>
+    <p class="banner-subtitle mt-3">Download our app to instantly access doctors, hospitals, and medical services.</p>
+    <div class="btn-group mt-4">
+        <a href="#" class="btn custom-btn google pulse">
+            <i class='bx bxl-play-store bounce-icon'></i> Google Play
+        </a>
+        <a href="#" class="btn custom-btn apple pulse">
+            <i class='bx bxl-apple bounce-icon'></i> App Store
+        </a>
     </div>
+</div>
+
+<!-- CSS -->
+<style>
+.blue-card {
+    width: 100%;
+    background: linear-gradient(135deg, #083364, rgba(24, 95, 187, 0.85));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease;
+    margin-top: 50px;
+    border-radius: 20px;
+}
+
+.blue-card:hover {
+    transform: scale(1.01);
+}
+
+.banner-title {
+    font-size: 2.5rem;
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.banner-subtitle {
+    font-size: 1.1rem;
+    color: #e0f7fa;
+}
+
+/* Buttons */
+.custom-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+    border: none;
+}
+
+/* Button gradients */
+.custom-btn.google {
+    background: linear-gradient(to right, #0f9d58, #34a853);
+}
+
+.custom-btn.apple {
+    background: linear-gradient(to right, #333333, #000000);
+}
+
+.custom-btn:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Pulse animation */
+.pulse {
+    animation: pulseButton 2.5s infinite ease-in-out;
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(255,255,255,0.2); }
+    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(255,255,255,0.2); }
+}
+
+/* Icon bounce */
+.bounce-icon {
+    animation: bounceIcon 2s infinite;
+}
+
+@keyframes bounceIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+</style>
+
+
+
 </div>
 <app-footer></app-footer>

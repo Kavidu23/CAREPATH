@@ -21,13 +21,16 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
+              "node_modules/aos/dist/aos.css",
               "src/styles.css"
             ],
             "scripts": [
+               "node_modules/aos/dist/aos.js"
               
             ],
             "server": "src/main.server.ts",
@@ -91,9 +94,12 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/aos/dist/aos.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/aos/dist/aos.js"
+            ]
           }
         }
       }

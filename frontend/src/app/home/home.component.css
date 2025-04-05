@@ -1,5 +1,5 @@
 .hero-section {
-  background: linear-gradient(to right, #add8e6 50%, #add8e6 50%);
+  background: linear-gradient(to right, #add8e6 50%, #bbedff4a 50%);
 }
 
 .hero-title {
@@ -8,7 +8,7 @@
   color: #000;
 }
 
-.highlight {
+.highlights {
   color: #337ab7;
 }
 
@@ -52,11 +52,11 @@
 }
 
 .search-btn i {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 /* Ensures the doctor image matches the left-side box */
-.text-box,
+
 .doctor-img {
   padding: 1px;
   height: 100%;
@@ -74,7 +74,7 @@
 /* Rest of the parts */
 
 .container {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .container button {
@@ -208,23 +208,8 @@
   font-size: 24px; /* Adjust icon size */
 }
 
+
 /* Styling for the Download App Section */
-.container-fluid {
-  margin-top: 50px;
-  background-color: #8bbdf3;
-  padding: 20px;
-  border-radius: 20px;
-}
-
-.container-fluid button {
-  background-color: #ffffff;
-  margin: 30px;
-}
-
-a {
-  text-decoration: none;
-  color: #000;
-}
 
 .search-suggestions {
   border: 1px solid #ddd;
@@ -245,3 +230,35 @@ a {
 .search-suggestion:hover {
   background-color: #f1f1f1;
 }
+
+#ttxt{
+  margin-bottom: 20px;
+}
+
+#ttext h2{
+  text-transform: uppercase;
+  
+}
+
+.search-suggestions {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  z-index: 999;
+  width: 100%;
+}
+
+.search-suggestion {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 16px; 
+}
+
+.search-suggestion:hover {
+  background-color: #f0f0f0;
+}
+

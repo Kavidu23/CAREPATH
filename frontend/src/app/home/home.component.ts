@@ -172,4 +172,6 @@ export class HomeComponent implements OnInit {
     this.searchLocation = doctor.Location;
     this.searchResults = [];
   }
+
+  
 }

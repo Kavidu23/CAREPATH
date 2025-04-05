@@ -1,199 +1,199 @@
 /* doctor-list.component.css */
 .doctor-list-container {
-    padding: 20px;
-    background-color: #f8f9fa;
-  }
-  
-  /* Header Section */
-  .header-section {
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-    padding: 20px;
-    border-radius: 10px;
-    color: white;
-    margin-bottom: 20px;
-  }
-  
-  .header-section h2 {
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  /* Search Bar */
-  .search-bar {
-    margin-bottom: 20px;
-  }
-  
-  .search-bar .input-group-text {
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-right: none;
-    border-radius: 10px 0 0 10px;
-    padding: 12px;
-  }
-  
-  .search-bar .form-control {
-    border-radius: 0 10px 10px 0;
-    border: 1px solid #e0e0e0;
-    border-left: none;
-    padding: 12px;
-    font-size: 14px;
-    background-color: #f9f9f9;
-  }
-  
-  .search-bar .form-control::placeholder {
-    color: #aaa;
-  }
-  
-  .search-bar .btn-primary {
-    background: #00c4cc;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-  }
-  
-  .search-bar .btn-primary:hover {
-    background: #00b0b8;
-  }
-  
-  /* Filter Section */
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+/* Header Section */
+.header-section {
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.header-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Search Bar */
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar .input-group-text {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  padding: 12px;
+}
+
+.search-bar .form-control {
+  border-radius: 0 10px 10px 0;
+  border: 1px solid #e0e0e0;
+  border-left: none;
+  padding: 12px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+.search-bar .form-control::placeholder {
+  color: #aaa;
+}
+
+.search-bar .btn-primary {
+  background-color: #083364;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.search-bar .btn-primary:hover {
+  background-color: #083364de;
+}
+
+/* Filter Section */
+.filter-section {
+  padding-right: 10px;
+}
+
+.filter-card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.filter-card h5 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00c4cc;
+  margin-bottom: 10px;
+}
+
+.form-check {
+  margin-bottom: 10px;
+}
+
+.form-check-label {
+  font-size: 14px;
+  color: #333;
+}
+
+.form-check-input:checked {
+  background-color: #00c4cc;
+  border-color: #00c4cc;
+}
+
+.count {
+  float: right;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.view-more {
+  color: #00c4cc;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.view-more:hover {
+  text-decoration: underline;
+}
+
+/* Doctor List Section */
+.doctor-list-section {
+  padding-left: 10px;
+}
+
+.doctor-card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.doctor-img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.rating {
+  font-size: 14px;
+  color: #ffcc00;
+  margin-bottom: 5px;
+}
+
+.rating .star {
+  font-size: 16px;
+}
+
+.doctor-card h5 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.doctor-card p {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+.doctor-card .fees {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.availability {
+  color: #28a745;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.doctor-card .btn-primary {
+  background: #0e82fc;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.doctor-card .btn-primary:hover {
+  background: #0e81fcc0;
+}
+
+/* Box Icons */
+.bx {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .filter-section {
-    padding-right: 10px;
+    margin-bottom: 20px;
   }
-  
-  .filter-card {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-  }
-  
-  .filter-card h5 {
-    font-size: 16px;
-    font-weight: bold;
-    color: #00c4cc;
-    margin-bottom: 10px;
-  }
-  
-  .form-check {
-    margin-bottom: 10px;
-  }
-  
-  .form-check-label {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .form-check-input:checked {
-    background-color: #00c4cc;
-    border-color: #00c4cc;
-  }
-  
-  .count {
-    float: right;
-    color: #aaa;
-    font-size: 12px;
-  }
-  
-  .view-more {
-    color: #00c4cc;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  
-  .view-more:hover {
-    text-decoration: underline;
-  }
-  
-  /* Doctor List Section */
+
   .doctor-list-section {
-    padding-left: 10px;
+    padding-left: 0;
   }
-  
-  .doctor-card {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
+
+  .doctor-card .col-md-3 {
+    text-align: center;
   }
-  
-  .doctor-img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-  }
-  
-  .rating {
-    font-size: 14px;
-    color: #ffcc00;
-    margin-bottom: 5px;
-  }
-  
-  .rating .star {
-    font-size: 16px;
-  }
-  
-  .doctor-card h5 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
-  }
-  
-  .doctor-card p {
-    font-size: 14px;
-    color: #6c757d;
-    margin-bottom: 5px;
-  }
-  
-  .doctor-card .fees {
-    color: #28a745;
-    font-weight: bold;
-  }
-  
-  .availability {
-    color: #28a745;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
+
   .doctor-card .btn-primary {
-    background: #00c4cc;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 14px;
+    width: 100%;
   }
-  
-  .doctor-card .btn-primary:hover {
-    background: #00b0b8;
-  }
-  
-  /* Box Icons */
-  .bx {
-    font-size: 18px;
-    vertical-align: middle;
-    margin-right: 5px;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .filter-section {
-      margin-bottom: 20px;
-    }
-  
-    .doctor-list-section {
-      padding-left: 0;
-    }
-  
-    .doctor-card .col-md-3 {
-      text-align: center;
-    }
-  
-    .doctor-card .btn-primary {
-      width: 100%;
-    }
-  }
+}
