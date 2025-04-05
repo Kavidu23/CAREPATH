@@ -238,4 +238,10 @@ export class DataService {
     return this.http.get<any[]>(`${this.baseUrl}d_list/filter?${filters}`, { withCredentials: true });
   }
 
+  // Fetch doctor details by ID
+  getDoctorByID(doctorId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}doctor/${doctorId}`, { withCredentials: true });
+  }
+  
+
 }

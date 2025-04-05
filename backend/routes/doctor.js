@@ -1,326 +1,421 @@
-const express = require('express');
-const connection = require('../connection'); // Import connection
-const { authenticateDoctor } = require('../services/doctorMiddleware'); // Import middleware
-const { authenticateAdmin } = require('../services/adminMiddleware'); // Import middleware
+const express = require("express");
+const connection = require("../connection"); // Import connection
+const { authenticateDoctor } = require("../services/doctorMiddleware"); // Import middleware
+const { authenticateAdmin } = require("../services/adminMiddleware"); // Import middleware
 const router = express.Router();
-const nodemailer = require('nodemailer');
-const bcrypt = require('bcrypt');
-const session = require('express-session');
-require('dotenv').config();
+const nodemailer = require("nodemailer");
+const bcrypt = require("bcrypt");
+const session = require("express-session");
+require("dotenv").config();
 
 // Signup doctor
-router.post('/signup', async (req, res) => {
-    const {
-        Fname, Lname, Pnumber, Email, Password, Gender, ConsultationType,
-        ConsultationFee, Availability, Image, YearExperience, Location, Degree, Specialization
-    } = req.body;
+router.post("/signup", async (req, res) => {
+  const {
+    Fname,
+    Lname,
+    Pnumber,
+    Email,
+    Password,
+    Gender,
+    ConsultationType,
+    ConsultationFee,
+    Availability,
+    Image,
+    YearExperience,
+    Location,
+    Degree,
+    Specialization,
+  } = req.body;
 
-    if (!Fname || !Lname || !Pnumber || !Email || !Password || !Gender || !ConsultationType || 
-        !ConsultationFee || !Availability || !Image || !YearExperience || !Location || !Degree || !Specialization) {
-        return res.status(400).json({ message: "All fields are required" });
-    }
+  if (
+    !Fname ||
+    !Lname ||
+    !Pnumber ||
+    !Email ||
+    !Password ||
+    !Gender ||
+    !ConsultationType ||
+    !ConsultationFee ||
+    !Availability ||
+    !Image ||
+    !YearExperience ||
+    !Location ||
+    !Degree ||
+    !Specialization
+  ) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
-    try {
-        const hashedPassword = await bcrypt.hash(Password, 10);
+  try {
+    const hashedPassword = await bcrypt.hash(Password, 10);
 
-        // Insert doctor details into the Doctor table
-        const doctorQuery = "INSERT INTO Doctor (Fname, Lname, Pnumber, Email, Password, Gender, ConsultationType, ConsultationFee, Availability, Image, YearExperience, Location, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        connection.query(
-            doctorQuery, 
-            [Fname, Lname, Pnumber, Email, hashedPassword, Gender, ConsultationType, ConsultationFee, Availability, Image, YearExperience, Location, 0],  // Setting Status to 0
-            (err, result) => {
-                if (err && err.code === 'ER_DUP_ENTRY') {
-                    return res.status(409).json({ message: "Email or Phone number already exists" });
-                }
+    // Insert doctor details into the Doctor table
+    const doctorQuery =
+      "INSERT INTO Doctor (Fname, Lname, Pnumber, Email, Password, Gender, ConsultationType, ConsultationFee, Availability, Image, YearExperience, Location, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                if (err) {
-                    console.error("Database error:", err);
-                    return res.status(500).json({ message: "Database error", error: err });
-                }
+    connection.query(
+      doctorQuery,
+      [
+        Fname,
+        Lname,
+        Pnumber,
+        Email,
+        hashedPassword,
+        Gender,
+        ConsultationType,
+        ConsultationFee,
+        Availability,
+        Image,
+        YearExperience,
+        Location,
+        0,
+      ], // Setting Status to 0
+      (err, result) => {
+        if (err && err.code === "ER_DUP_ENTRY") {
+          return res
+            .status(409)
+            .json({ message: "Email or Phone number already exists" });
+        }
 
-                const doctorId = result.insertId;  // Get the inserted doctor ID
+        if (err) {
+          console.error("Database error:", err);
+          return res
+            .status(500)
+            .json({ message: "Database error", error: err });
+        }
 
-                // Insert degree into Doctor_Degree table
-                const degrees = Degree.split(',').map(degree => degree.trim());
-                const degreeQuery = "INSERT INTO Doctor_Degree (Did, Degree) VALUES ?";
-                const degreeValues = degrees.map(degree => [doctorId, degree]);
+        const doctorId = result.insertId; // Get the inserted doctor ID
 
-                connection.query(degreeQuery, [degreeValues], (err) => {
-                    if (err) {
-                        console.error("Error inserting degrees:", err);
-                        return res.status(500).json({ message: "Error inserting degrees", error: err });
-                    }
+        // Insert degree into Doctor_Degree table
+        const degrees = Degree.split(",").map((degree) => degree.trim());
+        const degreeQuery = "INSERT INTO Doctor_Degree (Did, Degree) VALUES ?";
+        const degreeValues = degrees.map((degree) => [doctorId, degree]);
 
-                    // Insert specialization into Doctor_Specialization table
-                    const specializations = Specialization.split(',').map(spec => spec.trim());
-                    const specializationQuery = "INSERT INTO Doctor_Specialization (Did, Specialization) VALUES ?";
-                    const specializationValues = specializations.map(spec => [doctorId, spec]);
+        connection.query(degreeQuery, [degreeValues], (err) => {
+          if (err) {
+            console.error("Error inserting degrees:", err);
+            return res
+              .status(500)
+              .json({ message: "Error inserting degrees", error: err });
+          }
 
-                    connection.query(specializationQuery, [specializationValues], (err) => {
-                        if (err) {
-                            console.error("Error inserting specializations:", err);
-                            return res.status(500).json({ message: "Error inserting specializations", error: err });
-                        }
+          // Insert specialization into Doctor_Specialization table
+          const specializations = Specialization.split(",").map((spec) =>
+            spec.trim()
+          );
+          const specializationQuery =
+            "INSERT INTO Doctor_Specialization (Did, Specialization) VALUES ?";
+          const specializationValues = specializations.map((spec) => [
+            doctorId,
+            spec,
+          ]);
 
-                        res.status(201).json({ message: "Doctor registered successfully" });
-                    });
+          connection.query(
+            specializationQuery,
+            [specializationValues],
+            (err) => {
+              if (err) {
+                console.error("Error inserting specializations:", err);
+                return res.status(500).json({
+                  message: "Error inserting specializations",
+                  error: err,
                 });
+              }
+
+              res
+                .status(201)
+                .json({ message: "Doctor registered successfully" });
             }
-        );
-    } catch (err) {
-        console.error("Signup error:", err);
-        res.status(500).json({ message: "Server error" });
-    }
+          );
+        });
+      }
+    );
+  } catch (err) {
+    console.error("Signup error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 // Doctor Login route
-router.post('/login', async (req, res) => {
-    const { Email, Password } = req.body;
+router.post("/login", async (req, res) => {
+  const { Email, Password } = req.body;
 
-    // Check if email and password are provided
-    if (!Email || !Password) {
-        return res.status(400).json({ message: "Email and password are required" }); // 400 instead of 409
+  // Check if email and password are provided
+  if (!Email || !Password) {
+    return res.status(400).json({ message: "Email and password are required" }); // 400 instead of 409
+  }
+
+  try {
+    // Check if doctor is already logged in
+    if (req.session.doctor) {
+      return res.status(400).json({ message: "Doctor already logged in" });
     }
 
-    try {
-        // Check if doctor is already logged in
-        if (req.session.doctor) {
-            return res.status(400).json({ message: "Doctor already logged in" });
-        }
+    // Query database for doctor with the provided email
+    const query = "SELECT * FROM Doctor WHERE Email = ?";
+    connection.query(query, [Email], async (err, results) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ message: "Database error", error: err });
+      }
 
-        // Query database for doctor with the provided email
-        const query = "SELECT * FROM Doctor WHERE Email = ?";
-        connection.query(query, [Email], async (err, results) => {
-            if (err) {
-                console.error("Database error:", err);
-                return res.status(500).json({ message: "Database error", error: err });
-            }
+      if (results.length === 0) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
 
-            if (results.length === 0) {
-                return res.status(401).json({ message: "Invalid email or password" });
-            }
+      const doctor = results[0];
+      const isPasswordValid = await bcrypt.compare(Password, doctor.Password);
 
-            const doctor = results[0];
-            const isPasswordValid = await bcrypt.compare(Password, doctor.Password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
 
-            if (!isPasswordValid) {
-                return res.status(401).json({ message: "Invalid email or password" });
-            }
+      // Store doctor session
+      req.session.doctor = {
+        Did: doctor.Did,
+        Email: doctor.Email,
+        Fname: doctor.Fname,
+        Lname: doctor.Lname,
+        // You can add other doctor details to the session if necessary
+      };
 
-            // Store doctor session
-            req.session.doctor = {
-                Did: doctor.Did,
-                Email: doctor.Email,
-                Fname: doctor.Fname,
-                Lname: doctor.Lname,
-                // You can add other doctor details to the session if necessary
-            };
-
-            // Respond with success
-            res.json({ message: "Login successful", doctor: req.session.doctor });
-        });
-    } catch (err) {
-        console.error("Login error:", err);
-        res.status(500).json({ message: "Server error" });
-    }
+      // Respond with success
+      res.json({ message: "Login successful", doctor: req.session.doctor });
+    });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
-
-
-
 
 //Logout doctor
-router.post('/logout', (req, res) => {
-    if (!req.session.doctor) {
-        return res.status(400).json({ message: "You are not logged in." });
+router.post("/logout", (req, res) => {
+  if (!req.session.doctor) {
+    return res.status(400).json({ message: "You are not logged in." });
+  }
+
+  // Destroy session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Session destroy error:", err);
+      return res.status(500).json({ message: "Server error" });
     }
 
-    // Destroy session
-    req.session.destroy((err) => {
-        if (err) {
-            console.error("Session destroy error:", err);
-            return res.status(500).json({ message: "Server error" });
-        }
+    // Clear the session cookie
+    res.clearCookie("connect.sid"); // Assuming you are using default session cookie name
 
-        // Clear the session cookie
-        res.clearCookie('connect.sid'); // Assuming you are using default session cookie name
-
-        res.json({ message: "Logout successful" });
-    });
+    res.json({ message: "Logout successful" });
+  });
 });
-
 
 //delete doctor
-router.delete('/delete', authenticateDoctor,authenticateAdmin, (req, res) => {
-    const { Did } = req.session.doctor;
-    if (!Did) {
-        return res.status(400).json({ message: "Doctor ID is required" });
+router.delete("/delete", authenticateDoctor, authenticateAdmin, (req, res) => {
+  const { Did } = req.session.doctor;
+  if (!Did) {
+    return res.status(400).json({ message: "Doctor ID is required" });
+  }
+
+  const query = "DELETE FROM Doctor WHERE Did = ?";
+  connection.query(query, [Did], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
     }
 
-    const query = "DELETE FROM Doctor WHERE Did = ?";
-    connection.query(query, [Did], (err, result) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ message: "Database error", error: err });
-        }
-
-        res.json({ message: "Doctor deleted successfully" });
-    });
+    res.json({ message: "Doctor deleted successfully" });
+  });
 });
-
-
 
 //update phone number
-router.put('/update/phone', authenticateDoctor, (req, res) => {
-    console.log("Session doctor object:", req.session.doctor); // Debugging session data
-    console.log("Extracted Email:", req.session.doctor?.Email);
+router.put("/update/phone", authenticateDoctor, (req, res) => {
+  console.log("Session doctor object:", req.session.doctor); // Debugging session data
+  console.log("Extracted Email:", req.session.doctor?.Email);
 
-    const { Pnumber } = req.body;
-    if (!req.session.doctor) {
-        return res.status(400).json({ message: "You have not logged in" });
+  const { Pnumber } = req.body;
+  if (!req.session.doctor) {
+    return res.status(400).json({ message: "You have not logged in" });
+  }
+  const { Email } = req.session.doctor;
+
+  if (!Pnumber) {
+    return res.status(400).json({ message: "Phone number is required" });
+  }
+
+  const query = "UPDATE Doctor SET Pnumber = ? WHERE Email = ?";
+  connection.query(query, [Pnumber, Email], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
     }
-    const { Email } = req.session.doctor;
 
-    if (!Pnumber) {
-        return res.status(400).json({ message: "Phone number is required" });
+    console.log("Update query executed. Affected rows:", result.affectedRows); // Log affected rows
+
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ message: "Doctor not found (Update failed)" });
     }
 
-    const query = "UPDATE Doctor SET Pnumber = ? WHERE Email = ?";
-    connection.query(query, [Pnumber, Email], (err, result) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ message: "Database error", error: err });
-        }
-
-        console.log("Update query executed. Affected rows:", result.affectedRows); // Log affected rows
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Doctor not found (Update failed)" });
-        }
-
-        res.json({ message: "Phone number updated successfully" });
-    });
+    res.json({ message: "Phone number updated successfully" });
+  });
 });
-
 
 //Activate doctor
-router.put('/activate',authenticateAdmin,(req, res) => {
-    const { Did } = req.body;
+router.put("/activate", authenticateAdmin, (req, res) => {
+  const { Did } = req.body;
 
-    const query = "UPDATE Doctor SET Status = '1' WHERE Did = ?";
-    connection.query(query, [Did], (err, result) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ message: "Database error", error: err });
-        }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Doctor not found" });
-        }
-        res.json({ message: "Doctor account activated successfully" });
-    });
+  const query = "UPDATE Doctor SET Status = '1' WHERE Did = ?";
+  connection.query(query, [Did], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    res.json({ message: "Doctor account activated successfully" });
+  });
 });
 
-
 //Deactivate doctor
-router.put('/deactivate', authenticateAdmin, (req, res) => {
-    const { Did } = req.params;
+router.put("/deactivate", authenticateAdmin, (req, res) => {
+  const { Did } = req.params;
 
-    const query = "UPDATE Doctor SET Status = '0' WHERE Did = ?";
-    connection.query(query, [Did], (err, result) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ message: "Database error", error: err });
-        }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Doctor not found" });
-        }
-        res.json({ message: "Doctor account deactivated successfully" });
-    });
+  const query = "UPDATE Doctor SET Status = '0' WHERE Did = ?";
+  connection.query(query, [Did], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    res.json({ message: "Doctor account deactivated successfully" });
+  });
 });
 
 //Get doctor profile
-router.get('/profile', authenticateAdmin, (req, res) => {
-    const { Did } = req.session.doctor;
+router.get("/profile", authenticateAdmin, (req, res) => {
+  const { Did } = req.session.doctor;
 
-    const query = "SELECT Fname, Lname, Pnumber, Email, Gender, ConsultationType, ConsultationFee, Availability, Image, YearExperience, Location,Degree, Specialization FROM Doctor WHERE Did = ?";
-    connection.query(query, [Did], (err, result) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ message: "Database error", error: err });
-        }
-        if (result.length === 0) {
-            return res.status(404).json({ message: "Doctor not found" });
-        }
-        res.json(result[0]);
-    });
+  const query =
+    "SELECT Fname, Lname, Pnumber, Email, Gender, ConsultationType, ConsultationFee, Availability, Image, YearExperience, Location,Degree, Specialization FROM Doctor WHERE Did = ?";
+  connection.query(query, [Did], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
+    }
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    res.json(result[0]);
+  });
 });
-
 
 //Get all doctors
-router.get('/all', authenticateAdmin, (req, res) => {
-    const query = "SELECT Did, Fname, Lname, Email, Pnumber, Status, Specialization FROM Doctor";
+router.get("/all", authenticateAdmin, (req, res) => {
+  const query =
+    "SELECT Did, Fname, Lname, Email, Pnumber, Status, Specialization FROM Doctor";
 
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ message: "Database error", error: err });
-        }
-        res.json(results);
-    });
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
+    }
+    res.json(results);
+  });
 });
 
-
 //Update doctor consultation fee
-router.put('/update/fee', authenticateDoctor, (req, res) => {
-    const { ConsultationFee } = req.body;
-    const { Email } = req.session.doctor;
+router.put("/update/fee", authenticateDoctor, (req, res) => {
+  const { ConsultationFee } = req.body;
+  const { Email } = req.session.doctor;
 
-    if (!ConsultationFee) {
-        return res.status(400).json({ message: "Consultation fee is required" });
+  if (!ConsultationFee) {
+    return res.status(400).json({ message: "Consultation fee is required" });
+  }
+
+  const query = "UPDATE Doctor SET ConsultationFee = ? WHERE Email = ?";
+  connection.query(query, [ConsultationFee, Email], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
     }
-
-    const query = "UPDATE Doctor SET ConsultationFee = ? WHERE Email = ?";
-    connection.query(query, [ConsultationFee, Email], (err, result) => {
-        if (err) {
-            console.error("Database error:", err);
-            return res.status(500).json({ message: "Database error", error: err });
-        }
-        if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Doctor not found" });
-        }
-        res.json({ message: "Consultation fee updated successfully" });
-    });
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    res.json({ message: "Consultation fee updated successfully" });
+  });
 });
 
 //Get patient report
-router.get('/reports',authenticateDoctor,(req, res) => {
-    if(!req.session.doctor) {
-        return res.status(401).json({ message: "Unauthorized: You need to log in first  " });
-    }
-     const{Pid} = req.body;
+router.get("/reports", authenticateDoctor, (req, res) => {
+  if (!req.session.doctor) {
+    return res
+      .status(401)
+      .json({ message: "Unauthorized: You need to log in first  " });
+  }
+  const { Pid } = req.body;
 
-    const query = "SELECT * FROM Record WHERE Pid = ?";
-    connection.query(query, [Pid], (err, results) => {
-        if (err) return res.status(500).json({ message: "Database error", error: err });
-        res.json(results);
-    });
+  const query = "SELECT * FROM Record WHERE Pid = ?";
+  connection.query(query, [Pid], (err, results) => {
+    if (err)
+      return res.status(500).json({ message: "Database error", error: err });
+    res.json(results);
+  });
 });
 
-router.get('/session-doctor', (req, res) => {
-    if (req.session.doctor) {
-      return res.status(200).json(true);
-    } else {
-      return res.status(401).json({ message: 'Doctor session not found' });
+router.get("/session-doctor", (req, res) => {
+  if (req.session.doctor) {
+    return res.status(200).json(true);
+  } else {
+    return res.status(401).json({ message: "Doctor session not found" });
+  }
+});
+// Get doctor by ID
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+
+  const query = `
+    SELECT 
+      doctor.Fname, 
+      doctor.Lname, 
+      doctor.ConsultationType, 
+      doctor.Availability, 
+      doctor.ConsultationFee, 
+      clinic.Name AS ClinicName,
+      clinic.Location AS ClinicLocation
+    FROM Doctor 
+    JOIN doctor_clinic ON doctor.Did = doctor_clinic.Did 
+    JOIN clinic ON doctor_clinic.Cid = clinic.Cid 
+    WHERE doctor.Did = ?
+  `;
+
+  connection.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
     }
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    // Format the response to include clinic name + location
+    const doctorProfile = {
+      Fname: result[0].Fname,
+      Lname: result[0].Lname,
+      ConsultationType: result[0].ConsultationType,
+      Availability: result[0].Availability,
+      ConsultationFee: result[0].ConsultationFee,
+      Clinics: result.map(row => ({
+        name: row.ClinicName,
+        location: row.ClinicLocation
+      }))
+    };
+
+    res.json(doctorProfile);
   });
-
-
-
-
-
-
-
-
+});
 
 
 module.exports = router;

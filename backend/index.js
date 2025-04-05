@@ -12,6 +12,7 @@ const clinicRouter = require('./routes/clinics');
 const priflistRouter = require('./routes/p_profile');
 const homecareRouter = require('./routes/homecare');
 const sessionRouter=require('./routes/session');
+const paymentRouter = require('./routes/create-payment-intent');
 const app = express();
 
 // Configure MySQL session store

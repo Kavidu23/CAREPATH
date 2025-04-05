@@ -1,4 +1,5 @@
 <app-headercheck></app-headercheck>
+
 <!-- book.component.html -->
 <div class="book-container">
     <!-- Header -->
@@ -14,10 +15,7 @@
                 <div class="mb-3">
                     <label for="doctorSelect" class="form-label">Select Doctor</label>
                     <select class="form-select" id="doctorSelect" required>
-                        <option value="" disabled selected>Select a doctor</option>
-                        <option value="dr-darren-elder">Dr. Darren Elder</option>
-                        <option value="dr-sarah-johnson">Dr. Sarah Johnson</option>
-                        <option value="dr-amil-perera">Dr. Amil Perera</option>
+                        <option value="" disabled selected>{{ doctorProfile.Fname }} {{ doctorProfile.Lname }}</option>
                     </select>
                 </div>
 
@@ -25,68 +23,60 @@
                 <div class="mb-3">
                     <label for="appointmentType" class="form-label">Appointment Type</label>
                     <select class="form-select" id="appointmentType" required>
-                        <option value="" disabled selected>Select appointment type</option>
-                        <option value="in-person">In-Person</option>
-                        <option value="virtual">Virtual (Video Call)</option>
+                        <option value="" disabled selected>{{ doctorProfile.ConsultationType }}</option>
                     </select>
                 </div>
 
-                <!-- Date Selection -->
+                <!-- Day Selection -->
                 <div class="mb-3">
-                    <label for="appointmentDate" class="form-label">Select Date</label>
-                    <input type="date" class="form-control" id="appointmentDate" required min="2025-03-21" />
-                </div>
-
-                <!-- Time Slot Selection -->
-                <div class="mb-3">
-                    <label for="timeSlot" class="form-label">Select Time Slot</label>
-                    <select class="form-select" id="timeSlot" required>
-                        <option value="" disabled selected>Select a time slot</option>
-                        <option value="9:00am-10:00am">9:00 AM - 10:00 AM</option>
-                        <option value="10:00am-11:00am">10:00 AM - 11:00 AM</option>
-                        <option value="2:00pm-3:00pm">2:00 PM - 3:00 PM</option>
-                        <option value="5:00pm-6:00pm">5:00 PM - 6:00 PM</option>
+                    <label for="appointmentDay" class="form-label">Select Day</label>
+                    <select class="form-select" id="appointmentDay" required (change)="onDaySelected($event)">
+                        <option value="" disabled selected>Select a day</option>
+                        <option *ngFor="let day of availableDays" [value]="day">{{ day }}</option>
                     </select>
                 </div>
+
+                <!-- Time Slot (Static Time) -->
+                <div class="mb-3">
+                    <label for="timeSlot" class="form-label">Available Time</label>
+                    <input type="text" class="form-control" id="timeSlot" [value]="timeRange" disabled />
+                </div>
+
+
+                <!-- Clinic Selection -->
+                <div class="mb-3">
+                    <label for="clinicSelect" class="form-label">Select Clinic</label>
+                    <select class="form-select" id="clinicSelect" required>
+                        <option *ngFor="let clinic of doctorProfile.Clinics" [value]="clinic.name">
+                            {{ clinic.name }} - {{ clinic.location }}
+                        </option>
+                    </select>
+                </div>
+
 
                 <!-- Payment Section -->
                 <div class="mb-3 payment-section">
                     <label class="form-label">Payment Details</label>
                     <div class="card p-3">
-                        <div class="mb-3">
-                            <label for="cardNumber" class="form-label">Card Number</label>
-                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456"
-                                required />
+                        <div id="card-element" class="form-control p-2">
+                            <!-- Stripe Elements will inject card input here -->
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="expiryDate" class="form-label">Expiry Date</label>
-                                <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required />
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="cvv" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="cvv" placeholder="123" required />
-                            </div>
-                        </div>
-                        <p class="text-muted small">Payment secured with SSL encryption</p>
+                        <div id="card-errors" class="text-danger mt-2" role="alert"></div>
                     </div>
                 </div>
 
                 <!-- Total Amount -->
                 <div class="mb-3">
-                    <h6>Total Amount: LKR 2,500</h6>
+                    <h6>Total Amount: LKR {{ doctorProfile?.ConsultationFee || 2500 }}</h6>
                 </div>
 
-                <!-- Book Now Button -->
+                <!-- Stripe Pay Button -->
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Book Now</button>
+                    <button type="button" class="btn btn-success mt-2" (click)="makePayment()">Pay with Card</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-
-
 
 <app-footer></app-footer>

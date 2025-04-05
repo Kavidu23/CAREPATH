@@ -161,7 +161,7 @@
 }
 
 .doctor-card .btn-primary {
-  background: #0e82fc;
+  background:#0b5ed7;
   border: none;
   padding: 10px 20px;
   border-radius: 10px;
@@ -169,7 +169,7 @@
 }
 
 .doctor-card .btn-primary:hover {
-  background: #0e81fcc0;
+  background: #0b5dd7f9;
 }
 
 /* Box Icons */
