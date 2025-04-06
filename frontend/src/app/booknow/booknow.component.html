@@ -1,79 +1,77 @@
 <app-headercheck></app-headercheck>
 
-<!-- book.component.html -->
 <div class="book-container">
-    <!-- Header -->
     <div class="header-section text-center">
         <h2>Book Appointment</h2>
     </div>
 
-    <!-- Booking Form -->
-    <div class="booking-form">
+    <div class="booking-form" *ngIf="doctorProfile">
         <div class="form-card">
             <form>
-                <!-- Doctor Selection -->
                 <div class="mb-3">
-                    <label for="doctorSelect" class="form-label">Select Doctor</label>
-                    <select class="form-select" id="doctorSelect" required>
-                        <option value="" disabled selected>{{ doctorProfile.Fname }} {{ doctorProfile.Lname }}</option>
+                    <label class="form-label">Select Doctor</label>
+                    <select class="form-select" disabled>
+                        <option>{{ doctorProfile.Fname }} {{ doctorProfile.Lname }}</option>
                     </select>
                 </div>
 
-                <!-- Appointment Type -->
                 <div class="mb-3">
-                    <label for="appointmentType" class="form-label">Appointment Type</label>
-                    <select class="form-select" id="appointmentType" required>
-                        <option value="" disabled selected>{{ doctorProfile.ConsultationType }}</option>
+                    <label class="form-label">Appointment Type</label>
+                    <select class="form-select" disabled>
+                        <option>{{ doctorProfile.ConsultationType }}</option>
                     </select>
                 </div>
 
-                <!-- Day Selection -->
                 <div class="mb-3">
-                    <label for="appointmentDay" class="form-label">Select Day</label>
-                    <select class="form-select" id="appointmentDay" required (change)="onDaySelected($event)">
+                    <label class="form-label">Select Day</label>
+                    <select class="form-select" (change)="onDaySelected($event)">
                         <option value="" disabled selected>Select a day</option>
                         <option *ngFor="let day of availableDays" [value]="day">{{ day }}</option>
                     </select>
                 </div>
 
-                <!-- Time Slot (Static Time) -->
                 <div class="mb-3">
-                    <label for="timeSlot" class="form-label">Available Time</label>
-                    <input type="text" class="form-control" id="timeSlot" [value]="timeRange" disabled />
+                    <label class="form-label">Available Time</label>
+                    <input type="text" class="form-control" [value]="timeRange" disabled />
                 </div>
 
-
-                <!-- Clinic Selection -->
                 <div class="mb-3">
-                    <label for="clinicSelect" class="form-label">Select Clinic</label>
-                    <select class="form-select" id="clinicSelect" required>
-                        <option *ngFor="let clinic of doctorProfile.Clinics" [value]="clinic.name">
+                    <label class="form-label">Select Clinic</label>
+                    <select class="form-select">
+                        <option *ngFor="let clinic of doctorProfile.Clinics">
                             {{ clinic.name }} - {{ clinic.location }}
                         </option>
                     </select>
                 </div>
-
-
-                <!-- Payment Section -->
-                <div class="mb-3 payment-section">
-                    <label class="form-label">Payment Details</label>
-                    <div class="card p-3">
-                        <div id="card-element" class="form-control p-2">
-                            <!-- Stripe Elements will inject card input here -->
-                        </div>
-                        <div id="card-errors" class="text-danger mt-2" role="alert"></div>
-                    </div>
-                </div>
-
-                <!-- Total Amount -->
                 <div class="mb-3">
-                    <h6>Total Amount: LKR {{ doctorProfile?.ConsultationFee || 2500 }}</h6>
+                    <label class="form-label">Doctor Fee (LKR)</label>
+                    <select class="form-select" disabled>
+                        <option>{{ doctorProfile?.ConsultationFee || 0000 }}</option>
+                    </select>
                 </div>
-
-                <!-- Stripe Pay Button -->
+                
+                <div class="mb-3">
+                    <label class="form-label">Clinic Fee (LKR)</label>
+                    <select class="form-select" disabled>
+                        <option>{{ doctorProfile.ClinicFee || 0000 }}</option> <!-- Assuming ClinicFee is available -->
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Total Fee with Service Charge (LKR)</label>
+                    <select class="form-select" disabled>
+                        <option>{{ totalFee || 0000 }}</option>  <!-- Displaying the calculated total fee -->
+                    </select>
+                </div>                
                 <div class="text-center">
-                    <button type="button" class="btn btn-success mt-2" (click)="makePayment()">Pay with Card</button>
+                    <button 
+                        type="button" 
+                        class="btn btn-success mt-2" 
+                        [disabled]="!isFormValid()" 
+                        (click)="makePayment()">Pay with PayPal
+                    </button>
                 </div>
+                
             </form>
         </div>
     </div>

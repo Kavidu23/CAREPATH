@@ -30,7 +30,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
   appointments: { Aid?: string; Fname: string; Lname: string; Date: string; Type: string; status?: string }[] = [];
   prescriptions: { Rid?: string; Fname: string; Lname: string; Duration: string; Frequency: string }[] = [];
   invoices: { id?: string; patientPic?: string; patientName: string; date: string; amount: string; status?: string }[] = [];
-  newClinics: { Name: string; Location: string; Pnumber:String ;Cid: string; }[] = [];
+  newClinics: { Name: string; Location: string; Pnumber: String; Cid: string; }[] = [];
   totalPatients: number = 0; // Stores today's patient count
 
   private isLoading = false;
@@ -63,7 +63,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
               console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
               return retryCount + 1;
             }, 0),
-            delay(3000)
+            delay(5000)
           )
         ),
         tap((data) => {
@@ -88,7 +88,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
               console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
               return retryCount + 1;
             }, 0),
-            delay(3000)
+            delay(5000)
           )
         ),
         tap((data) => {
@@ -113,7 +113,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
               console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
               return retryCount + 1;
             }, 0),
-            delay(3000)
+            delay(5000)
           )
         ),
         tap((data) => {
@@ -138,7 +138,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
               console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
               return retryCount + 1;
             }, 0),
-            delay(3000)
+            delay(5000)
           )
         ),
         tap((data) => {
@@ -163,7 +163,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
               console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
               return retryCount + 1;
             }, 0),
-            delay(3000)
+            delay(5000)
           )
         ),
         tap((data) => {
@@ -188,7 +188,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
               console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
               return retryCount + 1;
             }, 0),
-            delay(3000)
+            delay(5000)
           )
         ),
         tap((data) => {
@@ -213,7 +213,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
               console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
               return retryCount + 1;
             }, 0),
-            delay(3000)
+            delay(5000)
           )
         ),
         tap((data) => {
@@ -238,7 +238,7 @@ export class DDashboardComponent implements OnInit, OnDestroy {
               console.warn(`Retrying API request... Attempt ${retryCount + 1}`);
               return retryCount + 1;
             }, 0),
-            delay(3000)
+            delay(5000)
           )
         ),
         tap((data) => {

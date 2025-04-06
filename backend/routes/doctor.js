@@ -372,6 +372,8 @@ router.get("/session-doctor", (req, res) => {
     return res.status(401).json({ message: "Doctor session not found" });
   }
 });
+
+
 // Get doctor by ID
 router.get("/:id", (req, res) => {
   const { id } = req.params;
@@ -383,6 +385,7 @@ router.get("/:id", (req, res) => {
       doctor.ConsultationType, 
       doctor.Availability, 
       doctor.ConsultationFee, 
+      clinic.Fee AS ClinicFee,
       clinic.Name AS ClinicName,
       clinic.Location AS ClinicLocation
     FROM Doctor 
@@ -400,17 +403,18 @@ router.get("/:id", (req, res) => {
       return res.status(404).json({ message: "Doctor not found" });
     }
 
-    // Format the response to include clinic name + location
+    // Format the response to include clinic name + location + ClinicFee
     const doctorProfile = {
       Fname: result[0].Fname,
       Lname: result[0].Lname,
       ConsultationType: result[0].ConsultationType,
       Availability: result[0].Availability,
       ConsultationFee: result[0].ConsultationFee,
-      Clinics: result.map(row => ({
+      ClinicFee: result[0].ClinicFee,  // Add ClinicFee here
+      Clinics: result.map((row) => ({
         name: row.ClinicName,
-        location: row.ClinicLocation
-      }))
+        location: row.ClinicLocation,
+      })),
     };
 
     res.json(doctorProfile);

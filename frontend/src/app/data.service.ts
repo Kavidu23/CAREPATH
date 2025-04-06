@@ -241,6 +241,16 @@ export class DataService {
   // Fetch doctor details by ID
   getDoctorByID(doctorId: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}doctor/${doctorId}`, { withCredentials: true });
+    
+  }
+
+  //Fetch payment
+  getPaymentStatus(): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/create-checkout-session`, { withCredentials: true });
+  }
+
+  getPayment(): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}payment`, { withCredentials: true });
   }
   
 

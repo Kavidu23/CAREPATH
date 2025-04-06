@@ -71,7 +71,7 @@ h6 {
 }
 
 /* Book Now Button */
-.btn-primary {
+.btn {
   background: #0b5ed7;
   border: none;
   padding: 10px 20px;
@@ -79,7 +79,7 @@ h6 {
   border-radius: 10px;
 }
 
-.btn-primary:hover {
+.btn:hover {
   background: #0b5dd7f2;
 }
 
