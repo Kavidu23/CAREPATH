@@ -1,13 +1,20 @@
+<!-- Custom Header Component -->
 <app-headercheck></app-headercheck>
 
+<!-- Main container for booking an appointment -->
 <div class="book-container">
+    
+    <!-- Section title -->
     <div class="header-section text-center">
         <h2>Book Appointment</h2>
     </div>
 
+    <!-- Booking form only shown if doctorProfile is loaded -->
     <div class="booking-form" *ngIf="doctorProfile">
         <div class="form-card">
             <form>
+                
+                <!-- Doctor Name (disabled dropdown showing selected doctor) -->
                 <div class="mb-3">
                     <label class="form-label">Select Doctor</label>
                     <select class="form-select" disabled>
@@ -15,6 +22,7 @@
                     </select>
                 </div>
 
+                <!-- Appointment Type (disabled dropdown showing consultation type) -->
                 <div class="mb-3">
                     <label class="form-label">Appointment Type</label>
                     <select class="form-select" disabled>
@@ -22,6 +30,7 @@
                     </select>
                 </div>
 
+                <!-- Day Selection (User selects a day; triggers day change logic) -->
                 <div class="mb-3">
                     <label class="form-label">Select Day</label>
                     <select class="form-select" (change)="onDaySelected($event)">
@@ -30,11 +39,13 @@
                     </select>
                 </div>
 
+                <!-- Time Range Display (calculated and shown based on day selected) -->
                 <div class="mb-3">
                     <label class="form-label">Available Time</label>
                     <input type="text" class="form-control" [value]="timeRange" disabled />
                 </div>
 
+                <!-- Clinic Selection (User selects clinic from available options) -->
                 <div class="mb-3">
                     <label class="form-label">Select Clinic</label>
                     <select class="form-select">
@@ -43,6 +54,8 @@
                         </option>
                     </select>
                 </div>
+
+                <!-- Doctor's Consultation Fee (shown as a disabled dropdown) -->
                 <div class="mb-3">
                     <label class="form-label">Doctor Fee (LKR)</label>
                     <select class="form-select" disabled>
@@ -50,19 +63,23 @@
                     </select>
                 </div>
                 
+                <!-- Clinic Fee (also shown as a disabled dropdown) -->
                 <div class="mb-3">
                     <label class="form-label">Clinic Fee (LKR)</label>
                     <select class="form-select" disabled>
-                        <option>{{ doctorProfile.ClinicFee || 0000 }}</option> <!-- Assuming ClinicFee is available -->
+                        <option>{{ doctorProfile.ClinicFee || 0000 }}</option>
                     </select>
                 </div>
                 
+                <!-- Total Fee Calculation (includes service charge if any) -->
                 <div class="mb-3">
                     <label class="form-label">Total Fee with Service Charge (LKR)</label>
                     <select class="form-select" disabled>
-                        <option>{{ totalFee || 0000 }}</option>  <!-- Displaying the calculated total fee -->
+                        <option>{{ totalFee || 0000 }}</option>
                     </select>
-                </div>                
+                </div>
+
+                <!-- Payment Button (triggers payment logic, disabled if form is invalid) -->
                 <div class="text-center">
                     <button 
                         type="button" 
@@ -77,4 +94,5 @@
     </div>
 </div>
 
+<!-- Custom Footer Component -->
 <app-footer></app-footer>
