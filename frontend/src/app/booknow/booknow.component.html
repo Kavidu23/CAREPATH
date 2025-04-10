@@ -1,6 +1,9 @@
+<!-- Custom Header Component -->
 <app-headercheck></app-headercheck>
 
+<!-- Main container for booking an appointment -->
 <div class="book-container">
+<<<<<<< HEAD
   <div class="header-section text-center">
     <h2>Book Appointment</h2>
   </div>
@@ -13,6 +16,95 @@
           <select class="form-select" disabled>
             <option>{{ doctorProfile.Fname }} {{ doctorProfile.Lname }}</option>
           </select>
+=======
+    
+    <!-- Section title -->
+    <div class="header-section text-center">
+        <h2>Book Appointment</h2>
+    </div>
+
+    <!-- Booking form only shown if doctorProfile is loaded -->
+    <div class="booking-form" *ngIf="doctorProfile">
+        <div class="form-card">
+            <form>
+                
+                <!-- Doctor Name (disabled dropdown showing selected doctor) -->
+                <div class="mb-3">
+                    <label class="form-label">Select Doctor</label>
+                    <select class="form-select" disabled>
+                        <option>{{ doctorProfile.Fname }} {{ doctorProfile.Lname }}</option>
+                    </select>
+                </div>
+
+                <!-- Appointment Type (disabled dropdown showing consultation type) -->
+                <div class="mb-3">
+                    <label class="form-label">Appointment Type</label>
+                    <select class="form-select" disabled>
+                        <option>{{ doctorProfile.ConsultationType }}</option>
+                    </select>
+                </div>
+
+                <!-- Day Selection (User selects a day; triggers day change logic) -->
+                <div class="mb-3">
+                    <label class="form-label">Select Day</label>
+                    <select class="form-select" (change)="onDaySelected($event)">
+                        <option value="" disabled selected>Select a day</option>
+                        <option *ngFor="let day of availableDays" [value]="day">{{ day }}</option>
+                    </select>
+                </div>
+
+                <!-- Time Range Display (calculated and shown based on day selected) -->
+                <div class="mb-3">
+                    <label class="form-label">Available Time</label>
+                    <input type="text" class="form-control" [value]="timeRange" disabled />
+                </div>
+
+                <!-- Clinic Selection (User selects clinic from available options) -->
+                <div class="mb-3">
+                    <label class="form-label">Select Clinic</label>
+                    <select class="form-select">
+                        <option *ngFor="let clinic of doctorProfile.Clinics">
+                            {{ clinic.name }} - {{ clinic.location }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Doctor's Consultation Fee (shown as a disabled dropdown) -->
+                <div class="mb-3">
+                    <label class="form-label">Doctor Fee (LKR)</label>
+                    <select class="form-select" disabled>
+                        <option>{{ doctorProfile?.ConsultationFee || 0000 }}</option>
+                    </select>
+                </div>
+                
+                <!-- Clinic Fee (also shown as a disabled dropdown) -->
+                <div class="mb-3">
+                    <label class="form-label">Clinic Fee (LKR)</label>
+                    <select class="form-select" disabled>
+                        <option>{{ doctorProfile.ClinicFee || 0000 }}</option>
+                    </select>
+                </div>
+                
+                <!-- Total Fee Calculation (includes service charge if any) -->
+                <div class="mb-3">
+                    <label class="form-label">Total Fee with Service Charge (LKR)</label>
+                    <select class="form-select" disabled>
+                        <option>{{ totalFee || 0000 }}</option>
+                    </select>
+                </div>
+
+                <!-- Payment Button (triggers payment logic, disabled if form is invalid) -->
+                <div class="text-center">
+                    <button 
+                        type="button" 
+                        class="btn btn-success mt-2" 
+                        [disabled]="!isFormValid()" 
+                        (click)="makePayment()">Pay with PayPal
+                    </button>
+                </div>
+                
+            </form>
+>>>>>>> 5ccc357be54b9fc595a05d79c41f4c5ce333c883
         </div>
 
         <div class="mb-3">
@@ -74,4 +166,5 @@
   </div>
 </div>
 
+<!-- Custom Footer Component -->
 <app-footer></app-footer>
