@@ -513,5 +513,23 @@ router.post("/resetpassword", async (req, res) => {
   }
 });
 
+//Book appointment
+router.post("/book",authenticateUser,(req,res)=>{
+  const {Did,Date,Time,Type,Link,Cid} = req.body;
+  const {Pid} = req.session.user; // Get Pid from session
+
+  if(!DoctorId || !SelectedDay || !SelectedClinic || !TotalFee || !PaymentStatus || !PaymentDetails){
+    return res.status(400).json({message:"All fields are required"});
+  }
+
+  connection.query("INSERT INTO Appointment (DoctorId, Pid, SelectedDay, SelectedClinic, TotalFee, PaymentStatus, PaymentDetails) VALUES (?, ?, ?, ?, ?, ?, ?)",[DoctorId,Pid,SelectedDay,SelectedClinic,TotalFee,PaymentStatus,PaymentDetails],(err,result)=>{
+    if(err){
+      console.error("Database error:",err);
+      return res.status(500).json({message:"Database error"});
+    }
+    res.status(201).json({message:"Appointment booked successfully"});
+  });
+})
+
 // Export the router
 module.exports = router;
