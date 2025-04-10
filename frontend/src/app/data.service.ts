@@ -104,7 +104,7 @@ export class DataService {
   }
 
   doctorLogout(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}doctor/logout`, {},{ withCredentials: true });
+    return this.http.post<any>(`${this.baseUrl}doctor/logout`, {}, { withCredentials: true });
   }
 
   patientLogout(): Observable<any> {
@@ -241,17 +241,26 @@ export class DataService {
   // Fetch doctor details by ID
   getDoctorByID(doctorId: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}doctor/${doctorId}`, { withCredentials: true });
-    
+
   }
 
-  //Fetch payment
   getPaymentStatus(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/create-checkout-session`, { withCredentials: true });
+    return this.http.post<any>(
+      `${this.baseUrl}payment/create-checkout-session`,
+      {}, // body
+      { withCredentials: true } // options
+    );
   }
 
-  getPayment(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}payment`, { withCredentials: true });
+
+  getPayment(bookingData: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}payment/bookings`,
+      bookingData,
+      { withCredentials: true }
+    );
   }
-  
+
+
 
 }

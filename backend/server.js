@@ -8,7 +8,7 @@ const app = express();
 
 // CORS Configuration
 app.use(cors({
-  origin: 'http://localhost:4200',  // Replace with the URL of your Angular frontend
+  origin: 'http://localhost:4200', 
   credentials: true,  // Allow cookies (session cookies) to be sent with requests
 }));
 

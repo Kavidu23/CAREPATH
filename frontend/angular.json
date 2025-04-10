@@ -16,24 +16,11 @@
             "outputPath": "dist/my-angular-project",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "node_modules/aos/dist/aos.css",
-              "src/styles.css"
-            ],
-            "scripts": [
-               "node_modules/aos/dist/aos.js"
-               
-              
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["node_modules/aos/dist/aos.css", "src/styles.css"],
+            "scripts": ["node_modules/aos/dist/aos.js"],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -85,22 +72,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "node_modules/aos/dist/aos.css",
-              "src/styles.css"
-            ],
-            "scripts": [
-              "node_modules/aos/dist/aos.js"
-            ]
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["node_modules/aos/dist/aos.css", "src/styles.css"],
+            "scripts": ["node_modules/aos/dist/aos.js"]
           }
         }
       }
