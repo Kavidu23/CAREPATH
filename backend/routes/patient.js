@@ -9,9 +9,6 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 require("dotenv").config();
 
-
-
-
 // Signup Route
 router.post("/signup", (req, res) => {
   const {
@@ -161,7 +158,6 @@ router.post("/login", (req, res) => {
       .json({ message: "Login successful", user: req.session.user });
   });
 });
-
 
 // Change Password Route
 router.post("/changepassword", authenticateUser, async (req, res) => {
@@ -316,76 +312,77 @@ router.put("/activate", authenticateAdmin, (req, res) => {
   );
 });
 
-
 // Forgot Password Route
 router.post("/forgotpassword", (req, res) => {
-    const { Email } = req.body;
-  
-    if (!Email) {
-      return res.status(400).json({ message: "Email is required" });
+  const { Email } = req.body;
+
+  if (!Email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  const query = "SELECT Fname, Lname, Email FROM Patient WHERE Email = ?";
+  connection.query(query, [Email], (err, results) => {
+    if (err) {
+      console.error("Database Query Error:", err);
+      return res.status(500).json({ message: "Database error" });
     }
-  
-    const query = "SELECT Fname, Lname, Email FROM Patient WHERE Email = ?";
-    connection.query(query, [Email], (err, results) => {
-      if (err) {
-        console.error("Database Query Error:", err);
-        return res.status(500).json({ message: "Database error" });
-      }
-  
-      if (results.length === 0) {
-        return res.status(404).json({ message: "User not found" });
-      }
-  
-      // Generate secure reset token
-      const resetToken = crypto.randomBytes(32).toString("hex");
-      const expiryTime = new Date();
-      expiryTime.setHours(expiryTime.getHours() + 1); // Token expires in 1 hour
-  
-      // Store token in PasswordReset table
-      const insertQuery =
-        "INSERT INTO PasswordReset (Email, Token, Expiry) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE Token = ?, Expiry = ?";
-      connection.query(
-        insertQuery,
-        [Email, resetToken, expiryTime, resetToken, expiryTime],
-        (err) => {
-          if (err) {
-            console.error("Error storing reset token:", err);
-            return res.status(500).json({ message: "Error generating reset token" });
-          }
-  
-          // Send reset email
-          const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              user: process.env.EMAIL,
-              pass: process.env.PASSWORD,
-            },
-          });
-  
-          const mailOptions = {
-            from: process.env.EMAIL,
-            to: Email,
-            subject: "Password Reset",
-            text:
-              `Dear ${results[0].Fname} ${results[0].Lname},\n\n` +
-              `You requested a password reset.\n\n` +
-              `Click the link below to reset your password:\n\n` +
-              `http://localhost:4200/reset-password?email=${Email}&token=${resetToken}\n\n` +
-              `This link is valid for 1 hour. If you did not request this, ignore this email.\n`,
-          };
-  
-          transporter.sendMail(mailOptions, (err) => {
-            if (err) {
-              console.error("Error sending email:", err);
-              return res.status(500).json({ message: "Error sending email" });
-            }
-  
-            res.status(200).json({ message: "Password reset email sent" });
-          });
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate secure reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const expiryTime = new Date();
+    expiryTime.setHours(expiryTime.getHours() + 1); // Token expires in 1 hour
+
+    // Store token in PasswordReset table
+    const insertQuery =
+      "INSERT INTO PasswordReset (Email, Token, Expiry) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE Token = ?, Expiry = ?";
+    connection.query(
+      insertQuery,
+      [Email, resetToken, expiryTime, resetToken, expiryTime],
+      (err) => {
+        if (err) {
+          console.error("Error storing reset token:", err);
+          return res
+            .status(500)
+            .json({ message: "Error generating reset token" });
         }
-      );
-    });
+
+        // Send reset email
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
+          },
+        });
+
+        const mailOptions = {
+          from: process.env.EMAIL,
+          to: Email,
+          subject: "Password Reset",
+          text:
+            `Dear ${results[0].Fname} ${results[0].Lname},\n\n` +
+            `You requested a password reset.\n\n` +
+            `Click the link below to reset your password:\n\n` +
+            `http://localhost:4200/reset-password?email=${Email}&token=${resetToken}\n\n` +
+            `This link is valid for 1 hour. If you did not request this, ignore this email.\n`,
+        };
+
+        transporter.sendMail(mailOptions, (err) => {
+          if (err) {
+            console.error("Error sending email:", err);
+            return res.status(500).json({ message: "Error sending email" });
+          }
+
+          res.status(200).json({ message: "Password reset email sent" });
+        });
+      }
+    );
   });
+});
 
 // Submit Feedback
 router.post("/feedback", authenticateUser, (req, res) => {
@@ -417,8 +414,6 @@ router.post("/feedback", authenticateUser, (req, res) => {
   });
 });
 
-
-
 //Get report
 router.get("/reports", authenticateUser, (req, res) => {
   if (!req.session.user) {
@@ -449,8 +444,6 @@ router.get("/session-patient", authenticateUser, (req, res) => {
 
   return res.status(200).json(true);
 });
-
-
 
 // Reset Password Route
 router.post("/resetpassword", async (req, res) => {
@@ -520,13 +513,20 @@ router.post("/resetpassword", async (req, res) => {
   }
 });
 
-
 //book appointment
 router.post("/book-appointment", authenticateUser, (req, res) => {
-  const { Did, Date, Time, Type, Link, Cid } = req.body;  // Get data from request body
-  const { Pid } = req.session.user;  // Get Pid from session
+  const { Did, Date, Time, Type, Link, Cid } = req.body; // Get data from request body
+  const { Pid } = req.session.user; // Get Pid from session
 
-  console.log("Received appointment data:", { Did, Date, Time, Type, Link, Cid, Pid }); // Log data
+  console.log("Received appointment data:", {
+    Did,
+    Date,
+    Time,
+    Type,
+    Link,
+    Cid,
+    Pid,
+  }); // Log data
 
   connection.query(
     "INSERT INTO Appointment (Pid, Did, Date, Time, Type, Link, Cid) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -542,8 +542,155 @@ router.post("/book-appointment", authenticateUser, (req, res) => {
   );
 });
 
+// Add patient invoice and send email
+router.post("/add-invoice", authenticateUser, (req, res) => {
+  const {
+    Pid,
+    TotalAmount,
+    FinalAmount,
+    PaymentMethod,
+    IssuedDate,
+    PaymentStatus,
+  } = req.body;
 
+  if (
+    !Pid ||
+    !TotalAmount ||
+    !FinalAmount ||
+    !PaymentMethod ||
+    !IssuedDate ||
+    !PaymentStatus
+  ) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
 
+  const query = `
+    INSERT INTO Invoice (
+      Pid,
+      TotalAmount,
+      FinalAmount,
+      PaymentMethod,
+      IssuedDate,
+      PaymentStatus
+    ) VALUES (?, ?, ?, ?, ?, ?)
+  `;
+
+  const values = [
+    Pid,
+    TotalAmount,
+    FinalAmount,
+    PaymentMethod,
+    IssuedDate,
+    PaymentStatus,
+  ];
+
+  connection.query(query, values, (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    const invoiceId = result.insertId;
+
+    // Fetch patient email
+    const patientQuery = `SELECT Email, Fname FROM Patient WHERE Pid = ?`;
+
+    connection.query(patientQuery, [Pid], (err, patientResult) => {
+      if (err || patientResult.length === 0) {
+        console.error("Failed to fetch patient:", err);
+        return res
+          .status(500)
+          .json({ message: "Failed to fetch patient details" });
+      }
+
+      const patient = patientResult[0];
+
+      // Set up Nodemailer transporter
+      const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+          user: process.env.EMAIL, // Your email address
+          pass: process.env.PASSWORD, // App password if using Gmail
+        },
+      });
+
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to: patient.Email,
+        subject: "Your Appointment Invoice - CarePath",
+        html: `
+          <h3>Dear ${patient.Fname},</h3>
+          <p>Thank you for your appointment booking. Here is your invoice:</p>
+          <ul>
+            <li><strong>Invoice ID:</strong> ${invoiceId}</li>
+            <li><strong>Total Amount:</strong> Rs. ${TotalAmount}</li>
+            <li><strong>Final Amount:</strong> Rs. ${FinalAmount}</li>
+            <li><strong>Payment Method:</strong> ${PaymentMethod}</li>
+            <li><strong>Issued Date:</strong> ${IssuedDate}</li>
+            <li><strong>Payment Status:</strong> ${PaymentStatus}</li>
+          </ul>
+          <p>We look forward to serving you.</p>
+          <p>CarePath Team</p>
+        `,
+      };
+
+      // Send the email
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error("Email sending error:", err);
+          return res.status(500).json({
+            message: "Invoice saved, but failed to send email",
+          });
+        }
+
+        return res.status(201).json({
+          message: "Invoice generated and email sent successfully",
+          invoiceId,
+        });
+      });
+    });
+  });
+});
+
+// Get invoice by ID
+router.get("/get-invoice/:id", authenticateUser, (req, res) => {
+  const { id } = req.params;
+
+  // Check if ID is provided and is a number
+  if (!id) {
+    console.warn("Missing invoice ID in request params");
+    return res.status(400).json({ message: "Invoice ID is required" });
+  }
+
+  if (isNaN(id)) {
+    console.warn(`Invalid invoice ID format: ${id}`);
+    return res.status(400).json({ message: "Invalid invoice ID format" });
+  }
+
+  const query = `SELECT * FROM Invoice WHERE Id = ?`;
+
+  connection.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Database error while fetching invoice by ID:", err);
+      return res
+        .status(500)
+        .json({ message: "Internal server error while retrieving invoice" });
+    }
+
+    if (!Array.isArray(result)) {
+      console.error("Unexpected database result:", result);
+      return res.status(500).json({ message: "Unexpected error occurred" });
+    }
+
+    if (result.length === 0) {
+      console.info(`Invoice not found for ID: ${id}`);
+      return res.status(404).json({ message: "Invoice not found" });
+    }
+
+    console.log(`Invoice fetched successfully for ID: ${id}`);
+    return res.status(200).json(result[0]);
+  });
+});
 
 // Export the router
 module.exports = router;

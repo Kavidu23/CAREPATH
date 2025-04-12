@@ -1,0 +1,25 @@
+<div *ngIf="invoice; else loading" class="receipt-container">
+    <h1>Payment Receipt</h1>
+
+    <div class="receipt-section">
+        <p><strong>Invoice ID:</strong> {{ invoice.Id }}</p>
+        <p><strong>Patient ID:</strong> {{ invoice.Pid }}</p>
+        <p><strong>Total Amount:</strong> Rs. {{ invoice.TotalAmount }}</p>
+        <p><strong>Final Amount:</strong> Rs. {{ invoice.FinalAmount }}</p>
+        <p><strong>Payment Method:</strong> {{ invoice.PaymentMethod }}</p>
+        <p><strong>Payment Status:</strong> {{ invoice.PaymentStatus }}</p>
+        <p><strong>Issued Date:</strong> {{ invoice.IssuedDate | date: 'medium' }}</p>
+    </div>
+
+    <div class="footer">
+        <p><strong>Printed On:</strong> {{ date }}</p>
+        <p><strong>Auto Redirect In:</strong> {{ getFormattedCountdown() }}</p>
+        <button (click)="printReceipt()">🖨️ Print Receipt</button>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="loading">
+        <p>🔄 Loading invoice details...</p>
+    </div>
+</ng-template>

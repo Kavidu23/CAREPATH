@@ -1,0 +1,188 @@
+/* Main receipt container */
+.receipt-container {
+  max-width: 650px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e6f0fa 0%, #d0e7ff 100%); /* Soft blue gradient */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #333;
+}
+
+/* Title */
+h1 {
+  text-align: center;
+  color: #1e3a8a; /* Deep blue for contrast */
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Receipt details section */
+.receipt-section {
+  background: #ffffff; /* White card for contrast */
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #bfdbfe; /* Light blue border */
+  margin: 1rem 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Paragraph styles for details */
+.receipt-section p {
+  margin: 0.6rem 0;
+  font-size: 1.1rem;
+  color: #1e40af; /* Medium blue for text */
+  display: flex;
+  align-items: center;
+}
+
+.receipt-section p strong {
+  color: #1e3a8a; /* Deep blue for labels */
+  font-weight: 700;
+  width: 180px; /* Align labels */
+  display: inline-block;
+}
+
+/* Footer section */
+.footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px dashed #60a5fa; /* Dashed blue line */
+  text-align: center;
+}
+
+.footer p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #1e40af;
+}
+
+.footer p strong {
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+/* Countdown timer */
+.footer p:nth-child(2) {
+  color: #dc2626; /* Red for urgency */
+  font-weight: bold;
+  font-size: 1.1rem;
+  animation: pulse 2s infinite; /* Subtle pulse effect */
+}
+
+/* Print button */
+.footer button {
+  padding: 0.75rem 2rem;
+  background: #2563eb; /* Vibrant blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer button:hover {
+  background: #1e40af; /* Darker blue on hover */
+  transform: translateY(-2px);
+}
+
+.footer button:active {
+  transform: translateY(0);
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.3rem;
+  color: #1e3a8a;
+  background: #e6f0fa;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 650px;
+}
+
+.loading p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Pulse animation for countdown */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .receipt-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  .receipt-section p strong {
+    width: 140px;
+  }
+
+  .receipt-section p {
+    font-size: 1rem;
+  }
+
+  .footer button {
+    width: 100%;
+    padding: 0.75rem;
+  }
+}
+
+/* Print-specific styles */
+@media print {
+  .receipt-container {
+    background: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .footer {
+    display: none; /* Hide countdown and button */
+  }
+
+  .receipt-section {
+    border: none;
+    box-shadow: none;
+    padding: 1rem;
+  }
+
+  h1 {
+    color: #000;
+    font-size: 1.8rem;
+  }
+
+  .receipt-section p,
+  .receipt-section p strong {
+    color: #000;
+  }
+}

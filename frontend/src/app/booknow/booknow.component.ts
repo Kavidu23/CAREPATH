@@ -39,6 +39,7 @@ export class BooknowComponent implements OnInit, OnDestroy, AfterViewInit {
   availableDays: string[] = [];
   filteredDays: any[] = [];
   timeRange: string = '';
+  btotalFee: number = 0;
   totalFee: number = 0;
   serviceCharge: number = 0.1;
   selectedDay: string = '';
@@ -345,6 +346,7 @@ export class BooknowComponent implements OnInit, OnDestroy, AfterViewInit {
       ? 0
       : parseFloat(this.doctorProfile?.ClinicFee || '0');
     const serviceCharge = 250;
+    this.btotalFee = consultationFee + clinicFee;
     this.totalFee = consultationFee + clinicFee + serviceCharge;
   }
 
@@ -417,6 +419,7 @@ export class BooknowComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.bookAppointment(bookingData);
         console.log('bookingData:', bookingData);
+        this.saveBookingAndInvoice();
         return details;
       },
       onError: (err: any) => {
@@ -437,6 +440,33 @@ export class BooknowComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
   }
+
+
+  saveBookingAndInvoice(): void {
+    const invoiceData = {
+      Did: this.doctorId, // Note: Backend doesn't use this, but included in case needed elsewhere
+      Pid: this.patientId,
+      IssuedDate: this.selectedDay,
+      PaymentStatus: 'Paid',
+      PaymentMethod: 'PayPal',
+      TotalAmount: this.btotalFee, // Changed from TotalFee to TotalAmount
+      FinalAmount: this.totalFee,
+      Discount: 0.0, // Optional: Include if applicable, defaults to 0.0 in backend
+    };
+  
+    this.dataService.addInvoice(invoiceData).subscribe({
+      next: (res) => {
+        console.log('Invoice saved successfully:', res);
+        alert('Booking successful!');
+        this.router.navigate(['/receipt'], { queryParams: { invoiceId: res.invoiceId } });
+      },
+      error: (err) => {
+        console.error('Error saving invoice:', err);
+        alert('Payment succeeded, but failed to save invoice. Please contact support.');
+      },
+    });
+  }
+
 
   meetingLink: string = '';
 

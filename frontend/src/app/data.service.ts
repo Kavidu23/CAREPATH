@@ -283,6 +283,16 @@ export class DataService {
   }
   
 
+ // Add invoice
+addInvoice(invoiceData: any): Observable<any> {
+  return this.http.post(`${this.baseUrl}patient/add-invoice`, invoiceData, { withCredentials: true });
+}
+
+// get invoice by id
+getInvoiceById(invoiceId: string): Observable<any> {
+  return this.http.get(`${this.baseUrl}patient/get-invoice/${invoiceId}`, { withCredentials: true });
+}
+
 
 
 }

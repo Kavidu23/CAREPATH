@@ -31,7 +31,8 @@
             <h5>Dr.{{ appointment.doctorName }}</h5>
             <p>{{ appointment.type }}</p>
             <p>{{ appointment.specialty }}</p>
-            <p>{{ appointment.date }} - {{ appointment.time }} at {{ appointment.clinicName }} at {{
+            <p>{{ appointment.date }} - {{ appointment.time }}</p>
+            <p *ngIf="appointment.type != 'Online'">at {{ appointment.clinicName }} at {{
               appointment.location }}</p>
           </div>
         </div>

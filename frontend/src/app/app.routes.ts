@@ -26,6 +26,7 @@ import { ResetPasswordComponent } from './reset-password-component/reset-passwor
 import { RequestPasswordResetComponent } from './request-password-reset-component/request-password-reset-component.component';
 import {ResetPasswordDoctorComponent} from './reset-password-doctor/reset-password-doctor.component';
 import { ResetPasswordComponentDoctor } from './reset-doctor-password/reset-doctor-password.component';
+import { ReceiptComponent } from './receipt/receipt.component';
 
 
 export const routes: Routes = [
@@ -54,5 +55,6 @@ export const routes: Routes = [
   {path:'request-reset', component:RequestPasswordResetComponent},
   {path:'reset-password-doctor', component:ResetPasswordDoctorComponent},
   {path:'reset-doctor-password', component:ResetPasswordComponentDoctor},
+  {path:'receipt', component:ReceiptComponent},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];

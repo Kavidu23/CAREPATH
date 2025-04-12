@@ -196,7 +196,7 @@ export class PDashboardComponent implements OnInit, OnDestroy {
 
   bookNewAppointment() {
     console.log('Book new appointment clicked');
-    this.router.navigate(['/book-appointment']);
+    this.router.navigate(['/doctor-list']);
   }
 
   viewPrescription(id: string) {
