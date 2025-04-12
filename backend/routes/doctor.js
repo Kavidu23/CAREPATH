@@ -6,6 +6,7 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
+const crypto = require("crypto");
 require("dotenv").config();
 
 // Signup doctor
@@ -373,7 +374,7 @@ router.get("/session-doctor", (req, res) => {
   }
 });
 
-
+// Get doctor by ID
 // Get doctor by ID
 router.get("/:id", (req, res) => {
   const { id } = req.params;
@@ -385,6 +386,7 @@ router.get("/:id", (req, res) => {
       doctor.ConsultationType, 
       doctor.Availability, 
       doctor.ConsultationFee, 
+      clinic.Cid AS Cid,
       clinic.Fee AS ClinicFee,
       clinic.Name AS ClinicName,
       clinic.Location AS ClinicLocation
@@ -403,15 +405,16 @@ router.get("/:id", (req, res) => {
       return res.status(404).json({ message: "Doctor not found" });
     }
 
-    // Format the response to include clinic name + location + ClinicFee
+    // Format the response to include clinic name + location + ClinicFee and Cid
     const doctorProfile = {
       Fname: result[0].Fname,
       Lname: result[0].Lname,
       ConsultationType: result[0].ConsultationType,
       Availability: result[0].Availability,
       ConsultationFee: result[0].ConsultationFee,
-      ClinicFee: result[0].ClinicFee,  // Add ClinicFee here
+      ClinicFee: result[0].ClinicFee, // Add ClinicFee here
       Clinics: result.map((row) => ({
+        id: row.Cid, // Include the clinic ID
         name: row.ClinicName,
         location: row.ClinicLocation,
       })),
@@ -421,5 +424,148 @@ router.get("/:id", (req, res) => {
   });
 });
 
+// Reset Password Route for Doctor
+router.post("/change-password", async (req, res) => {
+  const { email, token, newPassword } = req.body;
+
+  if (!email || !token || !newPassword) {
+    return res
+      .status(400)
+      .json({ message: "Email, token, and new password are required" });
+  }
+
+  if (newPassword.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "New password must be at least 6 characters long" });
+  }
+
+  try {
+    // Verify the token
+    const query = "SELECT Token, Expiry FROM PasswordReset WHERE Email = ?";
+    const [results] = await new Promise((resolve, reject) => {
+      connection.query(query, [email], (err, results) => {
+        if (err) reject(err);
+        else resolve([results]);
+      });
+    });
+
+    if (results.length === 0) {
+      return res.status(400).json({ message: "Invalid or expired reset link" });
+    }
+
+    const { Token, Expiry } = results[0];
+
+    if (Token !== token) {
+      return res.status(400).json({ message: "Invalid reset token" });
+    }
+
+    if (new Date() > new Date(Expiry)) {
+      return res.status(400).json({ message: "Reset link has expired" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the password in the Doctor table
+    const updateQuery = "UPDATE Doctor SET Password = ? WHERE Email = ?";
+    await new Promise((resolve, reject) => {
+      connection.query(updateQuery, [hashedPassword, email], (err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
+    // Delete the token from PasswordReset table
+    const deleteQuery = "DELETE FROM PasswordReset WHERE Email = ?";
+    await new Promise((resolve, reject) => {
+      connection.query(deleteQuery, [email], (err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
+    res.status(200).json({ message: "Password reset successfully" });
+  } catch (err) {
+    console.error("Error resetting password:", err);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+});
+
+// Doctor Forgot Password Route
+router.post("/reset-password", (req, res) => {
+  const { Email } = req.body;
+
+  if (!Email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  const query = "SELECT Fname, Lname, Email FROM Doctor WHERE Email = ?";
+  connection.query(query, [Email], (err, results) => {
+    if (err) {
+      console.error("Database Query Error:", err);
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+
+    // Generate secure reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const expiryTime = new Date();
+    expiryTime.setHours(expiryTime.getHours() + 1); // Token expires in 1 hour
+
+    // Store token in PasswordReset table
+    const insertQuery = `
+      INSERT INTO PasswordReset (Email, Token, Expiry) 
+      VALUES (?, ?, ?) 
+      ON DUPLICATE KEY UPDATE Token = ?, Expiry = ?`;
+
+    connection.query(
+      insertQuery,
+      [Email, resetToken, expiryTime, resetToken, expiryTime],
+      (err) => {
+        if (err) {
+          console.error("Error storing reset token:", err);
+          return res
+            .status(500)
+            .json({ message: "Error generating reset token" });
+        }
+
+        // Send reset email
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
+          },
+        });
+
+        const doctor = results[0];
+        const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: Email,
+          subject: "Doctor Password Reset",
+          text:
+            `Dear Dr. ${doctor.Fname} ${doctor.Lname},\n\n` +
+            `You requested a password reset.\n\n` +
+            `Click the link below to reset your password:\n\n` +
+            `http://localhost:4200/reset-doctor-password?email=${Email}&token=${resetToken}\n\n` +
+            `This link is valid for 1 hour. If you did not request this, please ignore this email.\n`,
+        };
+
+        transporter.sendMail(mailOptions, (err) => {
+          if (err) {
+            console.error("Error sending email:", err);
+            return res.status(500).json({ message: "Error sending email" });
+          }
+
+          res.status(200).json({ message: "Password reset email sent" });
+        });
+      }
+    );
+  });
+});
 
 module.exports = router;

@@ -22,8 +22,8 @@ export class DloginComponent {
   failedAttempts: number = 0; // Track failed login attempts
   isButtonDisabled: boolean = false; // Disable the button after 3 failed attempts
   disableTime: number = 10; // Time to disable button after 3 failed attempts (in seconds)
-  
-  constructor(private dataService: DataService, private router: Router) {}
+
+  constructor(private dataService: DataService, private router: Router) { }
 
   onLogin(): void {
     this.errorMessage = '';
@@ -93,6 +93,6 @@ export class DloginComponent {
 
   // Navigate to the forgot password page
   onForgotPassword(): void {
-    this.router.navigate(['/forgot-password']); // Adjust the path as per your routes
+    this.router.navigate(['/reset-password-doctor']); // Adjust the path as per your routes
   }
 }

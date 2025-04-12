@@ -22,7 +22,7 @@
     <ng-container *ngIf="upcomingAppointments.length > 0; else noUpcomingAppointments">
       <div *ngFor="let appointment of upcomingAppointments" class="upcoming-card">
         <div class="upcoming-info d-flex align-items-center">
-          <i class='bx bx-video'></i>
+          <i class='bx bx-bookmark-plus'></i>
           <div>
             <h5>{{ appointment.Fname + ' ' + appointment.Lname }}</h5>
             <p><i class="bx bx-calendar"></i> {{ appointment.Date | date:'yyyy-MM-dd' }} at {{ appointment.Time }}</p>

@@ -9,6 +9,9 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 require("dotenv").config();
 
+
+
+
 // Signup Route
 router.post("/signup", (req, res) => {
   const {
@@ -110,6 +113,7 @@ router.post("/logout", (req, res) => {
   });
 });
 
+//Patient Login Route
 router.post("/login", (req, res) => {
   const { Email, Password } = req.body;
   if (req.session.user) {
@@ -157,6 +161,7 @@ router.post("/login", (req, res) => {
       .json({ message: "Login successful", user: req.session.user });
   });
 });
+
 
 // Change Password Route
 router.post("/changepassword", authenticateUser, async (req, res) => {
@@ -445,6 +450,8 @@ router.get("/session-patient", authenticateUser, (req, res) => {
   return res.status(200).json(true);
 });
 
+
+
 // Reset Password Route
 router.post("/resetpassword", async (req, res) => {
   const { email, token, newPassword } = req.body;
@@ -513,23 +520,30 @@ router.post("/resetpassword", async (req, res) => {
   }
 });
 
-//Book appointment
-router.post("/book",authenticateUser,(req,res)=>{
-  const {Did,Date,Time,Type,Link,Cid} = req.body;
-  const {Pid} = req.session.user; // Get Pid from session
 
-  if(!DoctorId || !SelectedDay || !SelectedClinic || !TotalFee || !PaymentStatus || !PaymentDetails){
-    return res.status(400).json({message:"All fields are required"});
-  }
+//book appointment
+router.post("/book-appointment", authenticateUser, (req, res) => {
+  const { Did, Date, Time, Type, Link, Cid } = req.body;  // Get data from request body
+  const { Pid } = req.session.user;  // Get Pid from session
 
-  connection.query("INSERT INTO Appointment (DoctorId, Pid, SelectedDay, SelectedClinic, TotalFee, PaymentStatus, PaymentDetails) VALUES (?, ?, ?, ?, ?, ?, ?)",[DoctorId,Pid,SelectedDay,SelectedClinic,TotalFee,PaymentStatus,PaymentDetails],(err,result)=>{
-    if(err){
-      console.error("Database error:",err);
-      return res.status(500).json({message:"Database error"});
+  console.log("Received appointment data:", { Did, Date, Time, Type, Link, Cid, Pid }); // Log data
+
+  connection.query(
+    "INSERT INTO Appointment (Pid, Did, Date, Time, Type, Link, Cid) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    [Pid, Did, Date, Time, Type, Link, Cid],
+    (err, result) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ message: "Database error" });
+      }
+      console.log("Booking result:", result); // Log successful insertion result
+      res.status(201).json({ message: "Appointment booked successfully" });
     }
-    res.status(201).json({message:"Appointment booked successfully"});
-  });
-})
+  );
+});
+
+
+
 
 // Export the router
 module.exports = router;

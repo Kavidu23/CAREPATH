@@ -28,14 +28,26 @@
           </select>
         </div>
 
-        <!-- Day Selection (User selects a day; triggers day change logic) -->
-        <div class="mb-3">
-          <label class="form-label">Select Day</label>
-          <select class="form-select" (change)="onDaySelected($event)">
-            <option value="" disabled selected>Select a day</option>
-            <option *ngFor="let day of availableDays" [value]="day">{{ day }}</option>
-          </select>
+        <div class="mb-3" *ngIf="doctorProfile?.ConsultationType?.toLowerCase() === 'online'">
+          <label class="form-label">Meeting Link</label>
+          <input type="text" placeholder="Select a day to generate link" class="form-control" name="meetingLink"
+            [value]="meetingLink" readonly />
         </div>
+
+
+        <div class="mb-3">
+          <label for="daySelect" class="form-label">Select Day</label>
+          <select id="daySelect" class="form-select" (change)="onDaySelected($event)">
+            <option value="" disabled selected>Select a day</option>
+            <option *ngFor="let day of filteredDays" [value]="day.formattedDate">
+              {{ day.fullDate }}
+            </option>
+          </select>
+          <div *ngIf="isNextWeek" class="text-info mt-2">
+            No available days this week, showing next week.
+          </div>
+        </div>
+
 
         <!-- Time Range Display -->
         <div class="mb-3">
@@ -43,16 +55,17 @@
           <input type="text" class="form-control" [value]="timeRange" disabled />
         </div>
 
-        <!-- Clinic Selection -->
-        <div class="mb-3">
+        <!-- Clinic Selection for in-person consultations only -->
+        <div class="mb-3" *ngIf="doctorProfile?.ConsultationType?.toLowerCase() !== 'online'">
           <label class="form-label">Select Clinic</label>
           <select class="form-select" (change)="onClinicSelected($event)">
-            <option value="" disabled selected>Select a clinic</option>
-            <option *ngFor="let clinic of doctorProfile.Clinics" [value]="clinic.name + ' - ' + clinic.location">
+            <option value="" disabled [selected]="!selectedClinicId">Select a clinic</option>
+            <option *ngFor="let clinic of doctorProfile.Clinics" [value]="clinic.id">
               {{ clinic.name }} - {{ clinic.location }}
             </option>
           </select>
         </div>
+
 
         <!-- Doctor Fee -->
         <div class="mb-3">
@@ -62,13 +75,15 @@
           </select>
         </div>
 
+       
         <!-- Clinic Fee -->
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="doctorProfile?.ConsultationType?.toLowerCase() !== 'online'">
           <label class="form-label">Clinic Fee (LKR)</label>
           <select class="form-select" disabled>
             <option>{{ doctorProfile.ClinicFee || '0000' }}</option>
           </select>
         </div>
+
 
         <!-- Total Fee -->
         <div class="mb-3">

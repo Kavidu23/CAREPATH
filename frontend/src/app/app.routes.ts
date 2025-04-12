@@ -24,6 +24,8 @@ import { EmailpasswordComponent } from './emailpassword/emailpassword.component'
 import { Component } from '@angular/core';
 import { ResetPasswordComponent } from './reset-password-component/reset-password-component.component';
 import { RequestPasswordResetComponent } from './request-password-reset-component/request-password-reset-component.component';
+import {ResetPasswordDoctorComponent} from './reset-password-doctor/reset-password-doctor.component';
+import { ResetPasswordComponentDoctor } from './reset-doctor-password/reset-doctor-password.component';
 
 
 export const routes: Routes = [
@@ -50,5 +52,7 @@ export const routes: Routes = [
   {path :'app-emailpassword',component:EmailpasswordComponent},
   {path:'reset-password', component:ResetPasswordComponent},
   {path:'request-reset', component:RequestPasswordResetComponent},
+  {path:'reset-password-doctor', component:ResetPasswordDoctorComponent},
+  {path:'reset-doctor-password', component:ResetPasswordComponentDoctor},
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];

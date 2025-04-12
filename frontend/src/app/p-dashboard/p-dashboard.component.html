@@ -28,7 +28,7 @@
       <div class="appointment-card">
         <div class="appointment-info d-flex align-items-center">
           <div>
-            <h5>{{ appointment.doctorName }}</h5>
+            <h5>Dr.{{ appointment.doctorName }}</h5>
             <p>{{ appointment.type }}</p>
             <p>{{ appointment.specialty }}</p>
             <p>{{ appointment.date }} - {{ appointment.time }} at {{ appointment.clinicName }} at {{
@@ -67,7 +67,7 @@
   <div class="past-appointment-card" *ngFor="let appointment of pastAppointments">
     <div class="past-appointment-info d-flex align-items-center">
       <div>
-        <h5>{{ appointment.doctorName }}</h5>
+        <h5>Dr.{{ appointment.doctorName }}</h5>
         <p>{{ appointment.specialty }}</p>
         <p><i class="bx bx-calendar"></i> {{ appointment.date }}</p>
         <p><i class="bx bx-time"></i> {{ appointment.time }} ({{ appointment.duration }})</p>
@@ -118,7 +118,7 @@
           <tr *ngFor="let appointment of pastAppointments">
             <td>{{ appointment.id }}</td>
             <td>
-              {{ appointment.doctorName }}
+              Dr.{{ appointment.doctorName }}
             </td>
             <td>{{ appointment.date }}, {{ appointment.time }}</td>
             <td>Clinic Visit</td>

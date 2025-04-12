@@ -5,13 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../data.service';
 
 @Component({
-  selector: 'app-reset-password',
+  selector: 'app-reset-passwordd',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './reset-password-component.component.html',
-  styleUrls: ['./reset-password-component.component.css']
+  templateUrl: './reset-doctor-password.component.html',
+  styleUrls: ['./reset-doctor-password.component.css']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponentDoctor implements OnInit {
   resetPasswordForm: FormGroup;
   email: string | null = null;
   token: string | null = null;
@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
       this.token = params['token'];
 
       if (!this.email || !this.token) {
-        this.errorMessage = 'Invalid or expired link. Please request a new password reset.';
+        this.errorMessage = 'Invalid reset link. Please request a new password reset.';
         this.resetPasswordForm.disable();
       }
     });
@@ -70,7 +70,7 @@ export class ResetPasswordComponent implements OnInit {
     const { newPassword } = this.resetPasswordForm.value;
 
     this.dataService.doctorChangePassword(this.email, this.token, newPassword).subscribe({
-      next: () => {
+      next: (response) => {
         this.isLoading = false;
         alert('Password reset successfully!');
         this.router.navigate(['/login']);

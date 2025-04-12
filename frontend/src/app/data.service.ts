@@ -200,6 +200,7 @@ export class DataService {
       newpassword
     }, { withCredentials: true });
   }
+
   //reset password
   resetPassword(email: string, token: string, newPassword: string): Observable<any> {
     return this.http.post(`${this.baseUrl}patient/resetpassword`, { email, token, newPassword }, { withCredentials: true });
@@ -260,6 +261,27 @@ export class DataService {
       { withCredentials: true }
     );
   }
+
+  //doctor reset password
+  doctorResetPassword(email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}doctor/reset-password`, { Email: email }, { withCredentials: true });
+  }
+
+  // Change password for doctor
+  doctorChangePassword(email: string, token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}doctor/change-password`, {
+      email,
+      token,
+      newPassword
+    });
+  }
+
+
+  // Book an appointment
+  bookAppointment(appointmentData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}patient/book-appointment`, appointmentData, { withCredentials: true });
+  }
+  
 
 
 
