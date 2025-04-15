@@ -26,10 +26,11 @@ export class PDashboardComponent implements OnInit, OnDestroy {
     age: ''
   };
 
-  upcomingAppointments: { id: string; doctorName: string; date: string; time: string; specialty?: string; location?: string; clinicName?: string; type?: string; }[] = [];
+  upcomingAppointments: { id: string; doctorName: string; doctorId: string; date: string; time: string; specialty?: string; location?: string; clinicName?: string; type?: string; Link?: string; }[] = [];
   pastAppointments: { id: string; doctorName: string; date: string; time: string; duration?: string; specialty?: string; location?: string; clinicName?: string; type?: string; }[] = [];
   prescriptions: { id: string; frequency: string; description: string; doctor: string; }[] = [];
-  invoices: { id: string; Fname: string; Date: string; Amount: string; Status: string }[] = [];
+  invoices: { Pid: string; IssuedDate: string; FinalAmount: string; TotalAmount: string; PaymentStatus: string }[] = [];
+
 
   private isLoading = false;
   private subscription = new Subscription();
@@ -56,6 +57,7 @@ export class PDashboardComponent implements OnInit, OnDestroy {
       { fetch: this.dataService.getPastAppointments(), target: 'pastAppointments', isArray: true },
       { fetch: this.dataService.getPatientPrescriptions(), target: 'prescriptions', isArray: true },
       { fetch: this.dataService.getPatientInvoice(), target: 'invoices', isArray: true }
+
     ];
 
     let requests = of(null);
@@ -126,6 +128,8 @@ export class PDashboardComponent implements OnInit, OnDestroy {
       case 'upcomingAppointments':
         this.upcomingAppointments = (data || []).map((appt: any) => ({
           id: appt.Aid?.toString() || 'Unknown',
+          Link: appt.Link || 'N/A', // Added Link for joining appointment
+          doctorId: appt.Did?.toString() || 'Unknown', // Added Doctor ID
           doctorName: appt.DoctorName || 'N/A',
           date: appt.Date || 'N/A',
           time: appt.Time || 'N/A',
@@ -158,39 +162,15 @@ export class PDashboardComponent implements OnInit, OnDestroy {
         break;
       case 'invoices':
         this.invoices = (data || []).map((inv: any) => ({
-          id: inv.Pid?.toString() || 'Unknown',
-          Name: `${inv.Fname || 'N/A'}`,
-          Date: inv.IssuedDate || 'N/A',
-          Amount: inv.FinalAmount || 'N/A',
-          Status: inv.PaymentStatus || 'Pending',
+          Pid: inv.Pid?.toString() || 'Unknown',
+          IssuedDate: new Date(inv.IssuedDate).toLocaleDateString(),
+          FinalAmount: inv.FinalAmount?.toString() || 'N/A',
+          TotalAmount: inv.TotalAmount?.toString() || 'N/A',
+          PaymentStatus: inv.PaymentStatus || 'Pending'
         }));
-        console.log(this.invoices);  // Debugging line to check the data
+        console.log('Mapped invoices:', this.invoices);
         break;
 
-    }
-  }
-
-  cancelAppointment(id: string) {
-    this.dataService.cancelAppointment(id).subscribe({
-      next: () => {
-        console.log(`Appointment with ID: ${id} canceled successfully`);
-        this.upcomingAppointments = this.upcomingAppointments.filter((appt) => appt.id !== id);
-      },
-      error: (err) => console.error(`Failed to cancel appointment with ID: ${id}`, err),
-    });
-  }
-
-  rescheduleAppointment(id: string) {
-    const newDate = prompt('Enter new date (YYYY-MM-DD):') || '';
-    const newTime = prompt('Enter new time (HH:MM AM/PM):') || '';
-    if (newDate && newTime) {
-      this.dataService.rescheduleAppointment(id, newDate, newTime).subscribe({
-        next: () => {
-          console.log(`Appointment with ID: ${id} rescheduled to ${newDate} ${newTime}`);
-          this.loadDashboardData();
-        },
-        error: (err) => console.error(`Failed to reschedule appointment with ID: ${id}`, err),
-      });
     }
   }
 
@@ -209,22 +189,46 @@ export class PDashboardComponent implements OnInit, OnDestroy {
     console.log('Component destroyed, subscriptions cleaned up');
   }
 
-  confirmCancel(appointmentId: string) {
-    const isConfirmed = window.confirm("Are you sure you want to cancel this appointment?");
-    if (isConfirmed) {
-      this.cancelAppointment(appointmentId);
+
+  goToReschedule(appointmentId: string, doctorId: string): void {
+    this.router.navigate(['/reshedule'], {
+      queryParams: { id: appointmentId, Did: doctorId }
+    });
+  }
+
+  //Join appointment function
+  joinAppointment(appointmentId: string): void {
+    // Find the appointment by its ID
+    const appointment = this.upcomingAppointments.find(app => app.id === appointmentId);
+
+    if (!appointment) {
+      alert('Appointment not found.');
+      return;
+    }
+
+    if (!appointment.Link) {
+      alert('No meeting link available for this appointment.');
+      return;
+    }
+
+    const confirmJoin = confirm('Are you sure you want to join the appointment?');
+    if (confirmJoin) {
+      // Open the meeting link in a new tab
+      window.open(appointment.Link, '_blank');
     }
   }
 
 
-  joinAppointment(appointmentId: string) {
-    // Ask for confirmation to join the appointment
-    const confirmJoin = confirm('Are you sure you want to join the appointment?');
-    if (confirmJoin) {
-      console.log(`Joining online appointment with ID: ${appointmentId}`);
-      // You can redirect to a meeting link or perform any action
-      // Example: window.location.href = 'https://example.com/meeting-link';
-    }
+  canJoinNow(appointment: any): boolean {
+    if (!appointment?.Date || !appointment?.Time) return false;
+
+    const now = new Date();
+    const appointmentDateTime = new Date(`${appointment.Date}T${appointment.Time}`);
+
+    const tenMinutesBefore = new Date(appointmentDateTime.getTime() - 10 * 60000);
+    const oneHourAfter = new Date(appointmentDateTime.getTime() + 60 * 60000);
+
+    return now >= tenMinutesBefore && now <= oneHourAfter;
   }
 
 }

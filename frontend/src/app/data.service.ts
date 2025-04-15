@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { pid } from 'node:process';
+import { tap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root',
@@ -180,8 +183,11 @@ export class DataService {
 
   //get patent invoice
   getPatientInvoice(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}p_profile/invoice`, { withCredentials: true });
+    return this.http.get<any>(`${this.baseUrl}p_profile/invoice`, { withCredentials: true }).pipe(
+      tap(data => console.log('➡️ INVOICE RESPONSE from backend:', data))
+    );
   }
+
 
   //update patient
   updatePatientEmail(formData: FormData): Observable<any> {
@@ -281,18 +287,48 @@ export class DataService {
   bookAppointment(appointmentData: any): Observable<any> {
     return this.http.post(`${this.baseUrl}patient/book-appointment`, appointmentData, { withCredentials: true });
   }
-  
-
- // Add invoice
-addInvoice(invoiceData: any): Observable<any> {
-  return this.http.post(`${this.baseUrl}patient/add-invoice`, invoiceData, { withCredentials: true });
-}
-
-// get invoice by id
-getInvoiceById(invoiceId: string): Observable<any> {
-  return this.http.get(`${this.baseUrl}patient/get-invoice/${invoiceId}`, { withCredentials: true });
-}
 
 
+  // Add invoice
+  addInvoice(invoiceData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}patient/add-invoice`, invoiceData, { withCredentials: true });
+  }
+
+  // get invoice by id
+  getInvoiceById(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}patient/get-invoice/${id}`, { withCredentials: true });
+  }
+
+  //reshedule appointment
+  resheduleAppointment(appointmentId: string, newDate: string, newTime: string): Observable<any> {
+    const body = { newDate, newTime };
+    return this.http.put<any>(`${this.baseUrl}patient/reschedule/${appointmentId}`, body, { withCredentials: true });
+  }
+
+
+  //get appointment by id
+  getAppointmentById(appointmentId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}patient/get-appointment/${appointmentId}`, { withCredentials: true });
+  }
+
+  //get link by id
+  getLinkById(appointmentId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/get-appointment-link/${appointmentId}`, { withCredentials: true });
+  }
+
+  // Fetch Patient ID from server
+  getPatientId(): Observable<any> {
+    return this.http.get(`${this.baseUrl}patient/get-patient-id`, { withCredentials: true });
+  }
+
+  // Get appointment time remaining for tomorrow
+  checkAppointmentTime(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}patient/check-appointment-time`, { withCredentials: true });
+  }
+
+  //get image
+  getPatientImage(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}patient/get-image`, { withCredentials: true });
+  }
 
 }

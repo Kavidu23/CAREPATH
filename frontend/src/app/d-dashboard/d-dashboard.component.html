@@ -28,9 +28,14 @@
             <p><i class="bx bx-calendar"></i> {{ appointment.Date | date:'yyyy-MM-dd' }} at {{ appointment.Time }}</p>
           </div>
         </div>
-        <button class="btn btn-primary" *ngIf="appointment.Type === 'Online'" (click)="joinCall(appointment.Aid ?? '')">
-          <i class="bx bx-video"></i> Join Call
+        <button *ngIf="appointment.Type === 'Online' && appointment.Aid && canJoinNow(appointment)"
+          class="btn btn-primary" (click)="joinAppointment(appointment.Aid)">
+          <i class="bx bx-video"></i>Join Call
         </button>
+        <p *ngIf="appointment.Type === 'Online' && appointment.Aid && !canJoinNow(appointment)"
+          class="text-muted small">
+          You can join the appointment 10 minutes before the scheduled time.
+        </p>
       </div>
     </ng-container>
     <ng-template #noUpcomingAppointments>

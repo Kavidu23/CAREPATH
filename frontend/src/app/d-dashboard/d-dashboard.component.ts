@@ -25,9 +25,9 @@ export class DDashboardComponent implements OnInit, OnDestroy {
     Specialization: ''
   };
 
-  upcomingAppointments: { Aid?: string; Fname: string; Lname: string; Date: string; Time: string; Type: string }[] = [];
+  upcomingAppointments: { Aid?: string; Fname: string; Lname: string; Date: string; Time: string; Type: string; Link?: string }[] = [];
   clinicsAvailability: { Name: string; Location: string; fee?: string; availability?: { day: string; time: string }[] }[] = [];
-  appointments: { Aid?: string; Fname: string; Lname: string; Date: string; Type: string; status?: string }[] = [];
+  appointments: { Aid?: string; Fname: string; Lname: string; Date: string; Type: string; status?: string; Link?: string }[] = [];
   prescriptions: { Rid?: string; Fname: string; Lname: string; Duration: string; Frequency: string }[] = [];
   invoices: { id?: string; patientPic?: string; patientName: string; date: string; amount: string; status?: string }[] = [];
   newClinics: { Name: string; Location: string; Pnumber: String; Cid: string; }[] = [];
@@ -258,8 +258,40 @@ export class DDashboardComponent implements OnInit, OnDestroy {
     console.log('Component destroyed, subscriptions cleaned up');
   }
 
-  joinCall(appointmentId: string): void {
-    this.router.navigate(['/video-call', appointmentId]);
-    console.log(`Joining video call for appointment ID: ${appointmentId}`);
+  //Join appointment function
+  joinAppointment(appointmentId: string): void {
+    // Find the appointment by its ID
+    const appointment = this.upcomingAppointments.find(app => app.Aid === appointmentId);
+
+    if (!appointment) {
+      alert('Appointment not found.');
+      return;
+    }
+
+    if (!appointment.Link) {
+      alert('No meeting link available for this appointment.');
+      return;
+    }
+
+    const confirmJoin = confirm('Are you sure you want to join the appointment?');
+    if (confirmJoin) {
+      // Open the meeting link in a new tab
+      window.open(appointment.Link, '_blank');
+    }
   }
+
+  canJoinNow(appointment: any): boolean {
+    if (!appointment?.Date || !appointment?.Time) return false;
+  
+    const now = new Date();
+    const appointmentDateTime = new Date(`${appointment.Date}T${appointment.Time}`);
+  
+    const tenMinutesBefore = new Date(appointmentDateTime.getTime() - 10 * 60000);
+    const oneHourAfter = new Date(appointmentDateTime.getTime() + 60 * 60000);
+  
+    return now >= tenMinutesBefore && now <= oneHourAfter;
+  }
+  
+  
+
 }

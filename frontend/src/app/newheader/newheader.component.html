@@ -48,7 +48,21 @@
             <div class="header-buttons ms-3 d-flex align-items-center">
                 <button class="btn btn-primary me-2 custom-btn" (click)="logout()">Log out</button>
                 <!-- Display user name if logged in -->
-                <b class="ms-2">Welcome</b>
+                <div class="image-container">
+                    <ng-container *ngIf="user?.Image && user.Image !== '';">
+                        <img [src]="user.Image" alt="User" class="user-image" (mouseenter)="showTooltip = true"
+                            (mouseleave)="showTooltip = false" />
+                    </ng-container>
+                    <!-- Notification badge -->
+                    <div *ngIf="appointmentCount > 0" class="notification" (click)="goToPatientDashboard()">
+                        {{ appointmentCount }}
+                    </div>
+
+                    <!-- Custom Tooltip -->
+                    <div class="custom-tooltip" *ngIf="showTooltip && appointmentCount > 0">
+                        {{ appointmentInfo }} <!-- Using 'appointmentInfo' to show the remaining time -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -90,7 +90,7 @@ router.get("/appointments", authenticateDoctor, (req, res) => {
 router.get("/upcoming-appointments", authenticateDoctor, (req, res) => {
   const { Did } = req.session.doctor;
   const query = `
-        SELECT Appointment.Aid, Patient.Fname, Patient.Lname, Appointment.Date, Appointment.Time, Appointment.Type, Appointment.Did
+        SELECT Appointment.Aid, Patient.Fname, Patient.Lname, Appointment.Date, Appointment.Time, Appointment.Type, Appointment.Did, Appointment.Link
         FROM Appointment
         JOIN Patient ON Appointment.Pid = Patient.Pid
         WHERE Appointment.Did = ? 

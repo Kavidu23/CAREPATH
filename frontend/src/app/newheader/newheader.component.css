@@ -1,17 +1,119 @@
 /* Button customizations */
 .custom-btn {
-    background-color: #083364; /* Button color */
-    border-radius: 20px; /* Border radius */
-    color: #fff; /* White text color */
+  background-color: #083364; /* Button color */
+  border-radius: 20px; /* Border radius */
+  color: #fff; /* White text color */
+}
+
+.custom-btn:hover {
+  background-color: #061f3d; /* Slightly darker shade for hover effect */
+}
+
+i {
+  color: blue;
+}
+
+.bx {
+  font-size: 25px;
+}
+
+/* Container for the image and notification */
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* The user image with border */
+.user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: thin transparent; /* Border is transparent initially */
+  background-image: linear-gradient(
+    to right,
+    #121df3,
+    #e74c3c,
+    #d3db34
+  ); /* Gradient border */
+  background-origin: border-box; /* Apply the gradient border */
+  padding: 4px; /* Ensures border is visible */
+  box-sizing: border-box; /* Keeps the box size intact */
+}
+
+/* Notification-like number above the image */
+.notification {
+  position: absolute;
+  top: -10px; /* Move it above the image */
+  left: 70%;
+  transform: translateX(-50%);
+  background-color: #e74c3c;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Tooltip style */
+.custom-tooltip {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(51, 51, 51, 0.9);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+}
+
+/* Tooltip styling */
+.custom-tooltip {
+  position: absolute;
+  top: 55px; /* Adjust the position of the tooltip above the image */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #083364; /* Button background color (matches your theme) */
+  color: white;
+  padding: 8px 15px; /* Larger padding for a more spacious tooltip */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 14px; /* Increased font size */
+  font-weight: bold; /* Bold text */
+  z-index: 10;
+  visibility: hidden; /* Initially hidden */
+  opacity: 0; /* Start with transparent */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth fade-in and transition */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  height: 50px;
+}
+
+/* Tooltip becomes visible when hovering over the container */
+.image-container:hover .custom-tooltip {
+  visibility: visible;
+  opacity: 1; /* Fade in tooltip */
+  transform: translateX(-50%) translateY(-10px); /* Move tooltip up slightly */
+}
+
+/* The image container that triggers the tooltip visibility on hover */
+.image-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.header-buttons:hover {
+  cursor: pointer;
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
-  
-  .custom-btn:hover {
-    background-color: #061f3d; /* Slightly darker shade for hover effect */
-  }
-  
-  
-  i{
-    color:blue;
-  }
-  
-  
+}

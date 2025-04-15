@@ -7,6 +7,8 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
+const moment = require("moment-timezone"); // ✅ correct import
+const currentTime = moment().tz("Asia/Colombo"); // now works!
 require("dotenv").config();
 
 // Signup Route
@@ -667,7 +669,7 @@ router.get("/get-invoice/:id", authenticateUser, (req, res) => {
     return res.status(400).json({ message: "Invalid invoice ID format" });
   }
 
-  const query = `SELECT * FROM Invoice WHERE Id = ?`;
+  const query = `SELECT * FROM Invoice WHERE id = ?`;
 
   connection.query(query, [id], (err, result) => {
     if (err) {
@@ -690,6 +692,123 @@ router.get("/get-invoice/:id", authenticateUser, (req, res) => {
     console.log(`Invoice fetched successfully for ID: ${id}`);
     return res.status(200).json(result[0]);
   });
+});
+
+//get patient id from session
+router.get("/get-patient-id", authenticateUser, (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const { Pid } = req.session.user;
+  res.status(200).json({ Pid });
+});
+
+//reshedule appointment
+router.put("/reshedule", authenticateUser, (req, res) => {
+  const { Date, Time, Id } = req.body; // Get data from request body
+
+  if (!Date || !Time || !Id) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  connection.query(
+    "UPDATE Appointment SET Date = ?, Time = ? WHERE Id = ?",
+    [Date, Time, Id],
+    (err, result) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ message: "Database error" });
+      }
+      res.status(200).json({ message: "Appointment rescheduled successfully" });
+    }
+  );
+});
+
+//get appointment by id
+router.get("/check-appointment-time", (req, res) => {
+  const { Pid } = req.session.user;
+  const currentTime = moment.tz("Asia/Colombo");
+
+  const query = `
+    SELECT a.Aid, a.Pid, a.Date, a.Time, a.Type
+    FROM Appointment a
+    WHERE a.Pid = ? AND a.Date = CURDATE() + INTERVAL 1 DAY;
+  `;
+
+  connection.query(query, [Pid], (err, results) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ message: "Database error", error: err });
+    }
+
+    if (!results || results.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No appointments found for tomorrow" });
+    }
+
+    const appointments = results.map((appointment) => {
+      const dateStr = moment(appointment.Date).format("YYYY-MM-DD"); // ensure format
+      const timeStr = appointment.Time ? appointment.Time : "12:00:00"; // fallback if needed
+
+      const datetimeStr = `${dateStr} ${timeStr}`;
+      const appointmentDateTime = moment.tz(
+        datetimeStr,
+        "YYYY-MM-DD HH:mm:ss",
+        "Asia/Colombo"
+      );
+
+      if (!appointmentDateTime.isValid()) {
+        console.warn("Invalid date-time format for:", datetimeStr);
+        return {
+          Aid: appointment.Aid,
+          Type: appointment.Type,
+          RemainingTime: "Invalid appointment time",
+        };
+      }
+
+      const diffMinutes = appointmentDateTime.diff(currentTime, "minutes");
+
+      console.log("NOW:", currentTime.format("YYYY-MM-DD HH:mm:ss"));
+      console.log(
+        "APPOINTMENT:",
+        appointmentDateTime.format("YYYY-MM-DD HH:mm:ss")
+      );
+      console.log("DIFF:", diffMinutes, "minutes");
+
+      return {
+        Aid: appointment.Aid,
+        Type: appointment.Type,
+        RemainingTime:
+          diffMinutes > 0
+            ? `${(diffMinutes / 60).toFixed(2)} hours remaining`
+            : "Appointment time has passed",
+      };
+    });
+
+    res.status(200).json({ appointments });
+  });
+});
+
+//get patient image by id
+router.get("/get-image", authenticateUser, (req, res) => {
+  const { Pid } = req.session.user; // Get Pid from session
+  console.log("Fetching image for Pid:", Pid);
+  connection.query(
+    "SELECT Image FROM Patient WHERE Pid = ?",
+    [Pid],
+    (err, result) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ message: "Database error" });
+      }
+      if (result.length === 0) {
+        return res.status(404).json({ message: "Patient not found" });
+      }
+      res.status(200).json(result[0]);
+    }
+  );
 });
 
 // Export the router

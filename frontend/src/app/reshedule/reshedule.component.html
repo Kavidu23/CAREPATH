@@ -1,0 +1,44 @@
+<div class="reschedule-container">
+  <div class="reschedule-header">
+    <h2><i class='bx bx-calendar-edit'></i> Reschedule Appointment</h2>
+    <p>Select a new date and time for your appointment</p>
+  </div>
+
+  <form (ngSubmit)="submitReschedule()" #rescheduleForm="ngForm" class="reschedule-form">
+    <div class="form-group">
+      <label for="date"><i class='bx bx-calendar'></i> New Date</label>
+      <select
+        id="date"
+        name="date"
+        class="form-control"
+        required
+        [(ngModel)]="selectedDay"
+      >
+        <option value="" disabled selected>Select a day</option>
+        <option *ngFor="let day of filteredDays" [value]="day.formattedDate">
+          {{ day.fullDate }}
+        </option>
+      </select>
+      <div *ngIf="isNextWeek" class="text-info mt-2">
+        No available days this week, showing next week.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="time"><i class='bx bx-time'></i> New Time</label>
+      <input
+        type="text"
+        id="time"
+        name="time"
+        class="form-control"
+        [value]="timeRange"
+        readonly
+      />
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Confirm</button>
+      <button type="button" class="btn btn-danger" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

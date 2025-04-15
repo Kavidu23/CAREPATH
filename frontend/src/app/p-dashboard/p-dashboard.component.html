@@ -13,7 +13,7 @@
 
 <!-- Header with Profile -->
 <div class="header-section text-center">
-  <img [src]="patientProfile.image ? 'assets/' + patientProfile.image : 'assets/profile-pic.jpg'" alt="Doctor Profile"
+  <img [src]="patientProfile.image ? 'assets/' + patientProfile.image : 'assets/profile-pic.jpg'" alt="Patient Profile"
     class="profile-pic" width="50" height="50" />
   <h2 class="patient-name">{{ patientProfile.firstName }} {{ patientProfile.lastName }}</h2>
   <p class="patient-details">{{ patientProfile.gender }} | {{ patientProfile.age }} | ID - {{ patientProfile.patientId
@@ -36,13 +36,17 @@
               appointment.location }}</p>
           </div>
         </div>
-        <button class="btn btn-danger" (click)="confirmCancel(appointment.id)">
-          <i class='bx bx-window-close'></i> Cancel
+        <button class="btn btn-danger" (click)="goToReschedule(appointment.id, appointment.doctorId)">
+          <i class='bx bx-window-close'></i> Reschedule
         </button>
         <!-- Show "Join" button for online appointments -->
-        <button *ngIf="appointment.type === 'Online'" class="btn btn-primary" (click)="joinAppointment(appointment.id)">
+        <button *ngIf="appointment.type === 'Online' && canJoinNow(appointment)" class="btn btn-primary"
+          (click)="joinAppointment(appointment.id)">
           <i class="bx bx-video"></i>Join Call
         </button>
+        <p *ngIf="appointment.type === 'Online' && !canJoinNow(appointment)" class="text-muted small">
+          You can join the appointment 10 minutes before the scheduled time.
+        </p>
       </div>
     </div>
     <div class="col-md-6" *ngIf="upcomingAppointments.length === 0">
@@ -173,7 +177,6 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>PATIENT</th>
             <th>DATE</th>
             <th>AMOUNT</th>
             <th>STATUS</th>
@@ -181,13 +184,13 @@
         </thead>
         <tbody>
           <tr *ngFor="let invoice of invoices">
-            <td>{{ invoice.id }}</td> <!-- 'id' instead of 'Pid' -->
-            <td>{{ invoice.Fname }}</td> <!-- 'patientName' instead of 'Fname' -->
-            <td>{{ invoice.Date}}</td> <!-- 'issuedDate' instead of 'IssuedDate' -->
-            <td>{{ invoice.Amount}}</td> <!-- 'finalAmount' instead of 'FinalAmount' -->
-            <td><span
-                [ngClass]="{'status completed': invoice.Status=== 'PAID', 'status awaiting': invoice.Status !== 'PAID'}">
-                {{ invoice.Status }}</span></td> <!-- 'paymentStatus' instead of 'PaymentStatus' -->
+            <td>{{ invoice.Pid}}</td>
+            <td>{{ invoice.IssuedDate}}</td>
+            <td>{{ invoice.FinalAmount}}</td>
+            <td><span [ngClass]="{ 'status completed': invoice.PaymentStatus}">
+                  {{ invoice.PaymentStatus}}
+                </span>
+            </td>            
           </tr>
           <tr *ngIf="invoices.length === 0">
             <td colspan="5">No invoices available.</td>
