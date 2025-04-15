@@ -78,7 +78,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let appt of appointments">
-              <td>{{ appt.Aid || '#AF-0128' }}</td>
+              <td>{{ appt.Pid }}</td>
               <td>{{ appt.Fname + ' ' + appt.Lname }}</td>
               <td>{{ appt.Date | date:'yyyy-MM-dd' }}</td>
               <td>{{ appt.Type || 'No Data Available' }}</td>
@@ -113,7 +113,11 @@
               <td>{{ prescription.Fname + ' ' + prescription.Lname }}</td>
               <td>{{ prescription.Duration }}</td>
               <td>{{ prescription.Frequency }}</td>
-              <td><a href="#" class="action-link"><i class="bx bx-file"></i> View</a></td>
+              <td>
+                <a href="#" class="action-link" (click)="openImageModal(prescription.Image)">
+                  <i class="bx bx-file"></i> View
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -122,6 +126,16 @@
     <ng-template #noPrescriptions>
       <p>No Prescriptions Available</p>
     </ng-template>
+
+
+    <!-- Image Modal -->
+    <div class="custom-modal" *ngIf="selectedImagePath">
+      <div class="custom-modal-content">
+        <span class="close" (click)="closeImageModal()">&times;</span>
+        <img [src]="'assets/' + selectedImagePath" class="img-fluid" alt="Prescription Image">
+      </div>
+    </div>
+
   </div>
 
   <!-- Clinics & Availability -->
@@ -141,4 +155,37 @@
       <p>No Clinics Available</p>
     </ng-template>
   </div>
+
+
+  <!-- Add New Prescription Section -->
+  <div class="add-prescription-section mt-5">
+    <h4>Add New Prescription</h4>
+    <form (ngSubmit)="addPrescription()" #prescriptionForm="ngForm">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label>Patient ID</label>
+          <input type="number" class="form-control" [(ngModel)]="newPrescription.Pid" name="Pid" required>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Duration</label>
+          <input type="text" class="form-control" [(ngModel)]="newPrescription.Duration" name="Duration" required>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Frequency</label>
+          <input type="text" class="form-control" [(ngModel)]="newPrescription.Frequency" name="Frequency" required>
+        </div>
+        <div class="col-md-8 mb-3">
+          <label>Description</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="newPrescription.Description"
+            name="Description"></textarea>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label>Upload Prescription Image</label>
+          <input type="file" class="form-control" (change)="onImageSelected($event)" name="image">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success">Add Prescription</button>
+    </form>
+  </div>
+
 </div>

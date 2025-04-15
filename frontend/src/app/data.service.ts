@@ -331,4 +331,9 @@ export class DataService {
     return this.http.get<any>(`${this.baseUrl}patient/get-image`, { withCredentials: true });
   }
 
+  //add prescription
+  addPrescription(prescriptionData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}d_profile/add-prescription`, prescriptionData, { withCredentials: true });
+  }
+
 }

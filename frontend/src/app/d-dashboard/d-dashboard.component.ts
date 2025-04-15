@@ -8,11 +8,12 @@ import { catchError, tap } from 'rxjs/operators';
 import { HeadercheckComponent } from "../headercheck/headercheck.component";
 import { retryWhen, scan, delay } from 'rxjs/operators';
 import { ChangeDetectorRef } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-d-dashboard',
   standalone: true,
-  imports: [CommonModule, NewheaderComponent, HeadercheckComponent],
+  imports: [CommonModule, NewheaderComponent, HeadercheckComponent, FormsModule],
   templateUrl: './d-dashboard.component.html',
   styleUrls: ['./d-dashboard.component.css']
 })
@@ -27,8 +28,8 @@ export class DDashboardComponent implements OnInit, OnDestroy {
 
   upcomingAppointments: { Aid?: string; Fname: string; Lname: string; Date: string; Time: string; Type: string; Link?: string }[] = [];
   clinicsAvailability: { Name: string; Location: string; fee?: string; availability?: { day: string; time: string }[] }[] = [];
-  appointments: { Aid?: string; Fname: string; Lname: string; Date: string; Type: string; status?: string; Link?: string }[] = [];
-  prescriptions: { Rid?: string; Fname: string; Lname: string; Duration: string; Frequency: string }[] = [];
+  appointments: { Aid?: string; Pid?: string; Fname: string; Lname: string; Date: string; Type: string; status?: string; Link?: string }[] = [];
+  prescriptions: { Rid?: string; Fname: string; Lname: string; Duration: string; Frequency: string; Image: string }[] = [];
   invoices: { id?: string; patientPic?: string; patientName: string; date: string; amount: string; status?: string }[] = [];
   newClinics: { Name: string; Location: string; Pnumber: String; Cid: string; }[] = [];
   totalPatients: number = 0; // Stores today's patient count
@@ -282,16 +283,81 @@ export class DDashboardComponent implements OnInit, OnDestroy {
 
   canJoinNow(appointment: any): boolean {
     if (!appointment?.Date || !appointment?.Time) return false;
-  
+
     const now = new Date();
     const appointmentDateTime = new Date(`${appointment.Date}T${appointment.Time}`);
-  
+
     const tenMinutesBefore = new Date(appointmentDateTime.getTime() - 10 * 60000);
     const oneHourAfter = new Date(appointmentDateTime.getTime() + 60 * 60000);
-  
+
     return now >= tenMinutesBefore && now <= oneHourAfter;
   }
-  
-  
+  newPrescription: any = {
+    Pid: null,
+    Did: null,
+    Duration: '',
+    Frequency: '',
+    Description: '',
+    Image: ''
+  };
+
+  onImageSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.newPrescription.Image = file.name; // Save just the image name
+    }
+  }
+
+  addPrescription(): void {
+    const { Pid, Did, Duration, Frequency, Description, Image } = this.newPrescription;
+
+    // Basic validation check
+    if (!Pid || !Did || !Duration.trim() || !Frequency.trim() || !Description.trim() || !Image.trim()) {
+      alert('Please fill out all fields before submitting the prescription.');
+      return;
+    }
+
+    const body = {
+      Pid,
+      Did,
+      Duration,
+      Frequency,
+      Description,
+      Image
+    };
+
+    this.dataService.addPrescription(body).subscribe({
+      next: (response) => {
+        alert('Prescription added successfully!');
+        // Reset form
+        this.newPrescription = {
+          Pid: null,
+          Did: null,
+          Duration: '',
+          Frequency: '',
+          Description: '',
+          Image: ''
+        };
+      },
+      error: (err) => {
+        console.error('Error adding prescription:', err);
+        alert('Failed to add prescription.');
+      }
+    });
+  }
+
+  selectedImagePath: string | null = null;
+
+  openImageModal(imageName: string): void {
+    this.selectedImagePath = `../../assets/${imageName}`;
+  }
+
+
+  closeImageModal(): void {
+    this.selectedImagePath = null;
+  }
+
+
+
 
 }

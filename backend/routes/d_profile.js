@@ -73,7 +73,7 @@ router.get("/statistics", authenticateDoctor, (req, res) => {
 router.get("/appointments", authenticateDoctor, (req, res) => {
   const { Did } = req.session.doctor;
   const query = `
-        SELECT Appointment.Aid, Patient.Fname, Patient.Lname, Appointment.Date, Appointment.Time, Appointment.Type, Appointment.Did
+        SELECT Appointment.Aid, Patient.Pid ,Patient.Fname, Patient.Lname, Appointment.Date, Appointment.Time, Appointment.Type, Appointment.Did
         FROM Appointment
         JOIN Patient ON Appointment.Pid = Patient.Pid
         WHERE Appointment.Did = ?
@@ -172,7 +172,7 @@ router.get("/medical-records", authenticateDoctor, (req, res) => {
 router.get("/prescriptions", authenticateDoctor, (req, res) => {
   const { Did } = req.session.doctor;
   const query = `
-        SELECT Prescription.Rid, Patient.Fname, Patient.Lname, Prescription.Duration, Prescription.Frequency, Prescription.Description
+        SELECT Prescription.Rid, Patient.Fname, Patient.Lname, Prescription.Duration, Prescription.Frequency, Prescription.Description,Prescription.Image
         FROM Prescription
         JOIN Patient ON Prescription.Pid = Patient.Pid
         WHERE Prescription.Did = ?
@@ -245,6 +245,32 @@ router.get("/today_patients", async (req, res) => {
       .status(500)
       .json({ error: "Internal Server Error", message: error.message });
   }
+});
+
+router.post("/add-prescription", authenticateDoctor, (req, res) => {
+  const { Did } = req.session.doctor;
+  const { Pid, Duration, Frequency, Description, Image } = req.body;
+
+  // Use today's date
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  const query = `
+    INSERT INTO Prescription 
+      (Pid, Did, Duration, Frequency, Description, Image, Date) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  connection.query(
+    query,
+    [Pid, Did, Duration, Frequency, Description, Image, currentDate],
+    (err, results) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ message: "Database error", error: err });
+      }
+      res.json({ message: "Prescription added successfully" });
+    }
+  );
 });
 
 module.exports = router;
