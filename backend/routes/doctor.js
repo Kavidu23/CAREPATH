@@ -261,40 +261,6 @@ router.put("/update/phone", authenticateDoctor, (req, res) => {
   });
 });
 
-//Activate doctor
-router.put("/activate", authenticateAdmin, (req, res) => {
-  const { Did } = req.body;
-
-  const query = "UPDATE Doctor SET Status = '1' WHERE Did = ?";
-  connection.query(query, [Did], (err, result) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ message: "Database error", error: err });
-    }
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Doctor not found" });
-    }
-    res.json({ message: "Doctor account activated successfully" });
-  });
-});
-
-//Deactivate doctor
-router.put("/deactivate", authenticateAdmin, (req, res) => {
-  const { Did } = req.params;
-
-  const query = "UPDATE Doctor SET Status = '0' WHERE Did = ?";
-  connection.query(query, [Did], (err, result) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ message: "Database error", error: err });
-    }
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Doctor not found" });
-    }
-    res.json({ message: "Doctor account deactivated successfully" });
-  });
-});
-
 //Get doctor profile
 router.get("/profile", authenticateAdmin, (req, res) => {
   const { Did } = req.session.doctor;
@@ -314,9 +280,8 @@ router.get("/profile", authenticateAdmin, (req, res) => {
 });
 
 //Get all doctors
-router.get("/all", authenticateAdmin, (req, res) => {
-  const query =
-    "SELECT Did, Fname, Lname, Email, Pnumber, Status, Specialization FROM Doctor";
+router.get("/all", (req, res) => {
+  const query = "SELECT Did, Fname, Lname, Email, Pnumber, Status FROM Doctor";
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -375,13 +340,13 @@ router.get("/session-doctor", (req, res) => {
 });
 
 // Get doctor by ID
-// Get doctor by ID
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
   const query = `
     SELECT 
       doctor.Fname, 
+      doctor.Image,
       doctor.Lname, 
       doctor.ConsultationType, 
       doctor.Availability, 
@@ -412,7 +377,8 @@ router.get("/:id", (req, res) => {
       ConsultationType: result[0].ConsultationType,
       Availability: result[0].Availability,
       ConsultationFee: result[0].ConsultationFee,
-      ClinicFee: result[0].ClinicFee, // Add ClinicFee here
+      ClinicFee: result[0].ClinicFee,
+      Image: result[0].Image ? `${result[0].Image}` : null, // Handle image path
       Clinics: result.map((row) => ({
         id: row.Cid, // Include the clinic ID
         name: row.ClinicName,

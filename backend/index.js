@@ -37,5 +37,5 @@ app.use("/clinics", clinicRouter);
 app.use("/p_profile", priflistRouter);
 app.use("/home-care", homecareRouter);
 app.use("/session", sessionRouter);
-app.use("/payment",paymentRouter);
+app.use("/payment", paymentRouter);
 module.exports = app;

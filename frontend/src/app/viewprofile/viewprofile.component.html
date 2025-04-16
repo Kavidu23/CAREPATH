@@ -1,0 +1,39 @@
+<app-headercheck></app-headercheck>
+
+<div class="doctor-profile-container">
+    <div class="doctor-header">
+        <div class="doctor-avatar">
+            <!-- Dynamic doctor image -->
+            <img [src]="doctor?.Image ? '../../assets/' + doctor.Image : ''"
+                alt="Doctor Avatar">
+        </div>
+        <div class="doctor-info">
+            <h2 class="doctor-name">{{ doctor?.Fname }} {{ doctor?.Lname }}</h2>
+            <p class="doctor-consultation-type">{{ doctor?.ConsultationType }}</p>
+            <p class="doctor-availability">{{ doctor?.Availability }}</p>
+        </div>
+    </div>
+
+    <div class="doctor-details">
+        <div class="detail-section">
+            <h3>Consultation Fee</h3>
+            <p class="fee">Rs:{{ doctor?.ConsultationFee }}</p>
+        </div>
+
+        <div class="detail-section">
+            <h3>Clinic Information</h3>
+            <ul>
+                <li *ngFor="let clinic of doctor?.Clinics" class="clinic-item">
+                    <h4>{{ clinic.name }}</h4>
+                    <p>{{ clinic.location }}</p>
+                    <p>Clinic Fee: Rs:{{ doctor?.ClinicFee }}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="doctor-footer">
+        <button class="book-appointment-btn" (click)="bookAppointment()">Book Appointment</button>
+    </div>
+</div>
+<app-footer></app-footer>

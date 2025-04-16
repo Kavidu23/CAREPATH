@@ -41,7 +41,10 @@
                     </div>
                     <div class="col-md-3 text-center">
                         <p class="availability">{{ doctor.availability }}</p>
-                        <button class="btn btn-primary" (click)="bookAppointment(doctor)">Book Appointment</button>
+                        <div class="button-container">
+                            <button class="btn btn-primary" (click)="bookAppointment(doctor)">Book Appointment</button>
+                            <button class="btn2 btn-primary" (click)="viewprofile(doctor)">View Profile</button>
+                        </div>
                     </div>
                 </div>
             </div>

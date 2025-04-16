@@ -78,4 +78,8 @@ export class DlistComponent implements OnInit {
   bookAppointment(doctor: any) {
     this.router.navigate(['/book-now'], { queryParams: { Did: doctor.Did } });
   }
+
+  viewprofile(doctor: any) {
+    this.router.navigate(['/view-now'], { queryParams: { Did: doctor.Did } });
+  }
 }

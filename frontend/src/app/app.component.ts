@@ -4,6 +4,7 @@ import { HeaderComponent } from "./header/header.component";
 import { FooterComponent } from "./footer/footer.component";
 import { HomeComponent } from './home/home.component';
 import { isPlatformBrowser } from '@angular/common';
+
 import AOS from 'aos';
 
 @Component({

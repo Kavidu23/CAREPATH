@@ -161,7 +161,7 @@
 }
 
 .doctor-card .btn-primary {
-  background:#0b5ed7;
+  background: #0b5ed7;
   border: none;
   padding: 10px 20px;
   border-radius: 10px;
@@ -172,11 +172,24 @@
   background: #0b5dd7f9;
 }
 
+.btn2{
+  color: white;
+  width: 155px;
+}
+
 /* Box Icons */
 .bx {
   font-size: 18px;
   vertical-align: middle;
   margin-right: 5px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Responsive Design */

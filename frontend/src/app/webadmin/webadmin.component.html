@@ -1,0 +1,66 @@
+<app-header></app-header>
+
+<div class="web-admin-wrapper">
+    <h2 class="page-title">Web Admin Dashboard</h2>
+
+    <!-- Total Doctors and Patients -->
+    <div class="stats-cards">
+        <div class="card">
+            <h3>Total Registered Doctors</h3>
+            <h3>{{ totalDoctorCount }}</h3>
+        </div>
+        <div class="card">
+            <h3>Total Registered Patients</h3>
+            <h3>{{ totalPatientCount }}</h3>
+        </div>
+    </div>
+
+    <!-- Activate/Deactivate Doctor -->
+    <div class="card doctor-actions">
+        <h3>Doctor Management</h3>
+        <select [(ngModel)]="selectedDoctorId" class="input-field">
+            <option *ngFor="let doctor of allDoctors" [value]="doctor.Did">{{ doctor.Fname }} {{ doctor.Lname }}
+            </option>
+        </select>
+        <button (click)="activateDoctor()" class="btn">Activate Doctor</button><br>
+        <button (click)="deactivateDoctor()" class="btn">Deactivate Doctor</button>
+    </div>
+    <br>
+    <!-- Register New Clinic -->
+    <div class="card register-clinic">
+        <h3>Register New Clinic</h3>
+        <form (ngSubmit)="registerClinic()">
+            <input [(ngModel)]="clinicData.Name" placeholder="Clinic Name" class="input-field" required name="first" />
+            <input [(ngModel)]="clinicData.Location" placeholder="Location" class="input-field" required
+                name="location" />
+            <input [(ngModel)]="clinicData.Email" placeholder="Email" class="input-field" required name="email" />
+            <input [(ngModel)]="clinicData.Pnumber" placeholder="Phone Number" class="input-field" required
+                name="number" />
+            <input [(ngModel)]="clinicData.Fee" placeholder="Fee" class="input-field" required name="fee" />
+            <button type="submit" class="btn">Register Clinic</button>
+        </form>
+    </div>
+    <br>
+    <!-- Create Clinic Admin -->
+    <div class="card create-admin">
+        <h3>Create New Clinic Admin</h3>
+        <form (ngSubmit)="createClinicAdmin()">
+            <input [(ngModel)]="adminData.Username" placeholder="Username" class="input-field" required
+                name="username" />
+            <input [(ngModel)]="adminData.Password" placeholder="Password" class="input-field" type="password" required
+                name="password" />
+            <input [(ngModel)]="adminData.Email" placeholder="Email" class="input-field" required name="email" />
+
+            <select [(ngModel)]="adminData.Cid" class="input-field" required name="cid">
+                <option value="" disabled selected>Select a Clinic</option>
+                <option *ngFor="let clinic of clinics" [value]="clinic.Cid">{{ clinic.Name }}
+                </option>
+            </select>
+
+            <button type="submit" class="btn">Create Admin</button>
+        </form>
+    </div>
+    <br>
+</div>
+
+<app-footer></app-footer>

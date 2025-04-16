@@ -18,7 +18,7 @@ app.use(
 // Session Middleware
 app.use(
   session({
-    secret: "yourSecretKey", // Use a strong secret key
+    secret: "process.env.SESSION_SECRET", // Use a strong secret key
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }, // Set to true in production with HTTPS

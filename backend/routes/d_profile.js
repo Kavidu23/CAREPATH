@@ -107,12 +107,12 @@ router.get("/upcoming-appointments", authenticateDoctor, (req, res) => {
 //new clinic
 router.get("/newClinics", authenticateDoctor, (req, res) => {
   const { Did } = req.session.doctor;
-  const query = `
-        SELECT Clinic.Name, Clinic.Location, Clinic.Pnumber, doctor_clinic.Cid
-        FROM doctor_clinic
-        JOIN Clinic ON doctor_clinic.Cid = Clinic.Cid
-        WHERE Clinic.Location = (SELECT Location FROM doctor WHERE Did = ?)
-        AND doctor_clinic.Did != ?`;
+  const query = `SELECT DISTINCT Clinic.Name, Clinic.Location, Clinic.Pnumber, doctor_clinic.Cid
+FROM doctor_clinic
+JOIN Clinic ON doctor_clinic.Cid = Clinic.Cid
+WHERE Clinic.Location = (SELECT Location FROM doctor WHERE Did = ?)
+AND doctor_clinic.Did != ?
+`;
 
   connection.query(query, [Did, Did], (err, results) => {
     if (err) {

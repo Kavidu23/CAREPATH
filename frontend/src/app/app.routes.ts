@@ -28,8 +28,12 @@ import { ResetPasswordDoctorComponent } from './reset-password-doctor/reset-pass
 import { ResetPasswordComponentDoctor } from './reset-doctor-password/reset-doctor-password.component';
 import { ReceiptComponent } from './receipt/receipt.component';
 import { ResheduleComponent } from './reshedule/reshedule.component';
+import { ViewprofileComponent } from './viewprofile/viewprofile.component';
+import { ClinicAdminComponent } from './clinicadmin/clinicadmin.component';
+import { AdminloginComponent } from './adminlogin/adminlogin.component';
+import { WebAdminComponent } from './webadmin/webadmin.component';
 import { NgModule } from '@angular/core';
-import { RouterModule} from '@angular/router'; // ✅ Add RouterModule here
+import { RouterModule } from '@angular/router'; // ✅ Add RouterModule here
 
 
 export const routes: Routes = [
@@ -60,6 +64,10 @@ export const routes: Routes = [
   { path: 'reset-doctor-password', component: ResetPasswordComponentDoctor },
   { path: 'receipt', component: ReceiptComponent },
   { path: 'reshedule', component: ResheduleComponent },
+  { path: 'view-now', component: ViewprofileComponent },
+  { path: 'clinic-admin', component: ClinicAdminComponent },
+  { path: 'admin-login', component: AdminloginComponent },
+  { path: 'web-admin', component: WebAdminComponent },
   { path: '**', redirectTo: '/home' } // Wildcard route (handles unknown routes)
 ];
 

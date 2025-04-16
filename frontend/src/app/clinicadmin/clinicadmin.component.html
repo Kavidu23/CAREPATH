@@ -1,0 +1,61 @@
+<app-header></app-header>
+
+<div class="clinic-admin-wrapper">
+  <h2 class="page-title">Clinic Admin Dashboard</h2>
+
+  <!-- Clinic Info Card -->
+  <div class="card clinic-info">
+    <h3>🏥 Clinic Information</h3>
+    <p><strong>Name:</strong> {{ clinicDetails?.Name || 'Loading...' }}</p>
+    <p><strong>Location:</strong> {{ clinicDetails?.Location || 'N/A' }}</p>
+    <p><strong>Fee:</strong> Rs. {{ clinicDetails?.Fee || '0' }}</p>
+  </div>
+
+  <!-- Today's Patients -->
+  <div class="card today-patient">
+    <h3>🧑‍⚕️ Today's Patients</h3>
+    <p><strong>Total Appointments:</strong> {{ todayPatientCount }}</p>
+  </div>
+
+  <!-- Approve Doctor -->
+  <div class="card approve-doctor">
+    <h3>✅ Approve New Doctor</h3>
+    <p class="note">* Doctor must contact admin via email/phone and submit certificates.</p>
+    <input
+      type="text"
+      [(ngModel)]="newDoctorId"
+      placeholder="Enter Doctor ID"
+      class="input-field"
+    /><br>
+    <button (click)="approveDoctor()" class="btn">Approve Doctor</button>
+  </div>
+
+  <!-- Registered Doctors Table -->
+  <div class="card doctor-list">
+    <h3>👨‍⚕️ Registered Doctors</h3>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Doctor ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Consultation Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let doc of registeredDoctors">
+            <td>{{ doc.Did }}</td>
+            <td>{{ doc.Fname }}</td>
+            <td>{{ doc.Lname }}</td>
+            <td>{{ doc.ConsultationType }}</td>
+          </tr>
+          <tr *ngIf="registeredDoctors.length === 0">
+            <td colspan="4">No doctors registered</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

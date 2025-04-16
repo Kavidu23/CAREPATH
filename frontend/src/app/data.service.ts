@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { pid } from 'node:process';
 import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+
 
 
 @Injectable({
@@ -333,7 +335,97 @@ export class DataService {
 
   //add prescription
   addPrescription(prescriptionData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}d_profile/add-prescription`, prescriptionData, { withCredentials: true });
+    return this.http.post(`${this.baseUrl}d_profile`, prescriptionData, { withCredentials: true });
+  }
+
+  //get doctors under clinic
+  getDoctorsByClinic(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}clinics/registered`, { withCredentials: true });
+  }
+
+  //insert into clinic table
+  insertIntoClinic(clinicData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}clinics/add-doc`, clinicData, { withCredentials: true });
+  }
+
+  //get taday patient count for the clinic
+  getTodayPatientCount(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}clinics/today-patients`, { withCredentials: true });
+  }
+
+  //get clcinic by id
+  getClinicById(clinicId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}clinics/getclinic/${clinicId}`, { withCredentials: true });
+  }
+
+
+  // Admin login
+  adminLogin(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}clinics/adminlogin`, { email, password }, { withCredentials: true });
+  }
+
+  // Fetch session-stored admin info
+  getSessionAdmin(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}clinics/get-session-admin`, { withCredentials: true });
+  }
+
+
+
+
+  //activate doctor
+  activateDoctor(doctorId: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}clinics/activate/${doctorId}`, {}, { withCredentials: true });
+  }
+
+  //deactivate doctor
+  deactivateDoctor(doctorId: string): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}clinics/deactivate/${doctorId}`, {}, { withCredentials: true });
+  }
+
+  //get all doctors
+  getAllDoctors(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}doctor/all`, { withCredentials: true });
+  }
+
+  //register new clinic
+  registerNewClinic(clinicData: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}clinics/register-clinic`, clinicData, { withCredentials: true });
+  }
+
+
+  //create new clinic admin
+  createNewClinicAdmin(adminData: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}clinics/create-clinic-admin`, adminData, { withCredentials: true });
+  }
+
+  //add new medicine
+  addNewMedicine(medicineData: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}clinics/add-medicine`, medicineData, { withCredentials: true });
+  }
+
+  //add homecare
+  addHomeCare(homecareData: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}clinics/add-homecare`, homecareData, { withCredentials: true });
+  }
+
+  //get total patient count
+  getTotalPatientCount(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}clinics/total-countp`, { withCredentials: true });
+  }
+
+  //get total doctor count
+  getTotalDoctorCount(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}clinics/total-count`, { withCredentials: true });
+  }
+
+  //get all clinics
+  getAllClinics(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}clinics/all`, { withCredentials: true });
+  }
+
+  
+  deleteDoctorAccount(): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}doctor/delete`, { withCredentials: true });
   }
 
 }

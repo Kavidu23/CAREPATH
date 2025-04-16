@@ -1,0 +1,126 @@
+/* Wrapper */
+.web-admin-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    color: #2c3e50;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Page Title */
+.page-title {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d3436;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Stats Cards */
+.stats-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    flex: 1 1 48%;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+    margin-bottom: 16px;
+    font-size: 1.5rem;
+    color: #34495e;
+}
+
+/* Form Inputs */
+.input-field {
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid #ced6e0;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    transition: border 0.3s;
+    background-color: #f9f9f9;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Button */
+.btn {
+    background: #0b5ed7;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: white;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn:hover {
+    background: #0a4bcb;
+    background: linear-gradient(90deg, #0b5ed7, #0a4bcb);
+}
+
+/* Form Sections */
+.register-clinic,
+.create-admin,
+.doctor-actions {
+    margin-bottom: 40px;
+}
+
+/* Doctor Management Layout */
+.doctor-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.doctor-actions select,
+.doctor-actions button {
+    width: 100%;
+}
+
+/* Responsive Layout */
+@media (min-width: 768px) {
+    .stats-cards {
+        flex-wrap: nowrap;
+    }
+
+    .doctor-actions {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .doctor-actions select {
+        flex: 2;
+        margin-right: 10px;
+    }
+
+    .doctor-actions button {
+        flex: 1;
+    }
+}

@@ -1,0 +1,118 @@
+.doctor-profile-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .doctor-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .doctor-avatar img {
+    width: 150px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: fit-cover;
+    margin-right: 20px;
+  }
+  
+  .doctor-info {
+    flex-grow: 1;
+  }
+  
+  .doctor-name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .doctor-consultation-type,
+  .doctor-availability {
+    font-size: 1.1rem;
+    color: #777;
+  }
+  
+  .doctor-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .detail-section {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 48%;
+  }
+  
+  .detail-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .fee {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1E7F74;
+  }
+  
+  .clinic-item h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .clinic-item p {
+    font-size: 1rem;
+    color: #777;
+  }
+  
+  .doctor-footer {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .book-appointment-btn {
+    background: #0b5ed7;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    color: white;
+  }
+  
+  .book-appointment-btn:hover {
+    background: #0b5dd7f9;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .doctor-header {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .doctor-info {
+      margin-top: 20px;
+    }
+  
+    .doctor-details {
+      flex-direction: column;
+    }
+  
+    .detail-section {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  
+    .book-appointment-btn {
+      width: 100%;
+    }
+  }
+  
