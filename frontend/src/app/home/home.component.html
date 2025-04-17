@@ -168,99 +168,117 @@
         </div>
     </div>
 
-<!-- Blue Card Section (Only One Card, Full Width) -->
-<div class="p-5 blue-card text-center text-white" data-aos="fade-up" data-aos-duration="1200">
-    <h1 class="banner-title fw-bold">Get the Care You Need – Anytime, Anywhere!</h1>
-    <p class="banner-subtitle mt-3">Download our app to instantly access doctors, hospitals, and medical services.</p>
-    <div class="btn-group mt-4">
-        <a href="#" class="btn custom-btn google pulse">
-            <i class='bx bxl-play-store bounce-icon'></i> Google Play
-        </a>
-        <a href="#" class="btn custom-btn apple pulse">
-            <i class='bx bxl-apple bounce-icon'></i> App Store
-        </a>
+    <!-- Blue Card Section (Only One Card, Full Width) -->
+    <div class="p-5 blue-card text-center text-white" data-aos="fade-up" data-aos-duration="1200">
+        <h1 class="banner-title fw-bold">Get the Care You Need – Anytime, Anywhere!</h1>
+        <p class="banner-subtitle mt-3">Download our app to instantly access doctors, hospitals, and medical services.
+        </p>
+        <div class="btn-group mt-4">
+            <a href="#" class="btn custom-btn google pulse">
+                <i class='bx bxl-play-store bounce-icon'></i> Google Play
+            </a>
+            <a href="#" class="btn custom-btn apple pulse">
+                <i class='bx bxl-apple bounce-icon'></i> App Store
+            </a>
+        </div>
     </div>
-</div>
+    <!-- CSS -->
+    <style>
+        .blue-card {
+            width: 100%;
+            background: linear-gradient(135deg, #083364, rgba(24, 95, 187, 0.85));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease;
+            margin-top: 50px;
+            border-radius: 20px;
+        }
 
-<!-- CSS -->
-<style>
-.blue-card {
-    width: 100%;
-    background: linear-gradient(135deg, #083364, rgba(24, 95, 187, 0.85));
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s ease;
-    margin-top: 50px;
-    border-radius: 20px;
-}
+        .blue-card:hover {
+            transform: scale(1.01);
+        }
 
-.blue-card:hover {
-    transform: scale(1.01);
-}
+        .banner-title {
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
+        }
 
-.banner-title {
-    font-size: 2.5rem;
-    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
-}
+        .banner-subtitle {
+            font-size: 1.1rem;
+            color: #e0f7fa;
+        }
 
-.banner-subtitle {
-    font-size: 1.1rem;
-    color: #e0f7fa;
-}
+        /* Buttons */
+        .custom-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 26px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            border: none;
+        }
 
-/* Buttons */
-.custom-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px 26px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: white;
-    text-decoration: none;
-    transition: all 0.4s ease;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
-    border: none;
-}
+        /* Button gradients */
+        .custom-btn.google {
+            background: linear-gradient(to right, #0f9d58, #34a853);
+        }
 
-/* Button gradients */
-.custom-btn.google {
-    background: linear-gradient(to right, #0f9d58, #34a853);
-}
+        .custom-btn.apple {
+            background: linear-gradient(to right, #333333, #000000);
+        }
 
-.custom-btn.apple {
-    background: linear-gradient(to right, #333333, #000000);
-}
+        .custom-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
 
-.custom-btn:hover {
-    transform: scale(1.06);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-}
+        /* Pulse animation */
+        .pulse {
+            animation: pulseButton 2.5s infinite ease-in-out;
+        }
 
-/* Pulse animation */
-.pulse {
-    animation: pulseButton 2.5s infinite ease-in-out;
-}
+        @keyframes pulseButton {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0.2);
+            }
 
-@keyframes pulseButton {
-    0% { transform: scale(1); box-shadow: 0 0 0 rgba(255,255,255,0.2); }
-    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
-    100% { transform: scale(1); box-shadow: 0 0 0 rgba(255,255,255,0.2); }
-}
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            }
 
-/* Icon bounce */
-.bounce-icon {
-    animation: bounceIcon 2s infinite;
-}
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 255, 255, 0.2);
+            }
+        }
 
-@keyframes bounceIcon {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-</style>
+        /* Icon bounce */
+        .bounce-icon {
+            animation: bounceIcon 2s infinite;
+        }
+
+        @keyframes bounceIcon {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
 
 
 

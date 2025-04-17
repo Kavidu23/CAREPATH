@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { NewheaderComponent } from "../newheader/newheader.component";
 import { Observable } from 'rxjs';
 import { HeadercheckComponent } from "../headercheck/headercheck.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -33,9 +34,11 @@ export class HomeComponent implements OnInit {
   user: any = null;
   isUserLoggedIn: boolean = false; // Track user session status
   isDoctorLoggedIn: boolean = false; // Track doctor session status
+  isChatOpen: boolean = false; // <-- Add this property
 
   constructor(
     private dataService: DataService,
+    private router: Router, // Inject Router for navigation
     @Inject(PLATFORM_ID) private platformId: any
   ) { }
 
@@ -76,9 +79,6 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-
-
-
 
   loadSpecialtyData() {
     this.dataService.getDoctorCounts().subscribe(
@@ -146,6 +146,13 @@ export class HomeComponent implements OnInit {
       this.dataService.searchDoctors(params).subscribe(
         (data) => {
           this.searchResults = data;
+
+          // Ensure redirection to /book-now only after clicking search
+          if (this.searchResults.length > 0) {
+            const doctorId = this.searchResults[0].Did;
+
+          }
+
         },
         (error) => {
           console.error('Error fetching search results:', error);
@@ -156,6 +163,7 @@ export class HomeComponent implements OnInit {
       this.searchResults = [];
     }
   }
+
 
   onSearchTyping(): void {
     if (this.searchDebounceTimeout) {
@@ -171,7 +179,14 @@ export class HomeComponent implements OnInit {
     this.searchType = doctor.Specialization;
     this.searchLocation = doctor.Location;
     this.searchResults = [];
+
+    // Redirect directly to /book-now with Did as query parameter
+    if (doctor.Did) {
+      this.router.navigate(['/book-now'], { queryParams: { Did: doctor.Did } });
+    }
   }
 
-  
+  openChat(): void {
+    this.isChatOpen = !this.isChatOpen; // Toggle open/close
+  }
 }
