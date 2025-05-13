@@ -1,35 +1,50 @@
 <app-headercheck></app-headercheck>
+
 <div class="doctor-profile-container">
-    <!-- Header -->
+    <!-- Header Section -->
     <div class="header-section text-center">
+        <!-- Doctor Profile Image -->
         <div class="profile-image-wrapper">
             <img [src]="doctorProfile.image ? 'assets/' + doctorProfile.image : 'assets/profile-pic.jpg'"
                 alt="Doctor Profile" class="profile-pic" width="50" height="50" />
         </div>
+
+        <!-- Doctor Name Display -->
         <h2 class="doctor-name">{{ doctorProfile.firstName }} {{ doctorProfile.lastName }}</h2>
+
+        <!-- Doctor Specialty and ID -->
         <p class="doctor-details">
             {{ doctorProfile.specialty || 'Not Specified' }} |
-         |
+            <!-- Potential extra info could be inserted here -->
+            |
             ID - {{ doctorProfile.doctorId || 'N/A' }}
         </p>
     </div>
 
-    <!-- Password Section -->
+    <!-- Password Change Section -->
     <div class="password-section">
         <h4>Password</h4>
         <div class="password-card">
             <div class="d-flex justify-content-between align-items-center">
+                <!-- Label for change password -->
                 <div>
                     <p class="mb-0"><strong>Change Password</strong></p>
                 </div>
-                <a href="#" class="change-link" (click)="changePassword(); $event.preventDefault()">Change</a>
+                <!-- Change password trigger -->
+                <a href="#" class="change-link" 
+                   (click)="changePassword(); $event.preventDefault()">
+                   Change
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Delete Account -->
+    <!-- Account Deletion Link -->
     <div class="delete-account-section">
-        <a href="#" class="delete-link" (click)="deleteAccount(); $event.preventDefault()">Delete Account?</a>
+        <a href="#" class="delete-link" 
+           (click)="deleteAccount(); $event.preventDefault()">
+           Delete Account?
+        </a>
     </div>
 </div>
 
