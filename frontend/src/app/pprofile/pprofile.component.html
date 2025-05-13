@@ -1,12 +1,22 @@
+<!-- Header Component -->
 <app-headercheck></app-headercheck>
+
+<!-- Main Container for Patient Profile -->
 <div class="patient-profile-container">
-    <!-- Header -->
+
+    <!-- Header Section: Displays Patient Info -->
     <div class="header-section text-center">
+
+        <!-- Profile Image: Shows patient's uploaded image or default image -->
         <div class="profile-image-wrapper">
             <img [src]="patientProfile.image ? 'assets/' + patientProfile.image : 'assets/profile-pic.jpg'"
                 alt="Doctor Profile" class="profile-pic" width="50" height="50" />
         </div>
+
+        <!-- Patient Name -->
         <h2 class="patient-name">{{ patientProfile.firstName }} {{ patientProfile.lastName }}</h2>
+
+        <!-- Patient Details: Gender, Age, and ID -->
         <p class="patient-details">
             {{ patientProfile.gender || 'Not Specified' }} |
             {{ patientProfile.age || 'Not Specified' }} |
@@ -14,25 +24,36 @@
         </p>
     </div>
 
-    
-
-    <!-- Password Section -->
+    <!-- Password Section: Option to Change Password -->
     <div class="password-section">
         <h4>Password</h4>
         <div class="password-card">
             <div class="d-flex justify-content-between align-items-center">
+                
+                <!-- Label -->
                 <div>
                     <p class="mb-0"><strong>Change Password</strong></p>
                 </div>
-                <a href="#" class="change-link" (click)="changePassword(); $event.preventDefault()">Change</a>
+
+                <!-- Change Password Link -->
+                <a href="#" class="change-link" 
+                   (click)="changePassword(); $event.preventDefault()">
+                   Change
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Delete Account -->
+    <!-- Delete Account Section -->
     <div class="delete-account-section">
-        <a href="#" class="delete-link" (click)="deleteAccount(); $event.preventDefault()">Delete Account?</a>
+        <!-- Delete Account Trigger -->
+        <a href="#" class="delete-link" 
+           (click)="deleteAccount(); $event.preventDefault()">
+           Delete Account?
+        </a>
     </div>
+
 </div>
 
+<!-- Footer Component -->
 <app-footer></app-footer>
