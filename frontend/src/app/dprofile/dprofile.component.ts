@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
 import { NewheaderComponent } from "../newheader/newheader.component";
-import { DataService } from '../data.service'; // Assuming you have a DataService
+import { DataService } from '../data.service'; // DataService
 import { Router } from '@angular/router';
 import { HeadercheckComponent } from "../headercheck/headercheck.component";
 
