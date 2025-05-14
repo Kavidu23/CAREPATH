@@ -1,62 +1,67 @@
+<!-- Header component (reusable) -->
 <app-headercheck></app-headercheck>
-<!--<div class="dashboard-container">
 
-  <div class="debug">
-    <p>Patient Profile: {{ patientProfile | json }}</p>
-    <p>Upcoming Appointments: {{ upcomingAppointments | json }}</p>
-    <p>Past Appointments: {{ pastAppointments | json }}</p>
-    <p>Prescriptions: {{ prescriptions | json }}</p>
-    <p>Invoices: {{ invoices | json }}</p>
-    <p>Patient Name: {{ patientProfile.firstName }} {{ patientProfile.lastName }}</p>
-  </div> -->
-
-
-<!-- Header with Profile -->
+<!-- Profile Header for Patient -->
 <div class="header-section text-center">
-  <img [src]="patientProfile.image ? 'assets/' + patientProfile.image : 'assets/profile-pic.jpg'" alt="Patient Profile"
-    class="profile-pic" width="50" height="50" />
+  <!-- Display patient image or fallback -->
+  <img [src]="patientProfile.image ? 'assets/' + patientProfile.image : 'assets/profile-pic.jpg'" 
+       alt="Patient Profile" class="profile-pic" width="50" height="50" />
+  <!-- Patient Name -->
   <h2 class="patient-name">{{ patientProfile.firstName }} {{ patientProfile.lastName }}</h2>
-  <p class="patient-details">{{ patientProfile.gender }} | {{ patientProfile.age }} | ID - {{ patientProfile.patientId
-    || 'N/A' }}</p>
+  <!-- Basic patient info: gender, age, and ID -->
+  <p class="patient-details">
+    {{ patientProfile.gender }} | {{ patientProfile.age }} | ID - {{ patientProfile.patientId || 'N/A' }}
+  </p>
 </div>
 
-<!-- Appointments Section -->
+<!-- Upcoming Appointments Section -->
 <div class="appointments-section">
   <h4>UPCOMING APPOINTMENTS</h4>
   <div class="row">
+    <!-- Loop through and display each upcoming appointment -->
     <div class="col-md-12" *ngFor="let appointment of upcomingAppointments">
       <div class="appointment-card">
         <div class="appointment-info d-flex align-items-center">
           <div>
+            <!-- Appointment details -->
             <h5>Dr.{{ appointment.doctorName }}</h5>
             <p>{{ appointment.type }}</p>
             <p>{{ appointment.specialty }}</p>
             <p>{{ appointment.date }} - {{ appointment.time }}</p>
-            <p *ngIf="appointment.type != 'Online'">at {{ appointment.clinicName }} at {{
-              appointment.location }}</p>
+
+            <!-- Show location only if not online -->
+            <p *ngIf="appointment.type != 'Online'">
+              at {{ appointment.clinicName }} at {{ appointment.location }}
+            </p>
           </div>
         </div>
+
+        <!-- Reschedule button -->
         <button class="btn btn-danger" (click)="goToReschedule(appointment.id, appointment.doctorId)">
           <i class='bx bx-window-close'></i> Reschedule
         </button>
-        <!-- Show "Join" button for online appointments -->
-        <button *ngIf="appointment.type === 'Online' && canJoinNow(appointment)" class="btn btn-primary"
-          (click)="joinAppointment(appointment.id)">
+
+        <!-- Show join call button for online appointments -->
+        <button *ngIf="appointment.type === 'Online' && canJoinNow(appointment)" 
+                class="btn btn-primary" (click)="joinAppointment(appointment.id)">
           <i class="bx bx-video"></i>Join Call
         </button>
+
+        <!-- Show time restriction notice -->
         <p *ngIf="appointment.type === 'Online' && !canJoinNow(appointment)" class="text-muted small">
           You can join the appointment 10 minutes before the scheduled time.
         </p>
       </div>
     </div>
+
+    <!-- Message when there are no upcoming appointments -->
     <div class="col-md-6" *ngIf="upcomingAppointments.length === 0">
       <p>No upcoming appointments available.</p>
     </div>
   </div>
 </div>
 
-
-<!-- Book a New Appointment Section -->
+<!-- Book New Appointment Section -->
 <div class="book-appointment-section">
   <div class="book-appointment-card">
     <h5>Book a New Appointment</h5>
@@ -69,6 +74,7 @@
 <!-- Past Appointments Section -->
 <div class="past-appointments-section">
   <h4>PAST APPOINTMENTS</h4>
+  <!-- Loop through past appointments -->
   <div class="past-appointment-card" *ngFor="let appointment of pastAppointments">
     <div class="past-appointment-info d-flex align-items-center">
       <div>
@@ -81,32 +87,43 @@
         <p><i class="bx bx-map"></i> {{ appointment.location }}</p>
       </div>
     </div>
+
+    <!-- Duration info button -->
     <div class="past-appointment-actions">
       <button class="btn btn-warning duration-btn">
         <i class="bx bx-time"></i> {{ appointment.duration }}
       </button>
     </div>
   </div>
+
+  <!-- Message when no past appointments -->
   <p *ngIf="pastAppointments.length === 0">No past appointments available.</p>
 </div>
+
 <br>
-<!-- Tab Navigation -->
+
+<!-- Tabs Navigation -->
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" id="appointments-tab" data-bs-toggle="tab" href="#appointments"
-      role="tab">Appointments</a>
+    <a class="nav-link active" id="appointments-tab" data-bs-toggle="tab" href="#appointments" role="tab">
+      Appointments
+    </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" href="#prescriptions" role="tab">Prescriptions</a>
+    <a class="nav-link" id="prescriptions-tab" data-bs-toggle="tab" href="#prescriptions" role="tab">
+      Prescriptions
+    </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab">Invoices</a>
+    <a class="nav-link" id="invoices-tab" data-bs-toggle="tab" href="#invoices" role="tab">
+      Invoices
+    </a>
   </li>
 </ul>
 
-<!-- Tab Content -->
+<!-- Tabs Content -->
 <div class="tab-content">
-  <!-- Appointments Tab -->
+  <!-- Appointments Tab Content -->
   <div class="tab-pane fade show active" id="appointments" role="tabpanel">
     <div class="table-responsive">
       <table class="table table-bordered">
@@ -120,15 +137,15 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Display all past appointments -->
           <tr *ngFor="let appointment of pastAppointments">
             <td>{{ appointment.id }}</td>
-            <td>
-              Dr.{{ appointment.doctorName }}
-            </td>
+            <td>Dr.{{ appointment.doctorName }}</td>
             <td>{{ appointment.date }}, {{ appointment.time }}</td>
             <td>Clinic Visit</td>
             <td><span class="status completed">COMPLETED</span></td>
           </tr>
+          <!-- Message when no data -->
           <tr *ngIf="pastAppointments.length === 0">
             <td colspan="5">No appointments available.</td>
           </tr>
@@ -137,7 +154,7 @@
     </div>
   </div>
 
-  <!-- Prescriptions Tab -->
+  <!-- Prescriptions Tab Content -->
   <div class="tab-pane fade" id="prescriptions" role="tabpanel">
     <div class="table-responsive">
       <table class="table table-bordered">
@@ -150,18 +167,19 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Loop through prescriptions -->
           <tr *ngFor="let prescription of prescriptions">
             <td>{{ prescription.id }}</td>
+            <td>{{ prescription.doctor }}</td>
+            <td>{{ prescription.frequency }}</td>
+            <td>{{ prescription.description }}</td>
             <td>
-              {{ prescription.doctor}}
+              <a href="#" class="action-link" (click)="viewPrescription(prescription.id.toString()); $event.preventDefault()">
+                <i class="bx bx-file"></i> View
+              </a>
             </td>
-            <td>{{ prescription.frequency}}</td>
-            <td>{{ prescription.description}}</td>
-            <td><a href="#" class="action-link"
-                (click)="viewPrescription(prescription.id.toString()); $event.preventDefault()"><i
-                  class="bx bx-file"></i>
-                View</a></td>
           </tr>
+          <!-- No prescriptions fallback -->
           <tr *ngIf="prescriptions.length === 0">
             <td colspan="5">No prescriptions available.</td>
           </tr>
@@ -170,7 +188,7 @@
     </div>
   </div>
 
-  <!-- Invoices Tab -->
+  <!-- Invoices Tab Content -->
   <div class="tab-pane fade" id="invoices" role="tabpanel">
     <div class="table-responsive">
       <table class="table table-bordered">
@@ -183,15 +201,18 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Loop through invoice list -->
           <tr *ngFor="let invoice of invoices">
-            <td>{{ invoice.Pid}}</td>
-            <td>{{ invoice.IssuedDate}}</td>
-            <td>{{ invoice.FinalAmount}}</td>
-            <td><span [ngClass]="{ 'status completed': invoice.PaymentStatus}">
-                  {{ invoice.PaymentStatus}}
-                </span>
-            </td>            
+            <td>{{ invoice.Pid }}</td>
+            <td>{{ invoice.IssuedDate }}</td>
+            <td>{{ invoice.FinalAmount }}</td>
+            <td>
+              <span [ngClass]="{ 'status completed': invoice.PaymentStatus }">
+                {{ invoice.PaymentStatus }}
+              </span>
+            </td>
           </tr>
+          <!-- No invoices fallback -->
           <tr *ngIf="invoices.length === 0">
             <td colspan="5">No invoices available.</td>
           </tr>
@@ -200,4 +221,6 @@
     </div>
   </div>
 </div>
+
+<!-- Footer component (reusable) -->
 <app-footer></app-footer>
