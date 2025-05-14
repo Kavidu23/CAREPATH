@@ -1,123 +1,147 @@
 
-  
-  /* Container */
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-    min-height: 100vh;
-    background-color: #f4f7f9;
-  }
-  
-  /* Logo */
-  .logo {
-    position: absolute;
-    top: 20px;
-    left: 40px;
-  }
-  
-  .logo h1 {
-    font-size: 28px;
-    font-weight: bold;
-    color: #00c4cc;
-  }
-  
-  /* Login Card */
+
+```css
+/* ============================
+   Container
+============================ */
+.login-container {
+  display: flex; /* Center content horizontally */
+  justify-content: center;
+  align-items: center; /* Center content vertically */
+  padding: 40px 20px;
+  min-height: 100vh; /* Full screen height */
+  background-color: #f4f7f9; /* Light background */
+}
+
+/* ============================
+   Logo Positioning
+============================ */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+}
+
+/* Logo Text Styling */
+.logo h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00c4cc; /* Brand color */
+}
+
+/* ============================
+   Login Card Styling
+============================ */
+.login-card {
+  background: #ffffff; /* White background for contrast */
+  padding: 40px 30px;
+  border-radius: 16px; /* Rounded corners */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Soft shadow */
+  width: 100%;
+  max-width: 420px; /* Responsive max width */
+}
+
+/* Login Card Title */
+.login-card h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #333; /* Darker text for contrast */
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* ============================
+   Form Elements
+============================ */
+form div {
+  margin-bottom: 18px; /* Space between fields */
+}
+
+/* Label Styling */
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* Input Field Styling */
+.form-control {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+/* Input Focus Effect */
+.form-control:focus {
+  outline: none;
+  border-color: #00c4cc; /* Highlight border on focus */
+  background-color: #fff;
+}
+
+/* ============================
+   Primary Button Styling
+============================ */
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); /* Gradient background */
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-transform: uppercase;
+}
+
+/* Button Hover Effect */
+.btn-primary:hover {
+  background: #00c4cc;
+}
+
+/* ============================
+   Divider Styling
+============================ */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+}
+
+/* Horizontal Lines */
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Divider Text */
+.divider span {
+  margin: 0 12px;
+  color: #aaa;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+/* ============================
+   Responsive Adjustments
+============================ */
+@media (max-width: 500px) {
   .login-card {
-    background: #ffffff;
-    padding: 40px 30px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    width: 100%;
-    max-width: 420px;
+    padding: 30px 20px; /* Reduce padding on smaller screens */
   }
-  
-  .login-card h2 {
-    font-size: 26px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 25px;
-    text-align: center;
+
+  .logo {
+    top: 10px;
+    left: 20px; /* Adjust logo position */
   }
-  
-  /* Form */
-  form div {
-    margin-bottom: 18px;
-  }
-  
-  .form-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: #555;
-    margin-bottom: 6px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 12px 14px;
-    font-size: 14px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-  }
-  
-  .form-control:focus {
-    outline: none;
-    border-color: #00c4cc;
-    background-color: #fff;
-  }
-  
-  /* Button */
-  .btn-primary {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    text-transform: uppercase;
-  }
-  
-  .btn-primary:hover {
-    background: #00c4cc;
-  }
-  
-  /* Divider */
-  .divider {
-    display: flex;
-    align-items: center;
-    margin: 25px 0;
-  }
-  
-  .divider::before,
-  .divider::after {
-    content: "";
-    flex: 1;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .divider span {
-    margin: 0 12px;
-    color: #aaa;
-    font-size: 13px;
-    text-transform: uppercase;
-  }
-  
-  /* Responsive */
-  @media (max-width: 500px) {
-    .login-card {
-      padding: 30px 20px;
-    }
-  
-    .logo {
-      top: 10px;
-      left: 20px;
-    }
-  }
-  
+}
+```
+
