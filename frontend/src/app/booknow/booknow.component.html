@@ -3,17 +3,18 @@
 
 <!-- Main container for booking an appointment -->
 <div class="book-container">
-  <!-- Section title -->
+  
   <!-- Section title -->
   <div class="header-section text-center">
     <h2>Book Appointment</h2>
   </div>
 
-  <!-- Booking form only shown if doctorProfile is loaded -->
+  <!-- Booking form is displayed only if doctorProfile is available -->
   <div class="booking-form" *ngIf="doctorProfile">
     <div class="form-card">
       <form>
-        <!-- Doctor Name (disabled dropdown showing selected doctor) -->
+        
+        <!-- Doctor Name (displayed but not editable) -->
         <div class="mb-3">
           <label class="form-label">Select Doctor</label>
           <select class="form-select" disabled>
@@ -21,7 +22,7 @@
           </select>
         </div>
 
-        <!-- Appointment Type (disabled dropdown showing consultation type) -->
+        <!-- Appointment Type (displayed but not editable) -->
         <div class="mb-3">
           <label class="form-label">Appointment Type</label>
           <select class="form-select" disabled>
@@ -29,13 +30,14 @@
           </select>
         </div>
 
+        <!-- Meeting link shown only for online consultations -->
         <div class="mb-3" *ngIf="doctorProfile?.ConsultationType?.toLowerCase() === 'online'">
           <label class="form-label">Meeting Link</label>
-          <input type="text" placeholder="Select a day to generate link" class="form-control" name="meetingLink"
-            [value]="meetingLink" readonly />
+          <input type="text" placeholder="Select a day to generate link" class="form-control" 
+                 name="meetingLink" [value]="meetingLink" readonly />
         </div>
 
-
+        <!-- Dropdown to select available appointment days -->
         <div class="mb-3">
           <label for="daySelect" class="form-label">Select Day</label>
           <select id="daySelect" class="form-select" (change)="onDaySelected($event)">
@@ -44,19 +46,20 @@
               {{ day.fullDate }}
             </option>
           </select>
+
+          <!-- Informational message if current week has no availability -->
           <div *ngIf="isNextWeek" class="text-info mt-2">
             No available days this week, showing next week.
           </div>
         </div>
 
-
-        <!-- Time Range Display -->
+        <!-- Display the selected time range -->
         <div class="mb-3">
           <label class="form-label">Available Time</label>
           <input type="text" class="form-control" [value]="timeRange" disabled />
         </div>
 
-        <!-- Clinic Selection for in-person consultations only -->
+        <!-- Clinic selection shown only for in-person consultations -->
         <div class="mb-3" *ngIf="doctorProfile?.ConsultationType?.toLowerCase() !== 'online'">
           <label class="form-label">Select Clinic</label>
           <select class="form-select" (change)="onClinicSelected($event)">
@@ -67,8 +70,7 @@
           </select>
         </div>
 
-
-        <!-- Doctor Fee -->
+        <!-- Doctor consultation fee (read-only) -->
         <div class="mb-3">
           <label class="form-label">Doctor Fee (LKR)</label>
           <select class="form-select" disabled>
@@ -76,8 +78,7 @@
           </select>
         </div>
 
-       
-        <!-- Clinic Fee -->
+        <!-- Clinic fee shown only for in-person consultations (read-only) -->
         <div class="mb-3" *ngIf="doctorProfile?.ConsultationType?.toLowerCase() !== 'online'">
           <label class="form-label">Clinic Fee (LKR)</label>
           <select class="form-select" disabled>
@@ -85,8 +86,7 @@
           </select>
         </div>
 
-
-        <!-- Total Fee -->
+        <!-- Total calculated fee including service charges -->
         <div class="mb-3">
           <label class="form-label">Total Fee with Service Charge (LKR)</label>
           <select class="form-select" disabled>
@@ -94,10 +94,11 @@
           </select>
         </div>
 
-        <!-- PayPal Button -->
+        <!-- PayPal payment button is only shown if the form is valid -->
         <div class="text-center">
           <div id="paypal-button-container" *ngIf="isFormValid()" #paypalContainer></div>
         </div>
+
       </form>
     </div>
   </div>
