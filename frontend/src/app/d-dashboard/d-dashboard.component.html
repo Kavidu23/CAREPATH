@@ -1,14 +1,22 @@
+<!-- Include the header component -->
 <app-headercheck></app-headercheck>
+
 <div class="dashboard-container">
-  <!-- Header with Profile -->
+  
+  <!-- Doctor Profile Section -->
   <div class="header-section text-center">
-    <img [src]="doctorProfile.Image ? 'assets/' + doctorProfile.Image : 'assets/profile-pic.jpg'" alt="Doctor Profile"
-      class="profile-pic" width="50" height="50" />
+    <!-- Doctor Profile Image (Fallback to default image if not available) -->
+    <img [src]="doctorProfile.Image ? 'assets/' + doctorProfile.Image : 'assets/profile-pic.jpg'" 
+         alt="Doctor Profile" class="profile-pic" width="50" height="50" />
+    
+    <!-- Doctor Full Name -->
     <h2 class="doctor-name">{{ (doctorProfile.Fname + ' ' + doctorProfile.Lname) || 'No Data Available' }}</h2>
+    
+    <!-- Doctor Specialization -->
     <p class="doctor-specialty">{{ doctorProfile.Specialization || 'No Data Available' }}</p>
   </div>
 
-  <!-- Stats Section -->
+  <!-- Today's Patients Statistics -->
   <div class="stats-section row text-center justify-content-center">
     <div class="col-md-6 stat-box">
       <p class="stat-label">TODAY'S PATIENTS</p>
@@ -16,11 +24,15 @@
     </div>
   </div>
 
-  <!-- UpcomingAppointments -->
+  <!-- Upcoming Appointments Section -->
   <div class="upcoming-section">
     <h4>UPCOMING APPOINTMENTS</h4>
+    
+    <!-- Check if upcoming appointments are available -->
     <ng-container *ngIf="upcomingAppointments.length > 0; else noUpcomingAppointments">
       <div *ngFor="let appointment of upcomingAppointments" class="upcoming-card">
+        
+        <!-- Appointment Info -->
         <div class="upcoming-info d-flex align-items-center">
           <i class='bx bx-bookmark-plus'></i>
           <div>
@@ -28,24 +40,32 @@
             <p><i class="bx bx-calendar"></i> {{ appointment.Date | date:'yyyy-MM-dd' }} at {{ appointment.Time }}</p>
           </div>
         </div>
+        
+        <!-- Join Call Button for Online Appointments -->
         <button *ngIf="appointment.Type === 'Online' && appointment.Aid && canJoinNow(appointment)"
-          class="btn btn-primary" (click)="joinAppointment(appointment.Aid)">
+                class="btn btn-primary" (click)="joinAppointment(appointment.Aid)">
           <i class="bx bx-video"></i>Join Call
         </button>
+        
+        <!-- Message when it's not time to join yet -->
         <p *ngIf="appointment.Type === 'Online' && appointment.Aid && !canJoinNow(appointment)"
-          class="text-muted small">
+           class="text-muted small">
           You can join the appointment 10 minutes before the scheduled time.
         </p>
       </div>
     </ng-container>
+    
+    <!-- Fallback if no appointments are available -->
     <ng-template #noUpcomingAppointments>
       <p>No Upcoming Appointments</p>
     </ng-template>
   </div>
 
-  <!-- Clinics & Availability -->
+  <!-- Clinics & Availability Section -->
   <div class="clinics-section">
     <h4>CLINICS & AVAILABILITY</h4>
+    
+    <!-- Check if clinics are available -->
     <ng-container *ngIf="clinicsAvailability.length > 0; else noClinics">
       <div *ngFor="let clinic of clinicsAvailability" class="clinic-card">
         <div class="clinic-info d-flex align-items-center">
@@ -57,14 +77,18 @@
         </div>
       </div>
     </ng-container>
+    
+    <!-- Fallback for no clinics -->
     <ng-template #noClinics>
       <p>No Clinics Available</p>
     </ng-template>
   </div>
 
-  <!-- Appointments Section -->
+  <!-- Appointment History Section -->
   <div class="appointments-section">
     <h4>Appointments</h4>
+    
+    <!-- Check if appointments are available -->
     <ng-container *ngIf="appointments.length > 0; else noAppointments">
       <div class="table-responsive">
         <table class="table table-bordered">
@@ -87,6 +111,8 @@
         </table>
       </div>
     </ng-container>
+    
+    <!-- Fallback for no appointments -->
     <ng-template #noAppointments>
       <p>No Appointments Available</p>
     </ng-template>
@@ -95,6 +121,8 @@
   <!-- Prescriptions Section -->
   <div class="prescriptions-section">
     <h4>Prescriptions</h4>
+    
+    <!-- Check if prescriptions are available -->
     <ng-container *ngIf="prescriptions.length > 0; else noPrescriptions">
       <div class="table-responsive">
         <table class="table table-bordered">
@@ -114,6 +142,7 @@
               <td>{{ prescription.Duration }}</td>
               <td>{{ prescription.Frequency }}</td>
               <td>
+                <!-- View Prescription Image -->
                 <a href="#" class="action-link" (click)="openImageModal(prescription.Image)">
                   <i class="bx bx-file"></i> View
                 </a>
@@ -123,22 +152,22 @@
         </table>
       </div>
     </ng-container>
+    
+    <!-- Fallback for no prescriptions -->
     <ng-template #noPrescriptions>
       <p>No Prescriptions Available</p>
     </ng-template>
 
-
-    <!-- Image Modal -->
+    <!-- Modal to show selected prescription image -->
     <div class="custom-modal" *ngIf="selectedImagePath">
       <div class="custom-modal-content">
         <span class="close" (click)="closeImageModal()">&times;</span>
         <img [src]="'assets/' + selectedImagePath" class="img-fluid" alt="Prescription Image">
       </div>
     </div>
-
   </div>
 
-  <!-- Clinics & Availability -->
+  <!-- New Clinics Section -->
   <div class="clinics-section">
     <h4>NEW CLINICS (Contact them if you need to register for)</h4>
     <div *ngFor="let newclinic of newClinics" class="clinic-card">
@@ -156,34 +185,43 @@
     </ng-template>
   </div>
 
-
-  <!-- Add New Prescription Section -->
+  <!-- Add New Prescription Form -->
   <div class="add-prescription-section mt-5">
     <h4>Add New Prescription</h4>
     <form (ngSubmit)="addPrescription()" #prescriptionForm="ngForm">
       <div class="row">
+        <!-- Patient ID Input -->
         <div class="col-md-4 mb-3">
           <label>Patient ID</label>
           <input type="number" class="form-control" [(ngModel)]="newPrescription.Pid" name="Pid" required>
         </div>
+        
+        <!-- Duration Input -->
         <div class="col-md-4 mb-3">
           <label>Duration</label>
           <input type="text" class="form-control" [(ngModel)]="newPrescription.Duration" name="Duration" required>
         </div>
+        
+        <!-- Frequency Input -->
         <div class="col-md-4 mb-3">
           <label>Frequency</label>
           <input type="text" class="form-control" [(ngModel)]="newPrescription.Frequency" name="Frequency" required>
         </div>
+        
+        <!-- Description Input -->
         <div class="col-md-8 mb-3">
           <label>Description</label>
-          <textarea class="form-control" rows="2" [(ngModel)]="newPrescription.Description"
-            name="Description"></textarea>
+          <textarea class="form-control" rows="2" [(ngModel)]="newPrescription.Description" name="Description"></textarea>
         </div>
+        
+        <!-- Upload Image Input -->
         <div class="col-md-6 mb-3">
           <label>Upload Prescription Image</label>
           <input type="file" class="form-control" (change)="onImageSelected($event)" name="image">
         </div>
       </div>
+      
+      <!-- Submit Button -->
       <button type="submit" class="btn btn-success">Add Prescription</button>
     </form>
   </div>
