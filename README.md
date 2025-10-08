@@ -1,4 +1,3 @@
-````
 # CarePath.lk - Your Trusted Medical Channeling Solution 🚀
 
 ## About CarePath.lk
@@ -68,4 +67,3 @@ Make sure you have **Node.js** and **npm** installed.
 Thank you for choosing **CarePath.lk** – Simplifying Healthcare Access!
 
 **[Project Demo Video](https://drive.google.com/file/d/1pRJQxh_Y7WXHcWL3X2_Wu4nLuZhvJBQF/view)**
-````
